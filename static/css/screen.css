@@ -1,0 +1,21 @@
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/* v1.0 | 20080212 */
+body,div,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,ol,ul,li,fieldset,form,label,legend,caption{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}ol,ul{list-style:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';}:focus{outline:0;}ins{text-decoration:none;}del{text-decoration:line-through;}table{border-collapse:collapse;border-spacing:0;}
+
+.clear:after {
+	content: ""; display: block; height: 0; clear: both; visibility: hidden;
+}
+
+body {
+    font: normal 14px arial, sans-serif; margin: 0 auto; width: 760px;
+}
+
+    #goog-login-button {
+        -moz-border-radius: 2px; -webkit-border-radius: 2px; background: #f9f9f9 url(http://www.google.com/friendconnect/scs/images/googleicon.gif) 4px 2px no-repeat; border: 1px solid #bbb; color: #333; display: inline-block; font: bold 12px arial, sans-serif; padding: 3px 5px 3px 25px; text-decoration: none;
+    }
+    ul {
+        list-style: square inside; padding: 0 20px;
+    }
+        ul li {
+            line-height: 19px;
+        }

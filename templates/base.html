@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/ico">
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="/css/print.css" type="text/css" media="print">
+	</head>
+	<body>
+		<header>
+			<div id="user">
+			{% if is_logged %}
+				<a href="{{ url }}" title="Sign out">Sign out</a>
+			{% else %}
+				<a href="{{ url }}" id="goog-login-button" title="Sign in with Google Accounts">Sign in with Google Accounts</a>
+			{% endif %}
+			</div>
+			<h1><a href="/" title="App">App</a></h1>
+		</header>
+		<div id="content">
+		{% block content %}
+		{% endblock %}
+		</div>
+		<footer>
+			<p>&nbsp;</p>
+		</footer>
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+		</script>
+		<script type="text/javascript">
+			$(function() {
+
+			});
+		</script>
+	</body>
+</html>
