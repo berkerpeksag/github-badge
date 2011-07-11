@@ -1,0 +1,32 @@
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/* v1.0 | 20080212 */
+body,div,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,ol,ul,li,fieldset,form,label,legend,caption{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}ol,ul{list-style:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';}:focus{outline:0;}ins{text-decoration:none;}del{text-decoration:line-through;}table{border-collapse:collapse;border-spacing:0;}
+
+.clear:after {
+	content: ""; display: block; height: 0; clear: both; visibility: hidden;
+}
+
+a {
+    color: #4183c4;
+}
+
+body {
+    border: 1px solid #eee; font: normal 12px arial, sans-serif; margin: 0 auto; padding: 5px; width: 208px; w\idth: 188px;
+}
+
+    #user-avatar {
+        float: left; width: 49px;
+    }
+        #user-avatar img {
+            border: 1px solid #ccc; padding: 1px; width: 45px;
+        }
+
+    #user-info {
+        margin-left: 59px;
+    }
+        #user-info p {
+            padding-bottom: 3px;
+        }
+        a.user-login {
+            background: url(https://github.com/favicon.png) no-repeat; font-size: 13px; font-weight: bold; padding-left: 21px;
+        }

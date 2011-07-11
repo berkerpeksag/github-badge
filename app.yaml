@@ -1,4 +1,4 @@
-application: appname
+application: githubwidget
 version: 1
 runtime: python
 api_version: 1
@@ -19,7 +19,7 @@ handlers:
 - url: /
   script: app.py
 
-- url: /foo
+- url: /widget/(.*)
   script: app.py
 
 - url: /favicon\.ico
