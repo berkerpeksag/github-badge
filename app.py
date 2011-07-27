@@ -14,12 +14,11 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import models
 
-
 sys.setrecursionlimit(10000) # SDK fix
 
 
 class Github(object):
-    pass
+  pass
 
 
 class Handler(webapp.RequestHandler):
@@ -37,19 +36,19 @@ class MainHandler(Handler):
 
 
 class WidgetHandler(Handler):
-    def get(self, username):
-        url = 'https://api.github.com/users/%s' % (username)
-        json_string = urllib2.urlopen(url).read()    
-        self.render('widget', {'user': json.loads(json_string)})
+  def get(self, username):
+    url = 'https://api.github.com/users/%s' % (username)
+    json_string = urllib2.urlopen(url).read()    
+    self.render('widget', {'user': json.loads(json_string)})
 
-    def post(self):
-        self.write('Save')
+  def post(self):
+    self.write('Save')
 
 
 application = webapp.WSGIApplication(
 	[
-        ('/', MainHandler),
-        ('/widget/(\w+)', WidgetHandler),
+    ('/', MainHandler),
+    ('/widget/(\w+)', WidgetHandler),
 	],
 	debug = os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
 )
