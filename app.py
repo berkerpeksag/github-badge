@@ -19,7 +19,7 @@ sys.setrecursionlimit(10000) # SDK fix
 
 class GitHub(object):
   api_base = 'https://api.github.com/users/%(_username)s%%s'
-  _propoerties = {
+  _properties = {
     'user': ('',),
     'repos': ('/repos',)
   }
