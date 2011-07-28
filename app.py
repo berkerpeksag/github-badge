@@ -46,11 +46,17 @@ class GitHub(object):
       stats[lang] = stats.setdefault(lang, 0) + 1
     return stats
 
+  @property
   def language_stats(self):
     return reduce(
                    self.__lang_stat_reducer,
                    (repo["language"] for repo in self.repos), {}
                   )
+
+  def get_favorite_languages(self, limit=0)
+    lang_stats = self.language_stats
+    fav_langs = sorted(lang_stats, key=lambda l:lang_stats[l], reverse=True)
+    return fav_langs[:limit] if limit > 0 else fav_langs
 
 
 class Handler(webapp.RequestHandler):
