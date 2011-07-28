@@ -55,7 +55,7 @@ class GitHub(object):
 
   def get_favorite_languages(self, limit=0)
     lang_stats = self.language_stats
-    fav_langs = sorted(lang_stats, key=lambda l:lang_stats[l], reverse=True)
+    fav_langs = sorted(lang_stats, key=lambda l: lang_stats[l], reverse=True)
     return fav_langs[:limit] if limit > 0 else fav_langs
 
 
