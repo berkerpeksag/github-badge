@@ -17,8 +17,40 @@ import models
 sys.setrecursionlimit(10000) # SDK fix
 
 
-class Github(object):
-  pass
+class GitHub(object):
+  api_base = 'https://api.github.com/users/%(_username)s%%s'
+  _propoerties = {
+    'user': ('',),
+    'repos': ('/repos',)
+  }
+  _cache = {}
+  
+  def __init__(self, user):
+    self._username = user
+    self.api_base = self.api_base % self.__dict__
+  
+  def __getattr__(self, name):
+    if name not in self._properties:
+      raise AttributeError
+    
+    if name not in self._cache:
+      api_values = self._properties[name]
+      self._cache[name] = json.loads(
+                            urllib2.urlopen(self.api_base % api_values)).read()
+                          )
+    
+    return self._cache[name]
+    
+  def __lang_stat_reducer(stats, lang):
+    if lang:
+      stats[lang] = stats.setdefault(lang, 0) + 1
+    return stats
+
+  def language_stats(self):
+    return reduce(
+                   self.__lang_stat_reducer,
+                   (repo["language"] for repo in self.repos), {}
+                  )
 
 
 class Handler(webapp.RequestHandler):
@@ -37,9 +69,8 @@ class MainHandler(Handler):
 
 class WidgetHandler(Handler):
   def get(self, username):
-    url = 'https://api.github.com/users/%s' % (username)
-    json_string = urllib2.urlopen(url).read()    
-    self.render('widget', {'user': json.loads(json_string)})
+    GHInterface = GitHub(username)
+    self.render('widget', {'user': GHInterface.user})
 
   def post(self):
     self.write('Save')
