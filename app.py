@@ -3,6 +3,7 @@
 import os
 import logging
 import posixpath
+import re
 import sys
 import urllib2
 
@@ -20,36 +21,51 @@ sys.setrecursionlimit(10000) # SDK fix
 class GitHub(object):
   api_base = 'https://api.github.com/users/%(_username)s%%s'
   _properties = dict(user=('',), repos=('/repos',))
-  _cache = {}
-  
+  _cache = None
+  __link_parser = re.compile(r'\<([^\>]+)\>;\srel="(\w+)"', re.I or re.U)
+
   def __init__(self, user):
     self._username = user
     self.api_base = self.api_base % self.__dict__
+    self._cache = {}
+  
+  @classmethod
+  def _fetch_data(cls, url):
+    result = urllib2.urlopen(url)
+    data = json.loads(result.read())
+    info = result.info()
+    if isinstance(data, list) and ("Link" in info):
+      logging.debug("Found links: %s" % info['Link'])
+      links = dict(((cls.__link_parser.match(link.strip()).group(2, 1)
+                       for link in info['Link'].split(','))))
+      if "next" in links:
+        logging.debug("Found next link, fetching: %s" % links['next'])
+        data += cls._fetch_data(links['next'])
+    return data
   
   def __getattr__(self, name):
+    logging.debug('Property access for %s' % name)
     if name not in self._properties:
       raise AttributeError
 
     if name not in self._cache:
       api_values = self._properties[name]
-      self._cache[name] = json.loads(urllib2.urlopen(self.api_base % api_values).read())
-
+      self._cache[name] = self._fetch_data(self.api_base % api_values)
       return self._cache[name]
 
-  def __lang_stat_reducer(self, stats, lang):
+  @staticmethod
+  def __lang_stat_reducer(stats, lang):
     if lang:
       stats[lang] = stats.setdefault(lang, 0) + 1
-
     return stats
 
-  @property
-  def language_stats(self):
+  def get_language_stats(self):
     return reduce(self.__lang_stat_reducer,
                    (repo['language'] for repo in self.repos), {}
                  )
 
   def get_favorite_languages(self, limit=0):
-    lang_stats = self.language_stats
+    lang_stats = self.get_language_stats()
     fav_langs = sorted(lang_stats, key=lambda l: lang_stats[l], reverse=True)
     return ' '.join(fav_langs[:limit] if limit > 0 else fav_langs)
 
