@@ -27,7 +27,7 @@ class GitHub(object):
   
   def __init__(self, user):
     self._username = user
-    self.api_base = self.api_base % (self.__dict__)
+    self.api_base = self.api_base % self.__dict__
   
   def __getattr__(self, name):
     if name not in self._properties:
@@ -35,7 +35,7 @@ class GitHub(object):
     
     if name not in self._cache:
       api_values = self._properties[name]
-      self._cache[name] = json.loads(urllib2.urlopen(self.api_base % (api_values))).read()
+      self._cache[name] = json.loads(urllib2.urlopen(self.api_base % api_values)).read()
 
       return self._cache[name]
 
