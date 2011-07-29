@@ -76,7 +76,7 @@ class BadgeHandler(Handler):
     cached_data = memcache.get(username)
 
     if cached_data:
-      self.write(cached_data)
+      return self.write(cached_data)
     else:
       github_data = GitHub(username)
 
