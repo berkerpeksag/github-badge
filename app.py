@@ -19,10 +19,7 @@ sys.setrecursionlimit(10000) # SDK fix
 
 class GitHub(object):
   api_base = 'https://api.github.com/users/%(_username)s%%s'
-  _properties = {
-    'user': ('',),
-    'repos': ('/repos',)
-  }
+  _properties = dict(user=('',), repos=('/repos',))
   _cache = {}
   
   def __init__(self, user):
@@ -35,7 +32,7 @@ class GitHub(object):
     
     if name not in self._cache:
       api_values = self._properties[name]
-      self._cache[name] = json.loads(urllib2.urlopen(self.api_base % api_values)).read()
+      self._cache[name] = json.loads(urllib2.urlopen(self.api_base % api_values).read())
 
       return self._cache[name]
 
@@ -54,7 +51,8 @@ class GitHub(object):
   def get_favorite_languages(self, limit=0):
     lang_stats = self.language_stats
     fav_langs = sorted(lang_stats, key=lambda l: lang_stats[l], reverse=True)
-    return fav_langs[:limit] if limit > 0 else fav_langs
+    return fav_langs
+    #return fav_langs[:limit] if limit > 0 else fav_langs
 
 
 class Handler(webapp.RequestHandler):
@@ -75,7 +73,7 @@ class MainHandler(Handler):
 class WidgetHandler(Handler):
   def get(self, username):
     GHInterface = GitHub(username)
-    self.render('widget', {'user': GHInterface.user})
+    self.render('widget', {'user': GHInterface.user, 'languages': GHInterface.repos})
 
   def post(self):
     self.write('Save')
