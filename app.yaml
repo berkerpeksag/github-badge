@@ -16,6 +16,10 @@ skip_files:
 - ^(.*/)?samples/.*
 
 handlers:
+- url: /admin/.*
+  script: $PYTHON_LIB/google/appengine/ext/admin
+  login: admin
+
 - url: /
   script: app.py
 
@@ -36,6 +40,13 @@ handlers:
   static_files: static/image/\1
   upload: static/image/(.*\.(gif|png|jpg))
 
-- url: /.*
-  static_files: templates/errors/404.html
-  upload: templates/errors/404.html
+admin_console:
+  pages:
+  - name: My Console
+    url: /admin/interactive
+  - name: My Memcache
+    url: /admin/memcache
+  - name: My XMPP
+    url: /admin/xmpp
+  - name: My Inbound Mail
+    url: /admin/inboundmail
