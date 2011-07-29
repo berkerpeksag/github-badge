@@ -19,7 +19,7 @@ handlers:
 - url: /
   script: app.py
 
-- url: /widget/(.*)
+- url: /badge/(.*)
   script: app.py
 
 - url: /favicon\.ico

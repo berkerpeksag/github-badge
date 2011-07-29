@@ -69,10 +69,10 @@ class MainHandler(Handler):
     self.render('index')
 
 
-class WidgetHandler(Handler):
+class BadgeHandler(Handler):
   def get(self, username):
     GHInterface = GitHub(username)
-    self.render('widget', {'user': GHInterface.user, 'languages': GHInterface.get_favorite_languages(5)})
+    self.render('badge', {'user': GHInterface.user, 'languages': GHInterface.get_favorite_languages(5)})
 
   def post(self):
     self.write('Save')
@@ -80,7 +80,7 @@ class WidgetHandler(Handler):
 
 application = webapp.WSGIApplication([
     ('/', MainHandler),
-    ('/widget/(\w+)', WidgetHandler),
+    ('/badge/(\w+)', BadgeHandler),
   ],
   debug = os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
 )
