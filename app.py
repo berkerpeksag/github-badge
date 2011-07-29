@@ -58,7 +58,8 @@ class GitHub(object):
 
 
 class Handler(webapp.RequestHandler):
-  def render(self, file, values={}):
+  def render(self, file, values=None):
+    if not values: values = {}
     path = posixpath.join(posixpath.dirname(__file__), 'templates/%s.html' % file)
     self.response.out.write(template.render(path, values))
 
