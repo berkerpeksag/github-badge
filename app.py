@@ -90,10 +90,10 @@ class BadgeHandler(Handler):
 
 
 class CacheHandler(Handler):
-    def get(self):
-      stats = memcache.get_stats()
-      self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
-      self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
+  def get(self):
+    stats = memcache.get_stats()
+    self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
+    self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
 
 
 application = webapp.WSGIApplication([
