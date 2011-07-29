@@ -58,7 +58,9 @@ class Handler(webapp.RequestHandler):
   def render(self, file, values=None):
     if not values: values = {}
     path = posixpath.join(posixpath.dirname(__file__), 'templates/%s.html' % file)
-    self.response.out.write(template.render(path, values))
+    output = template.render(path, values)
+    self.response.out.write(output)
+    return output
 
   def write(self, string):
     self.response.out.write(string)
@@ -71,15 +73,20 @@ class MainHandler(Handler):
 
 class BadgeHandler(Handler):
   def get(self, username):
-    github_data = memcache.get(username)
+    cached_data = memcache.get(username)
 
-    if github_data is None:
-        github_data = GitHub(username)
+    if cached_data:
+      return self.write(cached_data)
+    else:
+      github_conn = GitHub(username)
 
-        if not memcache.add(username, github_data):
-            logging.error('Memcache set failed: %s' % username)
-
-    self.render('badge', {'user': github_data.user, 'languages': github_data.get_favorite_languages(5)})
+      output = self.render('badge', 
+                           {'user': github_data.user,
+                            'languages': github_data.get_favorite_languages(5)
+                           })
+      
+      if not memcache.add(username, output):
+        logging.error('Memcache set failed for %s' % username)
 
 
 class CacheHandler(Handler):
