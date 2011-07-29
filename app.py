@@ -76,11 +76,11 @@ class BadgeHandler(Handler):
     cached_data = memcache.get(username)
 
     if cached_data:
-      return self.write(cached_data)
+      self.write(cached_data)
     else:
-      github_conn = GitHub(username)
+      github_data = GitHub(username)
 
-      output = self.render('badge', 
+      output = self.render('badge',
                            {'user': github_data.user,
                             'languages': github_data.get_favorite_languages(5)
                            })
