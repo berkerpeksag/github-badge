@@ -1,18 +1,18 @@
 # coding: utf-8
 
 import os
+import logging
 import posixpath
-import re
 import sys
 import urllib2
 
 from django.utils import simplejson as json
-from google.appengine.ext import db
+from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-import models
+logging.getLogger().setLevel(logging.DEBUG)
 
 sys.setrecursionlimit(10000) # SDK fix
 
@@ -29,7 +29,7 @@ class GitHub(object):
   def __getattr__(self, name):
     if name not in self._properties:
       raise AttributeError
-    
+
     if name not in self._cache:
       api_values = self._properties[name]
       self._cache[name] = json.loads(urllib2.urlopen(self.api_base % api_values).read())
@@ -71,16 +71,28 @@ class MainHandler(Handler):
 
 class BadgeHandler(Handler):
   def get(self, username):
-    GHInterface = GitHub(username)
-    self.render('badge', {'user': GHInterface.user, 'languages': GHInterface.get_favorite_languages(5)})
+    github_data = memcache.get(username)
 
-  def post(self):
-    self.write('Save')
+    if github_data is None:
+        github_data = GitHub(username)
+
+        if not memcache.add(username, github_data):
+            logging.error('Memcache set failed: %s' % username)
+
+    self.render('badge', {'user': github_data.user, 'languages': github_data.get_favorite_languages(5)})
+
+
+class CacheHandler(Handler):
+    def get(self):
+      stats = memcache.get_stats()
+      self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
+      self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
 
 
 application = webapp.WSGIApplication([
     ('/', MainHandler),
     ('/badge/(\w+)', BadgeHandler),
+    ('/stats', CacheHandler),
   ],
   debug = os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
 )

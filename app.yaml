@@ -22,6 +22,9 @@ handlers:
 - url: /badge/(.*)
   script: app.py
 
+- url: /stats
+  script: app.py
+
 - url: /favicon\.ico
   static_files: static/favicon.ico
   upload: static/favicon.ico
