@@ -36,7 +36,7 @@ class GitHub(object):
 
       return self._cache[name]
 
-  def __lang_stat_reducer(stats, lang):
+  def __lang_stat_reducer(self, stats, lang):
     if lang:
       stats[lang] = stats.setdefault(lang, 0) + 1
 
@@ -51,8 +51,7 @@ class GitHub(object):
   def get_favorite_languages(self, limit=0):
     lang_stats = self.language_stats
     fav_langs = sorted(lang_stats, key=lambda l: lang_stats[l], reverse=True)
-    return fav_langs
-    #return fav_langs[:limit] if limit > 0 else fav_langs
+    return fav_langs[:limit] if limit > 0 else fav_langs
 
 
 class Handler(webapp.RequestHandler):
@@ -73,7 +72,7 @@ class MainHandler(Handler):
 class WidgetHandler(Handler):
   def get(self, username):
     GHInterface = GitHub(username)
-    self.render('widget', {'user': GHInterface.user, 'languages': GHInterface.repos})
+    self.render('widget', {'user': GHInterface.user, 'languages': GHInterface.get_favorite_languages()})
 
   def post(self):
     self.write('Save')
