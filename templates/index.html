@@ -8,62 +8,86 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
-        <link href='http://fonts.googleapis.com/css?family=Muli|Nunito' rel='stylesheet' type='text/css'>
-        <script type="text/javascript">
-
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-24860434-1']);
-          _gaq.push(['_trackPageview']);
-
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-
-        </script>
+		<link href="http://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+		<script>
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-24860434-1']);
+			_gaq.push(['_trackPageview']);
+			(function(){
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+</script>
 	</head>
 	<body>
-        <div id="fork-me">
-            <a href="https://github.com/berkerpeksag/github-badge" title="Fork me on GitHub"><img alt="Fork me on GitHub" src="/image/icon-fork-me.png"></a>
-        </div>
-        <div id="container">
-            <div id="octocat">
-                <div id="octocat-logo">&nbsp;</div>
-                <h1>Get your <span>GitHub</span> badge now!</h1>
+		<div id="fork-me">
+			<a href="https://github.com/berkerpeksag/github-badge" title="Fork me on GitHub">
+			<img alt="Fork me on GitHub" src="/image/icon-fork-me.png">
+			</a>
+		</div>
+		<div id="container">
+			<div id="octocat">
+				<div id="octocat-logo">
+					&nbsp;
+				</div>
+				<h1>Get your <span>GitHub</span> badge now!</h1>
+				<div id="preview">
+					<h3>Preview</h3>
+					<iframe id="previewFrame" src="http://githubbadge.appspot.com/badge/berkerpeksag" style="border: 0 none; height: 150px; width: 200px; overflow: hidden"></iframe>
+				</div>
+			</div>
+			<div id="form">
+				<div id="form-container">
+					<input id="username" name="username" placeholder="Your GitHub username" value="">
+				</div>
+			</div>
+			<textarea id="code">
+      </textarea>
+			<div id="about">
+				<h2>About</h2>
+				<p>
+					GitHub badge is a simple embeddable badge showing your GitHub stats like the number of public repositories,
+					number of followers, favorite languages etc. It runs on Google App Engine with a memcached backup at here.
+					If you like this and use it too much, we may exceed our quota.
+				</p>
+			</div>
+			<div id="footer">
+				<p>
+					Brought to you by <a href="https://github.com/berkerpeksag" title="Berker Peksağ">Berker Peksağ</a>
+					(@<a href="http://twitter.com/berkerpeksag" title="berkerpeksag">berkerpeksag</a>) and <a href="https://github.com/BYK" title="Burak Yiğit Kaya">Burak Yiğit Kaya</a>
+					(@<a href="http://twitter.com/madbyk" rel="external" title="madbyk">madbyk</a>)
+				</p>
+			</div>
+		</div>
+		<script>
+			(function(){
+				var gId = function(id){return document.getElementById(id)},
+				usernameInput = gId('username'),
+				previewFrame = gId('previewFrame'),
+				codeArea = gId('code'),
+				lastUser = 'berkerpeksag',
+				urlTemplate = 'http://githubbadge.appspot.com/badge/:user',
+				codeTemplate = '&lt;iframe src=&quot;:url&quot; style=&quot;border: 0 none; height: 150px; width: 200px; overflow: hidden&quot;&gt;&lt;/iframe&gt;';
 
-                <div id="preview">
-                    <h3>Preview</h3>
-
-                    <iframe frameborder="0" src="http://githubbadge.appspot.com/badge/berkerpeksag" scrolling="no" style="border 0; height: 150px; width: 200px;"></iframe>
-                </div>
-            </div>
-            <div id="form">
-                <div id="form-container">
-                    <input id="username" name="username" placeholder="Your GitHub username" value="">
-                </div>
-            </div>
-            <div id="code">
-                <textarea>
-                    <h1>Hede!</h1>
-                </textarea>
-            </div>
-            <div id="about">
-                <h2>About</h2>
-                <p>
-                    GitHub badge is a simple embeddable badge showing your GitHub stats like the number of public repositories,
-                    number of followers, favorite languages etc. It runs on Google App Engine with a memcached backup at here.
-                    If you like this and use it too much, we may exceed our quota.
-                </p>
-            </div>
-            <div id="footer">
-                <p>
-                    Brought to you by <a href="https://github.com/berkerpeksag" title="Berker Peksağ">Berker Peksağ</a>
-                    (@<a href="http://twitter.com/berkerpeksag" title="berkerpeksag">berkerpeksag</a>) and
-                    <a href="https://github.com/BYK" title="Burak Yiğit Kaya">Burak Yiğit Kaya</a>
-                    (@<a href="http://twitter.com/madbyk" rel="external" title="madbyk">madbyk</a>)
-                </p>
-            </div>
-        </div>
+				var updateEverything = function updateEverything() {
+					var url = urlTemplate.replace(':user', encodeURI(usernameInput.value));
+					previewFrame.setAttribute('src', url);
+					codeArea.innerHTML = codeTemplate.replace(':url', url);
+					codeArea.style.display = 'block';
+					lastUser = usernameInput.value;
+				}; 
+				var keydownHandler = function keydownHandler(){
+					if (keydownHandler.timer)
+						window.clearTimeout(keydownHandler.timer);
+					if (usernameInput.value.length && usernameInput.value != lastUser)
+						keydownHandler.timer = window.setTimeout(updateEverything, 500);
+				};
+				usernameInput.onkeydown = keydownHandler;
+			})();
+		</script>
 	</body>
 </html>

@@ -1,78 +1,128 @@
 /* http://meyerweb.com/eric/tools/css/reset/ */
 /* v1.0 | 20080212 */
-body,div,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,ol,ul,li,fieldset,form,label,legend,caption{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}ol,ul{list-style:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';}:focus{outline:0;}ins{text-decoration:none;}del{text-decoration:line-through;}table{border-collapse:collapse;border-spacing:0;}
-
+body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, ol, ul, li, fieldset, form, label, legend, caption {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+}
+:focus {
+	outline: 0;
+}
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
 .clear:after {
-	content: ""; display: block; height: 0; clear: both; visibility: hidden;
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
-
 body {
-    border-top: 5px solid #000; font: normal 14px arial, sans-serif;
+	border-top: 5px solid #000;
+	font: normal 14px arial, sans-serif;
 }
-
-    ul {
-        list-style: square inside; padding: 0 20px;
-    }
-        ul li {
-            line-height: 19px;
-        }
-
-    #container {
-        margin: 0 auto; width: 760px;
-    }
-
-    #fork-me {
-        position: absolute;
-    }
-
-    #octocat {
-        height: 410px; padding: 30px 0 0 20px;
-    }
-        #octocat-logo {
-            background: url(/image/icon-octocat.png) no-repeat 0 -20px; float: right; height: 410px; left: 93px; position: relative; width: 512px;
-        }
-        h1 {
-            color: #434343; font: 40px 'Nunito', sans-serif; line-height: 60px; text-shadow: 1px 1px #ccc; width: 300px;
-        }
-            h1 span {
-                background: url(/image/icon-github.png) no-repeat; color: #000; display: block; height: 66px; font-size: 50px; text-indent: -999px; width: 150px;
-            }
-        #preview {
-            margin-top: 50px;
-        }
-            #preview h3 {
-                margin-bottom: 10px;
-            }
-
-    #form {
-        background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.89, #f3cab1), color-stop(0.46, #f1ceb8));
-        background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
-        padding: 20px 20px; -webkit-border-radius: 0 0 10px 10px;
-    }
-        #form input {
-            border: 0; font-size: 32px; padding: 10px; width: 700px; -webkit-border-radius: 10px;
-        }
-
-    #code {
-        display: none;
-    }
-
-    #about {
-        margin: 50px 0; padding: 0 20px;
-    }
-        #about h2 {
-            color: #333; font-size: 21px; margin-bottom: 10px;
-        }
-        #about p {
-            line-height: 19px;
-        }
-
-    #footer {
-        border-top: 1px solid #ccc; padding: 8px 20px 50px 20px;
-    }
-        #footer a {
-            color: #808080;
-        }
-        #footer p {
-            color: #808080; font-size: 11px;
-        }
+ul {
+	list-style: square inside;
+	padding: 0 20px;
+}
+ul li {
+	line-height: 19px;
+}
+#container {
+	margin: 0 auto;
+	width: 760px;
+}
+#fork-me {
+	position: absolute;
+}
+#octocat {
+	height: 410px;
+	padding: 30px 0 0 20px;
+}
+#octocat-logo {
+	background: url(/image/icon-octocat.png) no-repeat 0 -20px;
+	float: right;
+	height: 410px;
+	left: 93px;
+	position: relative;
+	width: 512px;
+}
+h1 {
+	color: #434343;
+	font: 40px 'Nunito', sans-serif;
+	line-height: 60px;
+	text-shadow: 1px 1px #ccc;
+	width: 300px;
+}
+h1 span {
+	background: url(/image/icon-github.png) no-repeat;
+	color: #000;
+	display: block;
+	height: 66px;
+	font-size: 50px;
+	text-indent: -999px;
+	width: 150px;
+}
+#preview {
+	margin-top: 50px;
+}
+#preview h3 {
+	margin-bottom: 10px;
+}
+#form {
+	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.89, #f3cab1), color-stop(0.46, #f1ceb8));
+	background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
+	padding: 20px 20px;
+	-webkit-border-radius: 0 0 10px 10px;
+}
+#form input {
+	border: 0;
+	font-size: 32px;
+	padding: 10px;
+	width: 700px;
+	-webkit-border-radius: 10px;
+}
+#code {
+	display: none;
+}
+#about {
+	margin: 50px 0;
+	padding: 0 20px;
+}
+#about h2 {
+	color: #333;
+	font-size: 21px;
+	margin-bottom: 10px;
+}
+#about p {
+	line-height: 19px;
+}
+#footer {
+	border-top: 1px solid #ccc;
+	padding: 8px 20px 50px 20px;
+}
+#footer a {
+	color: #808080;
+}
+#footer p {
+	color: #808080;
+	font-size: 11px;
+}
