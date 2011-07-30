@@ -45,8 +45,8 @@ body {
             }
 
     #form {
-        background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(251,225,210)), color-stop(0.16, rgb(243,212,192)), color-stop(0.66, rgb(243,202,177)));
-        background-image: -moz-linear-gradient(center bottom, rgb(251,225,210) 0%, rgb(243,212,192) 16%, rgb(243,202,177) 66%);
+        background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.89, #f3cab1), color-stop(0.46, #f1ceb8));
+        background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
         padding: 20px 20px; -webkit-border-radius: 0 0 10px 10px;
     }
         #form input {
