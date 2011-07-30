@@ -22,20 +22,23 @@ body {
     }
 
     #octocat {
-        height: 430px; padding: 40px 0 0 20px;
+        height: 410px; padding: 30px 0 0 20px;
     }
         #octocat-logo {
-            background: url(/image/icon-octocat.png) no-repeat; float: right; height: 430px; left: 90px; position: relative; width: 512px;
+            background: url(/image/icon-octocat.png) no-repeat 0 -20px; float: right; height: 410px; left: 90px; position: relative; width: 512px;
         }
         h1 {
             color: #434343; font: 40px 'Nunito', sans-serif; line-height: 60px; width: 300px;
         }
             h1 span {
-                color: #000; font-size: 50px;
+                background: url(/image/icon-github.png) no-repeat; color: #000; display: block; height: 66px; font-size: 50px; text-indent: -999px; width: 150px;
             }
         #preview {
             margin-top: 50px;
         }
+            #preview h3 {
+                margin-bottom: 10px;
+            }
 
     #form {
         background-color: #f3cab1; padding: 15px 20px; -webkit-border-radius: 0 0 10px 10px;
