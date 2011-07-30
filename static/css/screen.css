@@ -41,10 +41,10 @@ body {
             }
 
     #form {
-        background-color: #f3cab1; padding: 15px 20px; -webkit-border-radius: 0 0 10px 10px;
+        background-color: #f3cab1; padding: 20px 20px; -webkit-border-radius: 0 0 10px 10px;
     }
         #form input {
-            border: 0; font-size: 32px; width: 100%;
+            border: 0; font-size: 32px; padding: 10px; width: 700px; -webkit-border-radius: 10px;
         }
 
     #code {
