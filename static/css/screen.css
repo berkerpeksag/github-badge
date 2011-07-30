@@ -102,6 +102,11 @@ h1 span {
 }
 #code {
 	display: none;
+	margin: 0 auto;
+	font: 12px monospace;
+	padding: 6px 3px;
+	width: 685px;
+	border-top: none;
 }
 #about {
 	margin: 50px 0;

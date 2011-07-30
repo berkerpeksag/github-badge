@@ -45,9 +45,7 @@
 					<input id="username" name="username" placeholder="Your GitHub username" value="">
 				</div>
 			</div>
-            <div id="code-container">
-			    <input id="code">
-            </div>
+	    <input id="code">
 			<div id="about">
 				<h2>About</h2>
 				<p>
@@ -88,6 +86,7 @@
 						keydownHandler.timer = window.setTimeout(updateEverything, 500);
 				};
 				usernameInput.onkeydown = keydownHandler;
+				codeArea.onclick = function(){codeArea.focus();codeArea.select()};
 			})();
 		</script>
 	</body>
