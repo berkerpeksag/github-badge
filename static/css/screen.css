@@ -7,15 +7,63 @@ body,div,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,acronym,address,big,cite,code,del,
 }
 
 body {
-    font: normal 14px arial, sans-serif; margin: 0 auto; width: 760px;
+    border-top: 5px solid #000; font: normal 14px arial, sans-serif;
 }
 
-    #goog-login-button {
-        -moz-border-radius: 2px; -webkit-border-radius: 2px; background: #f9f9f9 url(http://www.google.com/friendconnect/scs/images/googleicon.gif) 4px 2px no-repeat; border: 1px solid #bbb; color: #333; display: inline-block; font: bold 12px arial, sans-serif; padding: 3px 5px 3px 25px; text-decoration: none;
-    }
     ul {
         list-style: square inside; padding: 0 20px;
     }
         ul li {
             line-height: 19px;
+        }
+
+    #container {
+        margin: 0 auto; width: 760px;
+    }
+
+    #octocat {
+        height: 430px; padding: 40px 0 0 20px;
+    }
+        #octocat-logo {
+            background: url(/image/icon-octocat.png) no-repeat; float: right; height: 430px; left: 90px; position: relative; width: 512px;
+        }
+        h1 {
+            color: #434343; font: 40px 'Nunito', sans-serif; line-height: 60px; width: 300px;
+        }
+            h1 span {
+                color: #000; font-size: 50px;
+            }
+        #preview {
+            margin-top: 50px;
+        }
+
+    #form {
+        background-color: #f3cab1; padding: 15px 20px; -webkit-border-radius: 0 0 10px 10px;
+    }
+        #form input {
+            border: 0; font-size: 32px; width: 100%;
+        }
+
+    #code {
+        display: none;
+    }
+
+    #about {
+        margin: 50px 0; padding: 0 20px;
+    }
+        #about h2 {
+            color: #333; font-size: 21px; margin-bottom: 10px;
+        }
+        #about p {
+            line-height: 19px;
+        }
+
+    #footer {
+        border-top: 1px solid #ccc; padding: 8px 20px 50px 20px;
+    }
+        #footer a {
+            color: #808080;
+        }
+        #footer p {
+            color: #808080; font-size: 11px;
         }
