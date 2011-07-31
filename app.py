@@ -79,10 +79,9 @@ class GitHub(object):
     
     return self._cache[name] 
 
-  def get_favorite_languages(self, limit=0):
+  def sort_languages(self):
     lang_stats = self.get_language_stats()
-    fav_langs = sorted(lang_stats, key=lambda l: lang_stats[l], reverse=True)
-    return ', '.join(fav_langs[:limit] if limit > 0 else fav_langs)
+    return sorted(lang_stats, key=lambda l: lang_stats[l], reverse=True)
   
   @staticmethod
   def __lang_stat_reducer(stats, lang):
@@ -127,7 +126,7 @@ class BadgeHandler(Handler):
 
       output = self.render('badge',
                            {'user': github_data.user,
-                            'languages': github_data.get_favorite_languages(5),
+                            'languages': ', '.join(github_data.sort_languages[:5]),
                             'project_followers': github_data.get_total_project_watchers()
                            })
       
