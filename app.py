@@ -33,7 +33,7 @@ class GitHub(object):
                                    ),
                   },
                   'repos': {
-                    'params': ('/repos',),
+                    'params': ('/repos?per_page=100',),
                     'default': []
                   }
                 }
