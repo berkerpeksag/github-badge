@@ -1,27 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="UTF-8">
 		<title>GitHub Badge</title>
-		<link rel="shortcut icon" href="/favicon.ico" type="image/ico">
-		<!--[if lt IE 9]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen">
-		<link href="http://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+		<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		<link rel="stylesheet" href="/css/screen.css" media="screen">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nunito">
 		<script>
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-24860434-1']);
-			_gaq.push(['_trackPageview']);
-			(function(){
-				var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-			})();
-</script>
+			var _gaq = [['_setAccount', 'UA-24860434-1'], ['_trackPageview']];
+			(function(d, t) {
+				var g = d.createElement(t),
+				    s = d.getElementsByTagName(t)[0];
+				g.async = g.src = '//www.google-analytics.com/ga.js';
+				s.parentNode.insertBefore(g, s);
+			}(document, 'script'));
+		</script>
 	</head>
 	<body>
 		<div id="fork-me">
@@ -37,12 +30,12 @@
 				<h1>Get your <span>GitHub</span> badge now!</h1>
 				<div id="preview">
 					<h3>Preview</h3>
-					<iframe id="previewFrame" src="http://githubbadge.appspot.com/badge/mojombo" style="border: 0 none; height: 150px; width: 200px; overflow: hidden"></iframe>
+					<iframe id="previewFrame" src="http://githubbadge.appspot.com/badge/mojombo" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>
 				</div>
 			</div>
 			<div id="form">
 				<div id="form-container">
-					<input id="username" name="username" placeholder="Your GitHub username" value="">
+					<input id="username" name="username" placeholder="Your GitHub username">
 				</div>
 			</div>
 	    <input id="code">
@@ -70,7 +63,7 @@
 				codeArea = gId('code'),
 				lastUser = 'mojombo',
 				urlTemplate = 'http://githubbadge.appspot.com/badge/:user',
-				codeTemplate = '<iframe src=":url" style="border: 0 none; height: 150px; width: 200px; overflow: hidden;"></iframe>';
+				codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>';
 
 				var updateEverything = function updateEverything() {
 					var url = urlTemplate.replace(':user', encodeURI(usernameInput.value));
@@ -78,7 +71,7 @@
 					codeArea.value = codeTemplate.replace(':url', url);
 					codeArea.style.display = 'block';
 					lastUser = usernameInput.value;
-				}; 
+				};
 				var keydownHandler = function keydownHandler(){
 					if (keydownHandler.timer)
 						window.clearTimeout(keydownHandler.timer);
