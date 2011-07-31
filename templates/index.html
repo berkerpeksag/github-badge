@@ -83,7 +83,7 @@
 					if (keydownHandler.timer)
 						window.clearTimeout(keydownHandler.timer);
 					if (usernameInput.value.length && usernameInput.value != lastUser)
-						keydownHandler.timer = window.setTimeout(updateEverything, 500);
+						keydownHandler.timer = window.setTimeout(updateEverything, 1000);
 				};
 				usernameInput.onkeydown = keydownHandler;
 				codeArea.onclick = function(){codeArea.focus();codeArea.select()};
