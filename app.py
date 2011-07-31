@@ -114,7 +114,7 @@ class CacheHandler(Handler):
 
 application = webapp.WSGIApplication([
     ('/', MainHandler),
-    ('/badge/(\w+)', BadgeHandler),
+    ('/badge/([-\w]+)', BadgeHandler),
     ('/stats', CacheHandler),
   ],
   debug = os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
