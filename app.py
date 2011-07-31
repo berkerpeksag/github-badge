@@ -13,8 +13,9 @@ from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
+from slimmer import slimmer
 
-#logging.getLogger().setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.DEBUG)
 
 sys.setrecursionlimit(10000) # SDK fix
 
@@ -102,7 +103,7 @@ class Handler(webapp.RequestHandler):
   def render(self, file, values=None):
     if not values: values = {}
     path = posixpath.join(posixpath.dirname(__file__), 'templates/%s.html' % file)
-    output = template.render(path, values)
+    output = slimmer(template.render(path, values), 'html')
     self.response.out.write(output)
     return output
 
