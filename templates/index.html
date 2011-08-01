@@ -72,13 +72,13 @@
 					codeArea.style.display = 'block';
 					lastUser = usernameInput.value;
 				};
-				var keydownHandler = function keydownHandler(){
-					if (keydownHandler.timer)
-						window.clearTimeout(keydownHandler.timer);
+				var keyupHandler = function keyupHandler(){
+					if (keyupHandler.timer)
+						window.clearTimeout(keyupHandler.timer);
 					if (usernameInput.value.length && usernameInput.value != lastUser)
-						keydownHandler.timer = window.setTimeout(updateEverything, 1000);
+						keyupHandler.timer = window.setTimeout(updateEverything, 1000);
 				};
-				usernameInput.onkeydown = keydownHandler;
+				usernameInput.onkeyup = keyupHandler;
 				codeArea.onclick = function(){codeArea.focus();codeArea.select()};
 			})();
 		</script>
