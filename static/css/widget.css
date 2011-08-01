@@ -39,12 +39,10 @@ a {
 	color: #4183c4;
 }
 body {
-	border: 1px solid #eee;
 	font: normal 12px arial, sans-serif;
 	margin: 0 auto;
 	padding: 5px;
 	width: 208px;
-	w\idth: 188px;
 }
 #user-avatar {
 	float: left;
