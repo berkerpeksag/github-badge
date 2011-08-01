@@ -50,7 +50,7 @@ body {
 	float: left;
 	width: 49px;
 }
-#user-avatar img {
+#user-avatar img.avatar {
 	border: 1px solid #ccc;
 	padding: 1px;
 	width: 45px;

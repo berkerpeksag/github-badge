@@ -17,13 +17,18 @@
 	<body>
 		<div class="clear">
 			<div id="user-avatar">
-				<a href="{{ user.html_url }}" target="_parent"><img alt="{{ user.login }}" src="{{ user.avatar_url }}"></a>
+				<a href="{{ user.html_url }}" target="_parent"><img alt="{{ user.login }}" class="avatar" src="{{ user.avatar_url }}"></a>
+
+                <div id="blog">
+                {% if user.blog %}
+                    <p style="padding-top: 4px;"><a target="_parent" href='http://{{ user.blog|cut:"http://" }}' title="{{ user.login }}'s blog"><img src="/image/icon-feed.png"></a></p>
+                {% endif %}
+                </div>
 			</div>
 			<div id="user-info">
 				<p><a class="user-login" href="{{ user.html_url }}" target="_parent" title="{{ user.name }}">{{ user.login }}</a></p>
 				<p>{{ languages }}</p>
-				<p style="padding-top: 4px;"><a target="_parent" href="{{ user.blog }}" title="{{ user.login }}'s blog"><img src="/image/icon-feed.png"></a></p>
-				<p><strong>Public repos:</strong> {{ user.public_repos }}</p>
+                <p><strong>Public repos:</strong> {{ user.public_repos }}</p>
 				<p><strong>Followers:</strong> {{ user.followers }}</p>
 				<p><strong>Repo followers:</strong> {{ project_followers }}</p>
 			</div>
