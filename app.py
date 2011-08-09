@@ -124,9 +124,17 @@ class BadgeHandler(Handler):
     else:
       github_data = GitHub(username)
 
+      language_stats = github_data.get_language_stats()
+      sorted_languages = github_data.sort_languages()
+      top_language_count = max(language_stats.values())
+      top_languages = sorted_languages[:5]
+      remaining_languages = ', '.join(sorted_languages[5:])
+
+
       output = self.render('badge',
                            {'user': github_data.user,
-                            'languages': ', '.join(github_data.sort_languages()[:5]),
+                            'top_languages': ', '.join(top_languages),
+                            'other_languages': remaining_languages,
                             'project_followers': github_data.get_total_project_watchers()
                            })
       
