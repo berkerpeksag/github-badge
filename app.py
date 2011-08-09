@@ -126,7 +126,6 @@ class BadgeHandler(Handler):
 
       language_stats = github_data.get_language_stats()
       sorted_languages = github_data.sort_languages()
-      top_language_count = max(language_stats.values())
       top_languages = sorted_languages[:5]
       remaining_languages = ', '.join(sorted_languages[5:])
 
