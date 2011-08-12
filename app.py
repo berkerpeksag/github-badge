@@ -4,9 +4,7 @@ import logging
 import os
 import operator
 import posixpath
-import re
 import sys
-import urllib2
 
 from GitHub import User as GitHubUser
 from google.appengine.api import memcache
@@ -77,10 +75,12 @@ class BadgeHandler(Handler):
       sorted_languages = github_user.sort_languages()
       top_languages = sorted_languages[:5]
       remaining_languages = ', '.join(sorted_languages[5:])
-
+      fork_count = sum((1 for repo in github_user.repos if repo.fork))
 
       output = self.render('badge',
                            {'user': github_user,
+                            'own_repos': github_user.public_repos - fork_count,
+                            'fork_repos': fork_count,
                             'top_languages': ', '.join(top_languages),
                             'other_languages': remaining_languages,
                             'project_followers': github_user.get_total_project_watchers()
