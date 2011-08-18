@@ -6,7 +6,7 @@ import operator
 import posixpath
 import sys
 
-from GitHub import User as GitHubUser
+from packages.pyresto.apis.GitHub import User as GitHubUser
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
