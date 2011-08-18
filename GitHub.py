@@ -1,5 +1,5 @@
 import re
-from pyresto import *
+from packages.pyresto import *
 
 
 class GitHubModel(Model):
