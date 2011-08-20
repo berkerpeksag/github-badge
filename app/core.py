@@ -10,7 +10,6 @@ from packages.pyresto.apis.GitHub import User as GitHubUser
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.util import run_wsgi_app
 from packages.slimmer import slimmer
 
 logging.getLogger().setLevel(logging.DEBUG)
@@ -100,18 +99,3 @@ class CacheHandler(Handler):
         self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
         self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
 
-
-application = webapp.WSGIApplication([
-        ('/', MainHandler),
-        ('/badge/([-\w]+)', BadgeHandler),
-        ('/stats', CacheHandler),
-    ],
-    debug=os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
-)
-
-
-def main():
-    run_wsgi_app(application)
-
-if __name__ == '__main__':
-    main()

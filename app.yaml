@@ -21,13 +21,13 @@ handlers:
   login: admin
 
 - url: /
-  script: app.py
+  script: main.py
 
 - url: /badge/(.*)
-  script: app.py
+  script: main.py
 
 - url: /stats
-  script: app.py
+  script: main.py
 
 - url: /favicon\.ico
   static_files: static/favicon.ico
