@@ -1,3 +1,0 @@
-[submodule "packages/pyresto"]
-	path = packages/pyresto
-	url = git://github.com/BYK/pyresto.git
