@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import logging
-import os
 import operator
 import posixpath
 import sys

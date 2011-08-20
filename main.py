@@ -1,7 +1,8 @@
 # coding: utf-8
 
-from app.core import *
-#from google.appengine.ext import webapp
+import os
+
+from app.core import webapp, MainHandler, BadgeHandler, CacheHandler
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 application = webapp.WSGIApplication([
