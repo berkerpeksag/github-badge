@@ -88,7 +88,7 @@ class BadgeHandler(Handler):
                       'other_languages': remaining_languages,
                       'project_followers': github_user.get_project_watchers()}
 
-            output = self.render('badge', values)
+            output = self.render('badge_v2', values)
 
             if github_user.login != '?' and not memcache.add(username, output):
                 logging.error('Memcache set failed for %s' % username)
