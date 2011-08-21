@@ -25,7 +25,7 @@ class Comment(GitHubModel):
 class Commit(GitHubModel):
     _path = '/repos/%(user)s/%(repo)s/commits/%(sha)s'
     _pk = 'sha'
-    comments = Many(Comment, '/repos/%(user)s/%(repo)s/commits/%(commit)s/comments')
+    comments = Many(Comment, '/repos/%(user)s/%(repo)s/commits/%(commit)s/comments?per_page=100')
 
 
 class Branch(GitHubModel):
@@ -38,10 +38,10 @@ Tag = Branch
 class Repo(GitHubModel):
     _path = '/repos/%(user)s/%(name)s'
     _pk = 'name'
-    commits = Many(Commit, '/repos/%(user)s/%(repo)s/commits')
-    comments = Many(Comment, '/repos/%(user)s/%(repo)s/comments')
-    tags = Many(Tag, '/repos/%(user)s/%(repo)s/tags')
-    branches = Many(Branch, '/repos/%(user)s/%(repo)s/branches')
+    commits = Many(Commit, '/repos/%(user)s/%(repo)s/commits?per_page=100')
+    comments = Many(Comment, '/repos/%(user)s/%(repo)s/comments?per_page=100')
+    tags = Many(Tag, '/repos/%(user)s/%(repo)s/tags?per_page=100')
+    branches = Many(Branch, '/repos/%(user)s/%(repo)s/branches?per_page=100')
 
 
 class User(GitHubModel):
@@ -51,5 +51,5 @@ class User(GitHubModel):
 
 
 #Late bindings due to circular references
-Repo.contributors = Many(User, '/repos/%(user)s/%(repo)s/contributors')
-User.follower_list = Many(User, '/users/%(user)s/followers')
+Repo.contributors = Many(User, '/repos/%(user)s/%(repo)s/contributors?per_page=100')
+User.follower_list = Many(User, '/users/%(user)s/followers?per_page=100')

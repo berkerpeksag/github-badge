@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import operator
-import packages.sparklines as sparklines
 from packages.pyresto.apis import GitHub
 
 
@@ -37,3 +36,12 @@ class User(GitHub.User):
         return reduce(operator.add,
                       (repo.watchers for repo in self.repos), 0)
 
+    @property
+    def own_commits(self):
+        all_commits = reduce(operator.add, 
+                             map(lambda x:x.commits, self.repos), [])
+        own_commits = filter(lambda x:
+                        x['committer'] and
+                        x['committer']['login'] == self.login, all_commits)
+        
+        return sorted(own_commits, key=lambda x:x['commit']['committer']['date'])
