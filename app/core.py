@@ -2,10 +2,9 @@
 
 import base64
 import logging
-import posixpath
+import os
 import packages.sparklines as sparklines
 import sys
-import urllib
 
 from .models import User
 from google.appengine.api import memcache
@@ -22,10 +21,10 @@ class Handler(webapp.RequestHandler):
     def render(self, file, values=None):
         if not values:
             values = {}
-        path = posixpath.join(posixpath.dirname(__file__),
-                              'templates/%s.html' % file)
+        path = os.path.abspath(os.path.join(os.getcwd(),
+                                                  'templates/%s.html' % file))
         output = slimmer(template.render(path, values), 'html')
-        self.response.out.write(output)
+        self.write(output)
         return output
 
     def write(self, string):
@@ -56,16 +55,17 @@ class BadgeHandler(Handler):
             top_languages = sorted_languages[:5]
             remaining_languages = ', '.join(sorted_languages[5:])
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
-            own_commits = github_user.own_commits[:50]
+            
+            own_commits = github_user.latest_commits
             grouped_commits = reduce(BadgeHandler.reduce_commits_by_date, own_commits, {})
             commit_data = [grouped_commits[d] for d in sorted(grouped_commits)]
             logging.debug('Commit data %s', str(commit_data))
             commit_sparkline = 'data:image/png;base64,' + \
-                                urllib.quote(base64.b64encode(
+                                base64.b64encode(
                                     sparklines.impulse(commit_data,
                                     dmin=min(commit_data), dmax=max(commit_data)
-                                    )
-                                ))
+                                    ).replace('+', '%2B').replace('/', '%2F'),
+                                )
 
             values = {'user': github_user,
                       'own_repos': github_user.public_repos - fork_count,

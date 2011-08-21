@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import datetime
 import operator
 from packages.pyresto.apis import GitHub
 
@@ -37,9 +38,16 @@ class User(GitHub.User):
                       (repo.watchers for repo in self.repos), 0)
 
     @property
-    def own_commits(self):
+    def latest_commits(self, recent_than=None):
+        if not recent_than:
+            recent_than = datetime.datetime.today() - datetime.timedelta(days=7)
+        recent_than = recent_than.isoformat()
+
         all_commits = reduce(operator.add, 
-                             map(lambda x:x.commits, self.repos), [])
+                             map(lambda x:x.commits,
+                                 (repo for repo in self.repos
+                                  if repo.pushed_at >= recent_than)
+                                 ), [])
         own_commits = filter(lambda x:
                         x['committer'] and
                         x['committer']['login'] == self.login, all_commits)

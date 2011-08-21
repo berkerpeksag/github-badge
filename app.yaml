@@ -29,10 +29,6 @@ handlers:
 - url: /stats
   script: main.py
 
-- url: /favicon\.ico
-  static_files: static/favicon.ico
-  upload: static/favicon.ico
-
 - url: /css
   static_dir: static/css
 
