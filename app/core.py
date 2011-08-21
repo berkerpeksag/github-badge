@@ -39,7 +39,7 @@ class MainHandler(Handler):
 class BadgeHandler(Handler):
     @staticmethod
     def reduce_commits_by_date(aggr, commit):
-        date = commit['commit']['committer']['date'].split('T')[0]
+        date = commit['commit']['committer']['date'][10:]
         aggr[date] = aggr.setdefault(date, 0) + 1
         return aggr
 
