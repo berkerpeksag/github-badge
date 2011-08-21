@@ -40,7 +40,7 @@ a {
 }
 body {
     border: 1px solid #ddd;
-    -webkit-border-radius: 4px;
+    border-radius: 4px;
 	font: normal 12px arial, sans-serif;
 	margin: 0 auto;
 	width: 200px;
