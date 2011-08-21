@@ -3,8 +3,8 @@
 import logging
 import posixpath
 import sys
-from .models import User
 
+from .models import User
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template

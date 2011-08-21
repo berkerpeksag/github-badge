@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import operator
+import packages.sparklines as sparklines
 from packages.pyresto.apis import GitHub
 
 
