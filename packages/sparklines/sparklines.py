@@ -16,16 +16,12 @@ import rgb
 from .pngcanvas import PNGCanvas
 
 
-def discrete(results, args={}, longlines=False):
+def discrete(results, width=2, height=14, upper=50, below_color='gray',
+             above_color='red', dmin=0, dmax=100, longlines=False):
     """The source data is a list of values between
       0 and 100 (or 'limits' if given). Values greater than 95 
       (or 'upper' if given) are displayed in red, otherwise 
       they are displayed in green"""
-    width = int(args.get('width', '2'))
-    height = int(args.get('height', '14'))
-    upper = int(args.get('upper', '50'))
-    below_color = args.get('below-color', 'gray')
-    above_color = args.get('above-color', 'red')
     gap = 4
     if longlines:
         gap = 0
@@ -33,7 +29,6 @@ def discrete(results, args={}, longlines=False):
     im.color = rgb.colors['white']
     im.filledRectangle(0, 0, im.width-1, im.height-1)
 
-    (dmin, dmax) = [int(x) for x in args.get('limits', '0,100').split(',')]
     if dmax < dmin:
         dmax = dmin
     zero = im.height - 1
@@ -52,13 +47,13 @@ def discrete(results, args={}, longlines=False):
             im.rectangle(i, y_coord - gap, i+width-2, y_coord)
     return im.dump()
 
-def impulse(data, args={}):
-    return discrete(data, args, True)
+def impulse(data, *args, **kwargs):
+    kwargs['longlines'] = True
+    return discrete(data, *args, **kwargs)
 
-def smooth(results, args={}):
-    step = int(args.get('step', '2'))
-    height = int(args.get('height', '20'))
-    (dmin, dmax) = [int(x) for x in args.get('limits', '0,100').split(',')]
+def smooth(results, step=2, height=20, dmin=0, dmax=100, min_color='green', 
+           max_color='red', last_color='blue', has_min=False, has_max=False,
+           has_last = False):
     im = PNGCanvas((len(results) - 1) * step + 4, height)
     im.color = rgb.colors['white']
     im.filledRectangle(0, 0, im.width - 1, im.height - 1)
@@ -71,21 +66,15 @@ def smooth(results, args={}):
     for x0, y0, in coords:
         im.line(lastx, lasty, x0, y0)
         lastx, lasty = x0, y0
-    min_color = rgb.colors[args.get('min-color', 'green')]
-    max_color = rgb.colors[args.get('max-color', 'red')]
-    last_color = rgb.colors[args.get('last-color', 'blue')]
-    has_min = args.get('min-m', 'false')
-    has_max = args.get('max-m', 'false')
-    has_last = args.get('last-m', 'false')
-    if has_min == 'true':
+    if has_min:
         min_pt = coords[results.index(min(results))]
         im.color = min_color
         im.rectangle(min_pt[0] - 1, min_pt[1] - 1, min_pt[0] + 1, min_pt[1] + 1)
-    if has_max == 'true':
+    if has_max:
         im.color = max_color
         max_pt = coords[results.index(max(results))]
         im.rectangle(max_pt[0] - 1, max_pt[1] - 1, max_pt[0] + 1, max_pt[1] + 1)
-    if has_last == 'true':
+    if has_last:
         im.color = last_color
         end = coords[-1]
         im.rectangle(end[0] - 1, end[1] - 1, end[0] + 1, end[1] + 1)

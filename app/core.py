@@ -63,7 +63,7 @@ class BadgeHandler(Handler):
             commit_sparkline = 'data:image/png;base64,' + \
                                 urllib.quote(base64.b64encode(
                                     sparklines.impulse(commit_data,
-                                    {'limits': str(min(commit_data))  + ',' +  str(max(commit_data))}
+                                    dmin=min(commit_data), dmax=max(commit_data)
                                     )
                                 ))
 
