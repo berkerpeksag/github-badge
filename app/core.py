@@ -1,11 +1,10 @@
 # coding: utf-8
 
 import logging
-import operator
 import posixpath
 import sys
+from .models import User
 
-from packages.pyresto.apis.GitHub import User as GitHubUser
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
@@ -14,36 +13,6 @@ from packages.slimmer import slimmer
 logging.getLogger().setLevel(logging.DEBUG)
 
 sys.setrecursionlimit(10000)  # SDK fix
-
-
-class User(GitHubUser):
-    # Class name should be "user" to preserve compatibility
-    # with the path variable defined on the main model
-    _default_dict = dict(login='?',
-                         html_url='#',
-                         avatar_url='https://a248.e.akamai.net/'
-                                    'assets.github.com'
-                                    '/images/gravatars/gravatar-140.png',
-                         name='?',
-                         blog='#'
-                        )
-
-    def sort_languages(self):
-        lang_stats = self.get_language_stats()
-        return sorted(lang_stats, key=lang_stats.get, reverse=True)
-
-    @staticmethod
-    def __lang_stat_reducer(stats, lang):
-        if lang:
-            stats[lang] = stats.setdefault(lang, 0) + 1
-        return stats
-
-    def get_language_stats(self):
-        return reduce(self.__lang_stat_reducer,
-                      (repo.language for repo in self.repos), {})
-
-    def get_project_watchers(self):
-        return reduce(operator.add, (repo.watchers for repo in self.repos), 0)
 
 
 class Handler(webapp.RequestHandler):
@@ -74,7 +43,7 @@ class BadgeHandler(Handler):
         else:
             github_user = User.get(username)
 
-            sorted_languages = github_user.sort_languages()
+            sorted_languages = User.sort_languages(github_user.language_stats)
             top_languages = sorted_languages[:5]
             remaining_languages = ', '.join(sorted_languages[5:])
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
@@ -84,7 +53,7 @@ class BadgeHandler(Handler):
                       'fork_repos': fork_count,
                       'top_languages': ', '.join(top_languages),
                       'other_languages': remaining_languages,
-                      'project_followers': github_user.get_project_watchers()}
+                      'project_followers': github_user.project_followers}
 
             output = self.render('badge_v2', values)
 
