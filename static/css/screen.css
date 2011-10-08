@@ -92,6 +92,7 @@ h1 span {
 	background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
 	padding: 20px 20px;
 	-webkit-border-radius: 0 0 10px 10px;
+	-moz-border-radius: 0 0 10px 10px;
 }
 #form input {
 	border: 0;
@@ -99,6 +100,7 @@ h1 span {
 	padding: 10px;
 	width: 700px;
 	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
 }
 #code {
 	display: none;
