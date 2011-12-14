@@ -59,6 +59,10 @@ abbr {
 #user-login h1 a:hover {
     text-decoration: underline;
 }
+#user-login h2 {
+    font-style: italic;
+    font-weight: normal;
+}
 #user-content {
     border-top: 1px solid #eee;
     padding: 5px 0 5px 7px;

@@ -3,6 +3,7 @@
 import base64
 import datetime
 import logging
+import operator
 import os
 import packages.sparklines as sparklines
 import sys
@@ -52,6 +53,12 @@ class BadgeHandler(Handler):
         aggr[date] = aggr.setdefault(date, 0) + 1
         return aggr
 
+    @staticmethod
+    def reduce_commits_by_repo(aggr, commit):
+        repo = commit._owner.name
+        aggr[repo] = aggr.setdefault(repo, 0) + 1
+        return aggr
+
     def get(self, username):
         cached_data = memcache.get(username)
 
@@ -69,15 +76,19 @@ class BadgeHandler(Handler):
             recent_than = today - datetime.timedelta(days=14)
             own_commits = github_user.get_latest_commits(recent_than)
 
-            grouped_commits = reduce(BadgeHandler.reduce_commits_by_date,
-                                     own_commits, {})
+            commits_by_repo = reduce(self.reduce_commits_by_repo,
+                                        own_commits, dict())
+            last_project = max(commits_by_repo, key=operator.itemgetter)
+            logging.info(commits_by_repo)
+            commits_by_date = reduce(self.reduce_commits_by_date,
+                                     own_commits, dict())
             range = daterange(recent_than, today)
             for d in range:
                 key = unicode(d)
-                if key not in grouped_commits:
-                    grouped_commits[key] = 0
+                if key not in commits_by_date:
+                    commits_by_date[key] = 0
 
-            commit_data = [grouped_commits[d] for d in sorted(grouped_commits)]
+            commit_data = [commits_by_date[d] for d in sorted(commits_by_date)]
             logging.debug('Commit data %s', str(commit_data))
             commit_sparkline = 'data:image/png;base64,' + \
                                 base64.b64encode(
@@ -94,6 +105,7 @@ class BadgeHandler(Handler):
                       'other_languages': remaining_languages,
                       'project_followers': github_user.project_followers,
                       'commit_sparkline': commit_sparkline,
+                      'last_project': last_project,
                       }
 
             output = self.render('badge_v2', values)
