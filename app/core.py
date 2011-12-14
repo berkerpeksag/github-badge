@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import base64
+import datetime
 import logging
 import os
 import packages.sparklines as sparklines
@@ -17,6 +18,16 @@ logging.getLogger().setLevel(logging.DEBUG)
 sys.setrecursionlimit(10000)  # SDK fix
 
 
+# Helper Functions
+def daterange(start_date=None, end_date=None, range=None):
+    if range:
+        start_date = min(range)
+        end_date = max(range)
+    for n in xrange((end_date - start_date).days):
+        yield start_date + datetime.timedelta(n)
+
+
+# Request Handlers
 class Handler(webapp.RequestHandler):
     def render(self, file, values=None):
         if not values:
@@ -39,7 +50,7 @@ class MainHandler(Handler):
 class BadgeHandler(Handler):
     @staticmethod
     def reduce_commits_by_date(aggr, commit):
-        date = commit['commit']['committer']['date'][10:]
+        date = commit.commit['committer']['date'][:10]
         aggr[date] = aggr.setdefault(date, 0) + 1
         return aggr
 
@@ -56,15 +67,24 @@ class BadgeHandler(Handler):
             remaining_languages = ', '.join(sorted_languages[5:])
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
 
-            own_commits = github_user.latest_commits
+            today = datetime.datetime.today()
+            recent_than = today - datetime.timedelta(days=14)
+            own_commits = github_user.get_latest_commits(recent_than)
+
             grouped_commits = reduce(BadgeHandler.reduce_commits_by_date,
                                      own_commits, {})
+            range = daterange(recent_than, today)
+            for d in range:
+                key = unicode(d)
+                if key not in grouped_commits:
+                    grouped_commits[key] = 0
+
             commit_data = [grouped_commits[d] for d in sorted(grouped_commits)]
             logging.debug('Commit data %s', str(commit_data))
             commit_sparkline = 'data:image/png;base64,' + \
                                 base64.b64encode(
                                     sparklines.impulse(commit_data,
-                                                       dmin=min(commit_data),
+                                                       dmin=0,
                                                        dmax=max(commit_data)
                                     ).replace('+', '%2B').replace('/', '%2F'),
                                 )

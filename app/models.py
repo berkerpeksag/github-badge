@@ -37,19 +37,24 @@ class User(GitHub.User):
         return reduce(operator.add,
                       (repo.watchers for repo in self.repos), 0)
 
-    @property
-    def latest_commits(self, recent_than=None):
+    @staticmethod
+    def __make_commit_recency_checker(recent_than):
+        return lambda c: c.commit['committer']['date'] > recent_than
+
+    def get_latest_commits(self, recent_than=None):
         if not recent_than:
-            recent_than = datetime.datetime.today() - datetime.timedelta(days=7)
+            recent_than = datetime.datetime.today() - \
+                          datetime.timedelta(days=14)
         recent_than = recent_than.isoformat()
 
-        all_commits = reduce(operator.add,
-                             (r.commits for r in
-                                 (repo for repo in self.repos
-                                  if repo.pushed_at >= recent_than)
-                              ), [])
-        own_commits = filter(lambda x:
-                        x['committer'] and
-                        x['committer']['login'] == self.login, all_commits)
+        all_commits = []
+        is_recent = self.__make_commit_recency_checker(recent_than)
+        for repo in self.repos:
+            if repo.pushed_at >= recent_than:
+                all_commits.extend(repo.commits.collect_while(is_recent))
 
-        return sorted(own_commits, key=lambda x:x['commit']['committer']['date'])
+        own_commits = [commit for commit in all_commits
+                       if commit.committer
+                        and commit.committer['login'] == self.login]
+
+        return own_commits
