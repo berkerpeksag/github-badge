@@ -238,10 +238,13 @@ class Model(object):
             conn.request(**kwargs)
             response = conn.getresponse()
         except Exception as e:
-            # should call conn.close() on any error
-            # to allow further calls to be made
-            conn.close()
-            raise e
+            if isinstance(e, BadStatusLine):
+                pass
+            else:
+                # should call conn.close() on any error
+                # to allow further calls to be made
+                conn.close()
+                raise e
 
         if response.status == 200:
             continuation_url = cls._continuator(response)
