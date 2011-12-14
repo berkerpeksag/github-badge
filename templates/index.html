@@ -56,6 +56,7 @@
 				</p>
 			</div>
 		</div>
+		<script src="/js/spin.min.js"></script>
 		<script>
 			(function() {
 				var gId = function(id) { return document.getElementById(id); },
@@ -63,12 +64,27 @@
 				previewFrame = gId('previewFrame'),
 				codeArea = gId('code'),
 				lastUser = 'mojombo',
-				urlTemplate = 'http://githubbadge.appspot.com/badge/:user',
-				codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>';
+				loc = document.location,
+				urlTemplate = [loc.protocol, '', loc.host, 'badge/:user'].join('/'),
+				codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>',
+                spinOpts = {
+                  lines: 16, // The number of lines to draw
+                  length: 5, // The length of each line
+                  width: 3, // The line thickness
+                  radius: 6, // The radius of the inner circle
+                  color: '#000', // #rgb or #rrggbb
+                  speed: 1.2, // Rounds per second
+                  trail: 26, // Afterglow percentage
+                  shadow: true // Whether to render a shadow
+                },
+                previewArea = gId('preview'),
+                spinner;
 
 				var updateEverything = function updateEverything() {
 					var url = urlTemplate.replace(':user', encodeURI(usernameInput.value));
+					previewFrame.onload = function(){spinner && spinner.stop()};
 					previewFrame.setAttribute('src', url);
+					spinner = new Spinner(spinOpts).spin(previewArea)
 					codeArea.value = codeTemplate.replace(':url', url);
 					codeArea.style.display = 'block';
 					lastUser = usernameInput.value;
