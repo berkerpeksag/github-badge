@@ -22,7 +22,7 @@ class Handler(webapp.RequestHandler):
         if not values:
             values = {}
         path = os.path.abspath(os.path.join(os.getcwd(),
-                                                  'templates/%s.html' % file))
+                                            'templates/%s.html' % file))
         output = slimmer(template.render(path, values), 'html')
         self.write(output)
         return output
@@ -55,15 +55,17 @@ class BadgeHandler(Handler):
             top_languages = sorted_languages[:5]
             remaining_languages = ', '.join(sorted_languages[5:])
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
-            
+
             own_commits = github_user.latest_commits
-            grouped_commits = reduce(BadgeHandler.reduce_commits_by_date, own_commits, {})
+            grouped_commits = reduce(BadgeHandler.reduce_commits_by_date,
+                                     own_commits, {})
             commit_data = [grouped_commits[d] for d in sorted(grouped_commits)]
             logging.debug('Commit data %s', str(commit_data))
             commit_sparkline = 'data:image/png;base64,' + \
                                 base64.b64encode(
                                     sparklines.impulse(commit_data,
-                                    dmin=min(commit_data), dmax=max(commit_data)
+                                                       dmin=min(commit_data),
+                                                       dmax=max(commit_data)
                                     ).replace('+', '%2B').replace('/', '%2F'),
                                 )
 
@@ -87,4 +89,3 @@ class CacheHandler(Handler):
         stats = memcache.get_stats()
         self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
         self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
-
