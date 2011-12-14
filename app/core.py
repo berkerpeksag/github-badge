@@ -13,8 +13,6 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from packages.slimmer import slimmer
 
-logging.getLogger().setLevel(logging.DEBUG)
-
 sys.setrecursionlimit(10000)  # SDK fix
 
 
