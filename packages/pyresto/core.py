@@ -86,6 +86,26 @@ class LazyList(object):
             cursor += 1
             yield item
 
+    def iter_while(self, checker):
+        for item in self:
+            if checker(item):
+                yield item
+            else:
+                break
+
+    def collect_while(self, checker):
+        return [item for item in self.iter_while(checker)]
+
+    def collect_upto(self, checker, limit=10):
+        results = []
+        for item in self:
+            if limit < 1:
+                break
+            elif checker(item):
+                results.append(item)
+                limit -= 1
+        return results
+
 
 class Relation(object):
     pass
@@ -243,6 +263,7 @@ class Model(object):
 
     def __fetch(self):
         if not self._current_path:
+            self._fetched = True
             return
 
         data, next_url = self._rest_call(method='GET', url=self._current_path)
