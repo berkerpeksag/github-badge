@@ -23,14 +23,14 @@ class User(GitHub.User):
 
     @staticmethod
     def __lang_stat_reducer(stats, lang):
-        if lang:
-            stats[lang] = stats.setdefault(lang, 0) + 1
+        stats[lang] = stats.setdefault(lang, 0) + 1
         return stats
 
     @property
     def language_stats(self):
         return reduce(self.__lang_stat_reducer,
-                      (repo.language for repo in self.repos), {})
+                      (repo.language for repo in self.repos if repo.language),
+                      {})
 
     @property
     def project_followers(self):
@@ -43,13 +43,13 @@ class User(GitHub.User):
             recent_than = datetime.datetime.today() - datetime.timedelta(days=7)
         recent_than = recent_than.isoformat()
 
-        all_commits = reduce(operator.add, 
-                             map(lambda x:x.commits,
+        all_commits = reduce(operator.add,
+                             (r.commits for r in
                                  (repo for repo in self.repos
                                   if repo.pushed_at >= recent_than)
-                                 ), [])
+                              ), [])
         own_commits = filter(lambda x:
                         x['committer'] and
                         x['committer']['login'] == self.login, all_commits)
-        
+
         return sorted(own_commits, key=lambda x:x['commit']['committer']['date'])
