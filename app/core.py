@@ -17,6 +17,9 @@ from packages.slimmer import slimmer
 sys.setrecursionlimit(10000)  # SDK fix
 
 
+# Constants
+MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
+
 # Helper Functions
 def daterange(start_date=None, end_date=None, range=None):
     if range:
@@ -110,7 +113,8 @@ class BadgeHandler(Handler):
 
             output = self.render('badge_v2', values)
 
-            if github_user.login != '?' and not memcache.add(username, output):
+            if github_user.login != '?' and \
+               not memcache.set(username, output, MEMCACHE_EXPIRATION):
                 logging.error('Memcache set failed for %s' % username)
 
 
