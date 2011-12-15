@@ -43,11 +43,11 @@
                             <span>forks</span>
                         </li>
                         <li>
-                            <strong>{{ user.followers|shortnum }}</strong>
+                            <strong title="{{ user.followers }}">{{ user.followers|shortnum }}</strong>
                             <span><abbr title="followers">flrws</abbr></span>
                         </li>
                         <li class="last">
-                            <strong>{{ project_followers|shortnum }}</strong>
+                            <strong title="{{ project_followers }}">{{ project_followers|shortnum }}</strong>
                             <span><abbr title="repo followers">rflws</abbr></span>
                         </li>
                     </ul>
