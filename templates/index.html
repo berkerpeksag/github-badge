@@ -38,6 +38,7 @@
 				<div id="form-container">
 					<input type="text" autocomplete="off" id="username" name="username" placeholder="Your GitHub username">
 					<input type="checkbox" id="support" name="s"><label for="support">Support GitHub Badge</label>
+					<input type="checkbox" id="analytics" name="a"><label for="analytics">Disable Google Analytics on badge</label>
 				</div>
 			</div>
 	    <input id="code">
@@ -63,6 +64,7 @@
 				var gId = function(id) { return document.getElementById(id); },
 				usernameInput = gId('username'),
 				supportCheck = gId('support'),
+				analyticsCheck = gId('analytics'),
 				previewFrame = gId('previewFrame'),
 				codeArea = gId('code'),
 				lastUser = 'mojombo',
@@ -83,10 +85,16 @@
                 spinner;
 
 				var updateEverything = function updateEverything() {
-					var url = urlTemplate.replace(':user', encodeURI(usernameInput.value));
-					if (supportCheck.checked) {
-					    url += '?s=1'
-					}
+				    var username = usernameInput.value;
+				    if (!username) return;
+
+					var url = urlTemplate.replace(':user', encodeURI(username)),
+					options = [];
+
+					if (supportCheck.checked) options.push('s=1');
+					if (analyticsCheck.checked) options.push('a=0');
+					if (options.length) url += '?' + options.join('&');
+
 					previewFrame.onload = function(){spinner && spinner.stop()};
 					previewFrame.setAttribute('src', url);
 					spinner = new Spinner(spinOpts).spin(previewArea)
@@ -102,6 +110,7 @@
 				};
 				usernameInput.onkeyup = keyupHandler;
 				supportCheck.onchange = updateEverything;
+				analyticsCheck.onchange = updateEverything;
 				codeArea.onclick = function(){codeArea.focus();codeArea.select()};
 			})();
 		</script>

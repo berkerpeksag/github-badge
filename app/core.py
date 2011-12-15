@@ -62,9 +62,13 @@ class BadgeHandler(Handler):
         aggr[repo] = aggr.setdefault(repo, 0) + 1
         return aggr
 
+    def get_option(self, name, defval):
+        return False if self.request.get(name, defval) == '0' else True
+
     def get(self, username):
-        support = False if self.request.get('s', '0') == '0' else True
-        memcache_key = '%s?s%s' % (username, support)
+        support = self.get_option('s', '0')
+        analytics = self.get_option('a', '1')
+        memcache_key = '%s?s%sa%s' % (username, support, analytics)
         cached_data = memcache.get(memcache_key)
 
         if cached_data:
@@ -111,7 +115,8 @@ class BadgeHandler(Handler):
                       'project_followers': github_user.project_followers,
                       'commit_sparkline': commit_sparkline,
                       'last_project': last_project,
-                      'support': support
+                      'support': support,
+                      'analytics': analytics
                       }
 
             output = self.render('badge_v2', values)

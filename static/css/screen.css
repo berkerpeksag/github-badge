@@ -92,6 +92,15 @@ h1 span {
 	background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
 	padding: 20px 20px;
 	-webkit-border-radius: 0 0 10px 10px;
+	display: block;
+	overflow: hidden;
+}
+#form input {
+    clear: left;
+    float: left;
+}
+#form label {
+    float: left;
 }
 #form input[type=text] {
 	border: 0;
