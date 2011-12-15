@@ -22,7 +22,7 @@
                 <h1><a href="{{ user.html_url }}" target="_parent" title="{{ user.name }}">{{ user.login }}</a></h1>
                 <h2>Worked on 
                     <a href="{{ user.html_url }}/{{ last_project }}"
-                       target="_parent" title="{{ last_project }}">{{ last_project }}</a>
+                       target="_parent" title="{{ last_project }}">{{ last_project|truncatechars:10 }}</a>
                     recently
                 </h2>
             </div>

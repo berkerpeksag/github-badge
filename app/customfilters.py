@@ -19,3 +19,11 @@ def shortnum(value, precision=3):
         quanta = ''
     fmt = "%%.%dg%%s" % precision
     return fmt % (num, quanta)
+
+
+@register.filter
+def truncatechars(value, maxlen):
+    if len(value) > maxlen:
+        return value[:maxlen - 3] + '...'
+    else:
+        return value
