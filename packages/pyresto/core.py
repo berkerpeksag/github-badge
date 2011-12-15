@@ -238,7 +238,7 @@ class Model(object):
             conn.request(**kwargs)
             response = conn.getresponse()
         except Exception as e:
-            if isinstance(e, BadStatusLine):
+            if isinstance(e, httplib.BadStatusLine):
                 pass
             else:
                 # should call conn.close() on any error
