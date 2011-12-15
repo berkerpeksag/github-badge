@@ -106,7 +106,7 @@
 					if (keyupHandler.timer)
 						window.clearTimeout(keyupHandler.timer);
 					if (usernameInput.value.length && usernameInput.value != lastUser)
-						keyupHandler.timer = window.setTimeout(updateEverything, 1000);
+						keyupHandler.timer = window.setTimeout(updateEverything, 500);
 				};
 				usernameInput.onkeyup = keyupHandler;
 				supportCheck.onchange = updateEverything;
