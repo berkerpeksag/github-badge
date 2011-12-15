@@ -63,7 +63,9 @@ class BadgeHandler(Handler):
         return aggr
 
     def get(self, username):
-        cached_data = memcache.get(username)
+        support = False if self.request.get('s', '0') == '0' else True
+        memcache_key = '%s?s%s' % (username, support)
+        cached_data = memcache.get(memcache_key)
 
         if cached_data:
             return self.write(cached_data)
@@ -109,12 +111,13 @@ class BadgeHandler(Handler):
                       'project_followers': github_user.project_followers,
                       'commit_sparkline': commit_sparkline,
                       'last_project': last_project,
+                      'support': support
                       }
 
             output = self.render('badge_v2', values)
 
             if github_user.login != '?' and \
-               not memcache.set(username, output, MEMCACHE_EXPIRATION):
+               not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
                 logging.error('Memcache set failed for %s' % username)
 
 

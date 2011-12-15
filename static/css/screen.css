@@ -93,7 +93,7 @@ h1 span {
 	padding: 20px 20px;
 	-webkit-border-radius: 0 0 10px 10px;
 }
-#form input {
+#form input[type=text] {
 	border: 0;
 	font-size: 32px;
 	padding: 10px;

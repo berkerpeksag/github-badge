@@ -52,7 +52,9 @@
                 </div>
             </div>
             <footer>
-                Generated on {% now "Y-m-d" %}
+                Generated 
+                {% if support %}by <a href="/" target="_parent">GHBadge</a> {% endif %}
+                on {% now "Y-m-d" %}
             </footer>
         </div>
     </body>
