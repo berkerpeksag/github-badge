@@ -67,6 +67,7 @@ footer {
     text-decoration: underline;
 }
 #user-login h2 {
+    font-size: 10px;
     font-style: italic;
     font-weight: normal;
 }
@@ -107,7 +108,7 @@ footer {
 }
 #list-user-info li strong {
     display: block;
-    font-size: 16px;
+    font-size: 13px;
 }
 #list-user-info li span, footer {
     color: #999;
