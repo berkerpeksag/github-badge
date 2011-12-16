@@ -26,8 +26,6 @@ def discrete(results, width=2, height=14, upper=50, below_color='gray',
     if longlines:
         gap = 0
     im = PNGCanvas(len(results) * width - 1, height)
-    im.color = rgb.colors['white']
-    im.filledRectangle(0, 0, im.width - 1, im.height - 1)
 
     if dmax < dmin:
         dmax = dmin

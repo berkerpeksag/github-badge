@@ -168,8 +168,8 @@ class PNGCanvas:
         return signature + \
           self.pack_chunk('IHDR', struct.pack("!2I5B", self.width, self.height,
                                                8, 2, 0, 0, 0)) + \
-          self.pack_chunk('tRNS', struct.pack("!6B", 0xFF, 0xFF,
-                                               0xFF, 0xFF, 0xFF, 0xFF)) + \
+          self.pack_chunk('tRNS', struct.pack("!6B",
+                                              0, 0xFF, 0, 0xFF, 0, 0xFF)) + \
           self.pack_chunk('IDAT', zlib.compress(raw_data, 9)) + \
           self.pack_chunk('IEND', '')
 
