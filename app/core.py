@@ -96,7 +96,7 @@ class BadgeHandler(Handler):
                                      own_commits, dict())
             range = daterange(recent_than, today)
             for d in range:
-                key = unicode(d)
+                key = unicode(d.date())
                 if key not in commits_by_date:
                     commits_by_date[key] = 0
 
