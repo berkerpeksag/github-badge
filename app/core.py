@@ -82,12 +82,15 @@ class BadgeHandler(Handler):
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
 
             today = datetime.datetime.today()
-            recent_than = today - datetime.timedelta(days=14)
+            recent_than = today - datetime.timedelta(days=10)
             own_commits = github_user.get_latest_commits(recent_than)
 
             commits_by_repo = reduce(self.reduce_commits_by_repo,
                                         own_commits, dict())
-            last_project = max(commits_by_repo, key=operator.itemgetter)
+            if commits_by_repo:
+                last_project = max(commits_by_repo, key=operator.itemgetter)
+            else:
+                last_project = ''
             logging.info(commits_by_repo)
             commits_by_date = reduce(self.reduce_commits_by_date,
                                      own_commits, dict())
@@ -102,6 +105,8 @@ class BadgeHandler(Handler):
             commit_sparkline = 'data:image/png;base64,' + \
                                 base64.b64encode(
                                     sparklines.impulse(commit_data,
+                                                       below_color='SlateGray',
+                                                       width=4,
                                                        dmin=0,
                                                        dmax=max(commit_data)
                                     ).replace('+', '%2B').replace('/', '%2F'),
