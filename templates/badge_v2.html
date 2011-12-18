@@ -29,7 +29,9 @@
             <div id="user-content">
                 <div id="user-avatar">
                     <a href="{{ user.html_url }}" target="_parent"><img alt="{{ user.login }}" class="avatar" src="{{ user.avatar_url }}"></a>
-                    <br><img alt="Commit graph" src="{{ commit_sparkline }}">
+                    <div id="sparkline">
+                        <img alt="Commit graph" src="{{ commit_sparkline }}">
+                    </div>
                 </div>
                 <div id="user-info">
                     <p>{{ top_languages }}{% if other_languages %}<span title="{{ other_languages }}">&hellip;</span>{% endif %}</p>

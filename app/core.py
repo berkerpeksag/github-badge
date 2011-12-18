@@ -106,7 +106,7 @@ class BadgeHandler(Handler):
                                 base64.b64encode(
                                     sparklines.impulse(commit_data,
                                                        below_color='SlateGray',
-                                                       width=4,
+                                                       width=3,
                                                        dmin=0,
                                                        dmax=max(commit_data)
                                     ).replace('+', '%2B').replace('/', '%2F'),
