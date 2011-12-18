@@ -1,49 +1,49 @@
 /* http://meyerweb.com/eric/tools/css/reset/ */
 /* v1.0 | 20080212 */
 body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, ol, ul, li, fieldset, form, label, legend, caption {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	background: transparent;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
 }
 ol, ul {
-	list-style: none;
+    list-style: none;
 }
 blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
+    content: '';
 }
 :focus {
-	outline: 0;
+    outline: 0;
 }
 ins {
-	text-decoration: none;
+    text-decoration: none;
 }
 del {
-	text-decoration: line-through;
+    text-decoration: line-through;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 .clear:after {
-	content: "";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }
 a {
-	color: #4183c4;
+    color: #4183c4;
 }
 body {
     border: 1px solid #ddd;
     border-radius: 4px;
-	font: normal 12px arial, sans-serif;
-	margin: 0 auto;
-	width: 200px;
+    font: normal 12px arial, sans-serif;
+    margin: 0 auto;
+    width: 200px;
     w\idth: 198px;
 }
 abbr {
@@ -82,23 +82,23 @@ footer {
     background: -moz-linear-gradient(top,#fafafa,#efefef);
 }
 #user-avatar {
-	float: left;
-	width: 35px;
+    float: left;
+    width: 35px;
 }
 #user-avatar .avatar {
-	border: 1px solid #ddd;
-	padding: 1px;
-	width: 31px;
+    border: 1px solid #ddd;
+    padding: 1px;
+    width: 31px;
     w\idth: 28px;
 }
 #user-avatar #sparkline {
     padding-left: 1px;
 }
 #user-info {
-	margin: 0 5px 0 39px;
+    margin: 0 5px 0 39px;
 }
 #user-info p {
-	padding-bottom: 3px;
+    padding-bottom: 3px;
 }
 #list-user-info {
     margin-top: 5px;
