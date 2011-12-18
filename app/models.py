@@ -39,13 +39,13 @@ class User(GitHub.User):
 
     @staticmethod
     def __make_commit_recency_checker(recent_than):
-        return lambda c: c.commit['committer']['date'] > recent_than
+        return lambda c: c.commit['committer']['date'] >= recent_than
 
     def get_latest_commits(self, recent_than=None):
         if not recent_than:
             recent_than = datetime.datetime.today() - \
                           datetime.timedelta(days=14)
-        recent_than = recent_than.isoformat()
+        recent_than = recent_than.isoformat()[:10]
 
         all_commits = []
         is_recent = self.__make_commit_recency_checker(recent_than)
