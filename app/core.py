@@ -118,7 +118,7 @@ class BadgeHandler(Handler):
                       'fork_repos': fork_count,
                       'top_languages': ', '.join(top_languages),
                       'other_languages': remaining_languages,
-                      'project_followers': github_user.project_followers,
+                      'project_followers': github_user.project_followers - github_user.public_repos,
                       'commit_sparkline': commit_sparkline,
                       'last_project': last_project,
                       'support': support,
