@@ -39,11 +39,11 @@ class WrappedList(list):
     def __getitem__(self, key):
         item = super(self.__class__, self).__getitem__(key)
         should_wrap = isinstance(item, dict) or isinstance(key, slice)\
-                      and any(isinstance(it, dict) for it in item)
+        and any(isinstance(it, dict) for it in item)
 
         if should_wrap:
-            item = map(self.__wrapper, item) if isinstance(key, slice) \
-                    else self.__wrapper(item)
+            item = map(self.__wrapper, item) if isinstance(key, slice)\
+            else self.__wrapper(item)
             self[key] = item
 
         return item
@@ -75,6 +75,8 @@ class LazyList(object):
             if cursor >= self.__length:
                 new_data, new_fetcher = self.__fetcher()
                 self.__fetcher = new_fetcher
+                if not new_data:
+                    break
                 self.__data.extend(new_data)
                 self.__length = len(self.__data)
 
@@ -168,11 +170,11 @@ class Many(Relation):
                 self.__cache[instance] = LazyList(data,
                                                   self._with_owner(instance),
                                                   self.__make_fetcher(next_url)
-                                                  )
+                )
             else:
                 self.__cache[instance] = WrappedList(data,
                                                      self._with_owner(instance)
-                                                     )
+                )
         return self.__cache[instance]
 
 
@@ -181,8 +183,8 @@ class Foreign(Relation):
         self.__model = model
         model_name = model.__name__.lower()
         model_pk = model._pk
-        self.__key_extractor = key_extractor if key_extractor else \
-            lambda x: {model_pk: getattr(x, '__' + model_name)[model_pk]}
+        self.__key_extractor = key_extractor if key_extractor else\
+        lambda x: {model_pk: getattr(x, '__' + model_name)[model_pk]}
 
         self.__cache = {}
 
@@ -234,23 +236,26 @@ class Model(object):
     @classmethod
     def _rest_call(cls, fetch_all=True, **kwargs):
         conn = cls._connection
+        response = None
         try:
             conn.request(**kwargs)
             response = conn.getresponse()
         except Exception as e:
+            # should call conn.close() on any error
+            # to allow further calls to be made
+            conn.close()
             if isinstance(e, httplib.BadStatusLine):
-                pass
+                if not response:  # retry
+                    return cls._restcall(fetch_all, **kwargs)
             else:
-                # should call conn.close() on any error
-                # to allow further calls to be made
-                conn.close()
                 raise e
 
-        if response.status == 200:
+        if response.status >= 200 and response.status < 300:
             continuation_url = cls._continuator(response)
             encoding = response.getheader('content-type', '').split('charset=')
             encoding = encoding[1] if len(encoding) > 1 else 'utf-8'
-            data = cls._parser(unicode(response.read(), encoding, 'replace'))
+            response_data = unicode(response.read(), encoding, 'replace')
+            data = cls._parser(response_data) if response_data else None
             if continuation_url:
                 logging.debug('Found more at: %s', continuation_url)
                 if fetch_all:
@@ -262,7 +267,7 @@ class Model(object):
         else:
             conn.close()
             raise Error("Server response not OK. Response code: %d" %
-                         response.status)
+                        response.status)
 
     def __fetch(self):
         if not self._current_path:
