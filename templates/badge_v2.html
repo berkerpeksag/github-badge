@@ -20,11 +20,16 @@
         <div class="clear">
             <div id="user-login">
                 <h1><a href="{{ user.html_url }}" target="_parent" title="{{ user.name }}">{{ user.login }}</a></h1>
-                <h2>Worked on 
-                    <a href="{{ user.html_url }}/{{ last_project }}"
-                       target="_parent" title="{{ last_project }}">{{ last_project|truncatechars:10 }}</a>
-                    recently
-                </h2>
+                <p>
+                    {% if last_project %}
+                        Worked on
+                        <a href="{{ user.html_url }}/{{ last_project }}"
+                           target="_parent" title="{{ last_project }}">{{ last_project|truncatechars:10 }}</a>
+                        recently.
+                    {% else %}
+                        <span title="Based on the commits in the last {{ days }} days">Probably on vacation</span>
+                    {% endif %}
+                </p>
             </div>
             <div id="user-content">
                 <div id="user-avatar">

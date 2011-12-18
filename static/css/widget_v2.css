@@ -67,10 +67,8 @@ footer {
 #user-login h1 a:hover {
     text-decoration: underline;
 }
-#user-login h2 {
-    font-size: 10px;
-    font-style: italic;
-    font-weight: normal;
+#user-login p {
+    font: italic normal 10px arial, sans-serif;
 }
 #user-content {
     border-top: 1px solid #eee;
