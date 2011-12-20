@@ -1,7 +1,12 @@
 application: githubbadge
-version: 1
-runtime: python
+version: 2-test
+runtime: python27
 api_version: 1
+threadsafe: true
+
+libraries:
+- name: jinja2
+  version: "2.6"
 
 skip_files:
 - ^(.*/)?app\.yaml
@@ -16,22 +21,18 @@ skip_files:
 - ^(.*/)?samples/.*
 
 handlers:
-- url: /admin/.*
-  script: $PYTHON_LIB/google/appengine/ext/admin
-  login: admin
-
 - url: /
-  script: main.py
+  script: main.application
 
 - url: /badge/(.*)
-  script: main.py
+  script: main.application
 
 - url: /stats
-  script: main.py
+  script: main.application
 
 - url: /css
   static_dir: static/css
-  
+
 - url: /js
   static_dir: static/js
 
