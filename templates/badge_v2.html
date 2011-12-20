@@ -24,7 +24,7 @@
                     {% if last_project %}
                         Worked on
                         <a href="{{ user.html_url }}/{{ last_project }}"
-                           target="_parent" title="{{ last_project }}">{{ last_project|truncatechars:10 }}</a>
+                           target="_parent" title="{{ last_project }}">{{ last_project|truncate(10) }}</a>
                         recently.
                     {% else %}
                         <span title="Based on the commits in the last {{ days }} days">Probably on vacation</span>
@@ -61,9 +61,9 @@
                 </div>
             </div>
             <footer>
-                Generated 
+                Generated
                 {% if support %}by <a href="/" target="_parent">GHBadge</a> {% endif %}
-                on {% now "M jS" %}
+                on {{ render_date.strftime("%b %d") }}
             </footer>
         </div>
     </body>

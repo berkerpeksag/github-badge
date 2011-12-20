@@ -2,12 +2,10 @@
 
 import os
 
-from app.core import webapp, MainHandler, BadgeHandler, CacheHandler
+from app.core import webapp2, MainHandler, BadgeHandler, CacheHandler
 
-# Load custom Django template filters
-webapp.template.register_template_library('app.customfilters')
 
-application = webapp.WSGIApplication([
+application = webapp2.WSGIApplication([
         ('/', MainHandler),
         ('/badge/([-\w]+)', BadgeHandler),
         ('/stats', CacheHandler),

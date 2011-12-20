@@ -2,16 +2,17 @@
 
 import base64
 import datetime
+import jinja2
 import logging
 import operator
 import os
 import packages.sparklines as sparklines
 import sys
+import webapp2
 
+import customfilters
 from .models import User
 from google.appengine.api import memcache
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
 from packages.slimmer import slimmer
 
 sys.setrecursionlimit(10000)  # SDK fix
@@ -31,18 +32,28 @@ def daterange(start_date=None, end_date=None, range=None):
 
 
 # Request Handlers
-class Handler(webapp.RequestHandler):
-    def render(self, file, values=None):
+class Handler(webapp2.RequestHandler):
+    @webapp2.cached_property
+    def template_provider(self):
+        jinja_env = jinja2.Environment(
+            loader=jinja2.FileSystemLoader(os.path.join(os.getcwd(),
+                                                        'templates'))
+        )
+        jinja_env.filters['shortnum'] = customfilters.shortnum
+        return jinja_env
+
+
+    def render(self, template_name, values=None):
         if not values:
             values = {}
-        path = os.path.abspath(os.path.join(os.getcwd(),
-                                            'templates/%s.html' % file))
-        output = slimmer(template.render(path, values), 'html')
+
+        template = self.template_provider.get_template(template_name + '.html')
+        output = slimmer(template.render(values), 'html')
         self.write(output)
         return output
 
     def write(self, string):
-        self.response.out.write(string)
+        self.response.write(string)
 
 
 class MainHandler(Handler):
@@ -125,7 +136,8 @@ class BadgeHandler(Handler):
                       'last_project': last_project,
                       'support': support,
                       'analytics': analytics,
-                      'days': days
+                      'days': days,
+                      'render_date': today
                       }
 
             output = self.render('badge_v2', values)
