@@ -85,7 +85,12 @@ class BadgeHandler(Handler):
         if cached_data:
             return self.write(cached_data)
         else:
-            github_user = User.get(username)
+            try:
+                github_user = User.get(username)
+            except Exception as err:
+                self.response.set_status(500)
+                logging.error(err)
+                return
 
             sorted_languages = User.sort_languages(github_user.language_stats)
             top_languages = sorted_languages[:5]
@@ -141,8 +146,7 @@ class BadgeHandler(Handler):
 
             output = self.render('badge_v2', values)
 
-            if github_user.login != '?' and \
-               not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
+            if not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
                 logging.error('Memcache set failed for %s' % username)
 
 

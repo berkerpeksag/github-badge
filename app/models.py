@@ -8,14 +8,6 @@ from packages.pyresto.apis import GitHub
 class User(GitHub.User):
     # Class name should be "user" to preserve compatibility
     # with the path variable defined on the main model
-    _default_dict = dict(login='?',
-                         html_url='#',
-                         avatar_url='https://a248.e.akamai.net/'
-                                    'assets.github.com'
-                                    '/images/gravatars/gravatar-140.png',
-                         name='?',
-                         blog='#'
-                        )
 
     @staticmethod
     def sort_languages(lang_stats):
