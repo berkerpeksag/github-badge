@@ -42,7 +42,6 @@ class Handler(webapp2.RequestHandler):
         jinja_env.filters['shortnum'] = customfilters.shortnum
         return jinja_env
 
-
     def render(self, template_name, values=None):
         if not values:
             values = {}

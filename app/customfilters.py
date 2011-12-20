@@ -3,6 +3,7 @@ from math import log
 # Constants
 QUANTAS = ('k', 'M', 'G', 'T', 'P')
 
+
 def shortnum(value, precision=3):
     value = float(value)
     if value >= 1000:
