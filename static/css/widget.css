@@ -1,69 +1,125 @@
 /* http://meyerweb.com/eric/tools/css/reset/ */
 /* v1.0 | 20080212 */
 body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, ol, ul, li, fieldset, form, label, legend, caption {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	background: transparent;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
 }
 ol, ul {
-	list-style: none;
+    list-style: none;
 }
 blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
+    content: '';
 }
 :focus {
-	outline: 0;
+    outline: 0;
 }
 ins {
-	text-decoration: none;
+    text-decoration: none;
 }
 del {
-	text-decoration: line-through;
+    text-decoration: line-through;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 .clear:after {
-	content: "";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }
 a {
-	color: #4183c4;
+    color: #4183c4;
 }
 body {
-	font: normal 12px arial, sans-serif;
-	margin: 0 auto;
-	padding: 5px;
-	width: 200px;
-	w\idth: 190px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font: normal 12px arial, sans-serif;
+    margin: 0 auto;
+    width: 200px;
+    w\idth: 198px;
+}
+abbr {
+    border-bottom: 1px dotted #ccc;
+}
+footer {
+    background-color: #efefef;
+    font-style: italic;
+    text-align: right;
+    padding: 1px 2px;
+    border-top: 1px solid #ddd;
+}
+#user-login {
+    background: #fff url(/image/icon-mini-octocat.png) 7px 5px no-repeat;
+    padding: 5px 7px 5px 44px;
+}
+#user-login h1 a {
+    font-size: 13px;
+    text-decoration: none;
+}
+#user-login h1 a:hover {
+    text-decoration: underline;
+}
+#user-login p {
+    font: italic normal 10px arial, sans-serif;
+}
+#user-content {
+    border-top: 1px solid #eee;
+    padding: 5px 0 5px 7px;
+    background-color: #f1f1f1;
+    background: #fafafa;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#fafafa',endColorstr='#efefef');
+    background: -webkit-gradient(linear,left top,left bottom,from(#fafafa),to(#efefef));
+    background: -moz-linear-gradient(top,#fafafa,#efefef);
 }
 #user-avatar {
-	float: left;
-	width: 49px;
+    float: left;
+    width: 35px;
 }
-#user-avatar img.avatar {
-	border: 1px solid #ccc;
-	padding: 1px;
-	width: 45px;
+#user-avatar .avatar {
+    border: 1px solid #ddd;
+    padding: 1px;
+    width: 31px;
+    w\idth: 28px;
+}
+#user-avatar #sparkline {
+    padding-left: 1px;
 }
 #user-info {
-	margin-left: 59px;
+    margin: 0 5px 0 39px;
 }
 #user-info p {
-	padding-bottom: 3px;
+    padding-bottom: 3px;
 }
-a.user-login {
-	background: url('https://github.com/favicon.png') no-repeat;
-	font-size: 13px;
-	font-weight: bold;
-	padding-left: 21px;
+#list-user-info {
+    margin-top: 5px;
+}
+#list-user-info li {
+    border-right: 1px solid #ccc;
+    float: left;
+    margin-right: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+#list-user-info li strong {
+    display: block;
+    font-size: 13px;
+}
+#list-user-info li span, footer {
+    color: #999;
+    font-size: 10px;
+    text-shadow: 1px 1px 0 #fff;
+}
+#list-user-info li.last {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0;
 }
 
