@@ -35,7 +35,16 @@ class Branch(GitHubModel):
     _path = None
     _pk = 'name'
     commit = Foreign(Commit)
-Tag = Branch
+    commits = Many(
+        Commit,
+        '/repos/%(user)s/%(repo)s/commits?per_page=100&sha=%(branch)s',
+        lazy=True)
+
+
+class Tag(GitHubModel):
+    _path = None
+    _pk = 'name'
+    commit = Foreign(Commit)
 
 
 class Repo(GitHubModel):

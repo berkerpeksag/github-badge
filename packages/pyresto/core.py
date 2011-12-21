@@ -221,7 +221,7 @@ class Model(object):
                 self.__dict__['__' + item] = self.__dict__.pop(item)
 
         try:
-            self._current_path = self._path % self.__dict__
+            self._current_path = self._path and (self._path % self.__dict__)
         except KeyError:
             self._current_path = None
 
