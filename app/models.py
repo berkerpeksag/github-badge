@@ -46,7 +46,9 @@ class User(GitHub.User):
                 all_commits.extend(repo.commits.collect_while(is_recent))
 
         own_commits = [commit for commit in all_commits
-                       if commit.committer
-                        and commit.committer['login'] == self.login]
+                       if
+                       commit.author and commit.author['login'] == self.login or
+                       commit.committer and
+                       commit.committer['login'] == self.login]
 
         return own_commits
