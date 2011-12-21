@@ -12,6 +12,7 @@ import webapp2
 
 import customfilters
 from .models import User
+from packages.pyresto.apis import GitHub
 from google.appengine.api import memcache
 from packages.slimmer import slimmer
 
@@ -69,7 +70,10 @@ class BadgeHandler(Handler):
 
     @staticmethod
     def reduce_commits_by_repo(aggr, commit):
-        repo = commit._owner.name
+        repo = commit._owner
+        while not isinstance(repo, GitHub.Repo):
+            repo = repo._owner
+        repo = repo.name
         aggr[repo] = aggr.setdefault(repo, 0) + 1
         return aggr
 

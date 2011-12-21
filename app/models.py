@@ -43,7 +43,8 @@ class User(GitHub.User):
         is_recent = self.__make_commit_recency_checker(recent_than)
         for repo in self.repos:
             if repo.pushed_at >= recent_than:
-                all_commits.extend(repo.commits.collect_while(is_recent))
+                for branch in repo.branches:
+                    all_commits.extend(branch.commits.collect_while(is_recent))
 
         own_commits = [commit for commit in all_commits
                        if
