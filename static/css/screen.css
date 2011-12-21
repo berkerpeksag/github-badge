@@ -91,7 +91,7 @@ h1 span {
 	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.89, #f3cab1), color-stop(0.46, #f1ceb8));
 	background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
 	padding: 20px 20px;
-	-webkit-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
 	display: block;
 	overflow: hidden;
 }
@@ -107,7 +107,7 @@ h1 span {
 	font-size: 32px;
 	padding: 10px;
 	width: 700px;
-	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 #code {
 	display: none;
