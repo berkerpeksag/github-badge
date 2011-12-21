@@ -29,6 +29,7 @@ handlers:
 
 - url: /stats
   script: main.application
+  login: admin
 
 - url: /css
   static_dir: static/css
@@ -39,14 +40,3 @@ handlers:
 - url: /image/(.*\.(gif|png|jpg))
   static_files: static/image/\1
   upload: static/image/(.*\.(gif|png|jpg))
-
-admin_console:
-  pages:
-  - name: My Console
-    url: /admin/interactive
-  - name: My Memcache
-    url: /admin/memcache
-  - name: My XMPP
-    url: /admin/xmpp
-  - name: My Inbound Mail
-    url: /admin/inboundmail

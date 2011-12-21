@@ -152,3 +152,9 @@ class CacheHandler(Handler):
         stats = memcache.get_stats()
         self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
         self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
+
+    def post(self):
+        if self.request.get('flush', '0') == '1':
+            self.write(unicode(memcache.flush_all()))
+        else:
+            self.write('Nothing to do.')
