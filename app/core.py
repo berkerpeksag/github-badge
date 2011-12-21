@@ -92,9 +92,7 @@ class BadgeHandler(Handler):
                 logging.error(err)
                 return
 
-            sorted_languages = User.sort_languages(github_user.language_stats)
-            top_languages = sorted_languages[:5]
-            remaining_languages = ', '.join(sorted_languages[5:])
+            languages = User.sort_languages(github_user.language_stats)
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
 
             today = datetime.datetime.today()
@@ -132,8 +130,7 @@ class BadgeHandler(Handler):
             values = {'user': github_user,
                       'own_repos': github_user.public_repos - fork_count,
                       'fork_repos': fork_count,
-                      'top_languages': ', '.join(top_languages),
-                      'other_languages': remaining_languages,
+                      'languages': languages,
                       'project_followers': github_user.project_followers - \
                                            github_user.public_repos,
                       'commit_sparkline': commit_sparkline,

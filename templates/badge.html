@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div id="user-info">
-                    <p>{{ top_languages }}{% if other_languages %}<span title="{{ other_languages }}">&hellip;</span>{% endif %}</p>
+                    <p>{{ languages[:3]|join(', ') }}{% if languages|count > 3 %}<span title="{{ languages[3:]|join(', ') }}">&hellip;</span>{% endif %}</p>
                     <ul class="clear" id="list-user-info">
                         <li>
                             <strong>{{ own_repos }}</strong>
