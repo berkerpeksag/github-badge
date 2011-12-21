@@ -2,23 +2,13 @@
 
 import os
 
-from app.core import webapp, MainHandler, BadgeHandler, CacheHandler
-from google.appengine.ext.webapp.util import run_wsgi_app
+from app.core import webapp2, MainHandler, BadgeHandler, CacheHandler
 
-# Load custom Django template filters
-webapp.template.register_template_library('app.customfilters')
 
-application = webapp.WSGIApplication([
+application = webapp2.WSGIApplication([
         ('/', MainHandler),
         ('/badge/([-\w]+)', BadgeHandler),
         ('/stats', CacheHandler),
     ],
     debug=os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
 )
-
-
-def main():
-    run_wsgi_app(application)
-
-if __name__ == '__main__':
-    main()
