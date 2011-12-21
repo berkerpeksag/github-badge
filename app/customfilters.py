@@ -16,3 +16,10 @@ def shortnum(value, precision=3):
         quanta = ''
     fmt = "%%.%dg%%s" % precision
     return fmt % (num, quanta)
+
+
+def smarttruncate(value, length=80, suffix='&hellip;', boundary=' '):
+    if len(value) > length:
+        return value[:length].rsplit(boundary, 1)[0] + suffix
+    else:
+        return value

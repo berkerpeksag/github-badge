@@ -41,6 +41,7 @@ class Handler(webapp2.RequestHandler):
                                                         'templates'))
         )
         jinja_env.filters['shortnum'] = customfilters.shortnum
+        jinja_env.filters['smarttruncate'] = customfilters.smarttruncate
         return jinja_env
 
     def render(self, template_name, values=None):
