@@ -100,7 +100,7 @@ class BadgeHandler(Handler):
             commits_by_repo = reduce(self.reduce_commits_by_repo,
                                         own_commits, dict())
             if commits_by_repo:
-                last_project = max(commits_by_repo, key=operator.itemgetter)
+                last_project = max(commits_by_repo, key=commits_by_repo.get)
             else:
                 last_project = ''
             logging.info(commits_by_repo)
