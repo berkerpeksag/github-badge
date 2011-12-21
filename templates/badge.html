@@ -24,7 +24,7 @@
                     {% if last_project %}
                         Worked on
                         <a href="{{ user.html_url }}/{{ last_project }}"
-                           target="_parent" title="{{ last_project }}">{{ last_project|smarttruncate(10) }}</a>
+                           target="_parent" title="{{ last_project }}">{{ last_project|smarttruncate(10, pattern='[a-zA-Z0-9]+') }}</a>
                         recently.
                     {% else %}
                         <span title="Based on the commits in the last {{ days }} days">Probably on vacation</span>

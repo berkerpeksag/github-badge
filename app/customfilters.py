@@ -20,7 +20,20 @@ def shortnum(value, precision=3):
     return fmt % (num, quanta)
 
 
-def smarttruncate(value, length=80, suffix='...',
-                  pattern=r'^(.{%d,}?[a-zA-Z0-9])[^a-zA-Z0-9].*'):
-    pattern = pattern % (length-1)
-    return re.sub(pattern, r'\1' + suffix, value)
+def smarttruncate(value, length=80, suffix='...', pattern=r'\w+'):
+    value_length = len(value)
+    if value_length > length:
+        last_span = (0, value_length)
+        for m in re.finditer(pattern, value):
+            span = m.span()
+            print span
+            if span[1] > length:
+                break
+            else:
+                last_span = span
+        cutoff = last_span[1]
+        if  cutoff > length:
+            cutoff = length - len(suffix)
+        return value[:cutoff] + suffix
+    else:
+        return value
