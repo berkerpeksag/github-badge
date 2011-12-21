@@ -1,3 +1,5 @@
+import re
+
 from math import log
 
 # Constants
@@ -18,8 +20,7 @@ def shortnum(value, precision=3):
     return fmt % (num, quanta)
 
 
-def smarttruncate(value, length=80, suffix='&hellip;', boundary=' '):
-    if len(value) > length:
-        return value[:length].rsplit(boundary, 1)[0] + suffix
-    else:
-        return value
+def smarttruncate(value, length=80, suffix='...',
+                  pattern=r'^(.{%d,}?[a-zA-Z0-9])[^a-zA-Z0-9].*'):
+    pattern = pattern % (length-1)
+    return re.sub(pattern, r'\1' + suffix, value)
