@@ -12,6 +12,7 @@ import webapp2
 
 import customfilters
 from .models import User
+from helpers import daterange
 from packages.pyresto.apis import GitHub
 from google.appengine.api import memcache
 from packages.slimmer import slimmer
@@ -21,15 +22,6 @@ sys.setrecursionlimit(10000)  # SDK fix
 
 # Constants
 MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
-
-
-# Helper Functions
-def daterange(start_date=None, end_date=None, range=None):
-    if range:
-        start_date = min(range)
-        end_date = max(range)
-    for n in xrange((end_date - start_date).days):
-        yield start_date + datetime.timedelta(n)
 
 
 # Request Handlers

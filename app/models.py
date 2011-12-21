@@ -3,6 +3,8 @@
 import datetime
 import threading
 import operator
+
+from helpers import wait_for_threads
 from packages.pyresto.apis import GitHub
 
 
@@ -43,6 +45,7 @@ class User(GitHub.User):
         all_commits = []
         is_recent = self.__make_commit_recency_checker(recent_than)
         threads = []
+
         def collect_commits(branch):
             all_commits.extend(branch.commits.collect_while(is_recent))
 
@@ -52,17 +55,12 @@ class User(GitHub.User):
                     threads.append(threading.Thread(target=collect_commits,
                                                     args=(branch,)))
 
-        for t in threads:
-            t.start()
-
-        for t in threads:
-            if t.is_alive():
-                t.join()
+        wait_for_threads(threads)
 
         own_commits = [commit for commit in all_commits
                        if
-                       commit.author and commit.author['login'] == self.login or
-                       commit.committer and
+                       commit.author and commit.author['login'] == self.login
+                       or commit.committer and
                        commit.committer['login'] == self.login]
 
         return own_commits
