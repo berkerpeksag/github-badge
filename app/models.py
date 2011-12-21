@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import datetime
+import threading
 import operator
 from packages.pyresto.apis import GitHub
 
@@ -41,10 +42,22 @@ class User(GitHub.User):
 
         all_commits = []
         is_recent = self.__make_commit_recency_checker(recent_than)
+        threads = []
+        def collect_commits(branch):
+            all_commits.extend(branch.commits.collect_while(is_recent))
+
         for repo in self.repos:
             if repo.pushed_at >= recent_than:
                 for branch in repo.branches:
-                    all_commits.extend(branch.commits.collect_while(is_recent))
+                    threads.append(threading.Thread(target=collect_commits,
+                                                    args=(branch,)))
+
+        for t in threads:
+            t.start()
+
+        for t in threads:
+            if t.is_alive():
+                t.join()
 
         own_commits = [commit for commit in all_commits
                        if
