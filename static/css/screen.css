@@ -88,9 +88,12 @@ h1 span {
 	margin-bottom: 10px;
 }
 #form {
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.89, #f3cab1), color-stop(0.46, #f1ceb8));
-	background-image: -moz-linear-gradient(center bottom, #f3cab1 89%, #f1ceb8 46%);
-	padding: 20px 20px;
+    background-image: -moz-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background-image: -webkit-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background-image: -o-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background-image: -ms-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background-image: linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+padding: 20px 20px;
 	border-radius: 0 0 10px 10px;
 	display: block;
 	overflow: hidden;
