@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import datetime
-import threading
 import operator
 
 from helpers import parallel_foreach
