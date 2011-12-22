@@ -99,13 +99,15 @@ footer {
     padding-bottom: 3px;
 }
 #list-user-info {
-    margin-top: 5px;
+    margin: 5px auto;
+    text-align: center;
 }
 #list-user-info li {
     border-right: 1px solid #ccc;
-    float: left;
+    display: inline-block;
+    _display: inline /* IE fix */
     margin-right: 5px;
-    padding-right: 5px;
+    padding: 0 4px;
     text-align: center;
 }
 #list-user-info li strong {
@@ -120,6 +122,5 @@ footer {
 #list-user-info li.last {
     border-right: 0;
     margin-right: 0;
-    padding-right: 0;
 }
 
