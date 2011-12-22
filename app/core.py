@@ -121,7 +121,7 @@ class BadgeHandler(Handler):
                                                        width=3,
                                                        dmin=0,
                                                        dmax=max(commit_data)
-                                    ).replace('+', '%2B').replace('/', '%2F'),
+                                    ),
                                 )
 
             values = {'user': github_user,
