@@ -137,7 +137,7 @@ class BadgeHandler(Handler):
             output = self.render('badge', values)
 
             if not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
-                logging.error('Memcache set failed for %s' % username)
+                logging.error('Memcache set failed for key %s', memcache_key)
 
 
 class CacheHandler(Handler):
