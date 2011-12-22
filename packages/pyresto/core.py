@@ -5,7 +5,7 @@ import json
 import logging
 from urllib import quote
 
-__all__ = ('Model', 'Many', 'Foreign')
+__all__ = ('Error', 'Model', 'Many', 'Foreign')
 
 logging.getLogger().setLevel(logging.DEBUG)
 
