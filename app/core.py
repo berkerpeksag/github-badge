@@ -22,7 +22,7 @@ sys.setrecursionlimit(10000)  # SDK fix
 
 # Constants
 MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
-
+RECENT_DAYS = 10
 
 # Request Handlers
 class Handler(webapp2.RequestHandler):
@@ -90,8 +90,7 @@ class BadgeHandler(Handler):
             fork_count = sum((1 for repo in github_user.repos if repo.fork))
 
             today = datetime.datetime.today()
-            days = 10
-            recent_than = today - datetime.timedelta(days=days)
+            recent_than = today - datetime.timedelta(days=RECENT_DAYS)
             own_commits = github_user.get_latest_commits(recent_than)
 
             commits_by_repo = reduce(self.reduce_commits_by_repo,
@@ -131,7 +130,7 @@ class BadgeHandler(Handler):
                       'last_project': last_project,
                       'support': support,
                       'analytics': analytics,
-                      'days': days,
+                      'days': RECENT_DAYS,
                       'render_date': today
                       }
 
