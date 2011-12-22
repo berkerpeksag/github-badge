@@ -11,6 +11,11 @@ body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, acronym, address, big,
 }
 ol, ul {
 	list-style: none;
+    margin: 5px;
+}
+sup {
+    font-size: 70%;
+    vertical-align: top;
 }
 blockquote:before, blockquote:after, q:before, q:after {
 	content: '';
@@ -120,16 +125,16 @@ padding: 20px 20px;
 	width: 685px;
 	border-top: none;
 }
-#about {
+#site-info>div {
 	margin: 50px 0;
 	padding: 0 20px;
 }
-#about h2 {
+#site-info h2 {
 	color: #333;
 	font-size: 21px;
 	margin-bottom: 10px;
 }
-#about p {
+#site-info p {
 	line-height: 19px;
 }
 #footer {
