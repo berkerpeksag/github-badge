@@ -73,7 +73,7 @@ class BadgeHandler(Handler):
     def get(self, username):
         support = self.get_option('s', '0')
         analytics = self.get_option('a', '1')
-        memcache_key = '%s?s%sa%s' % (username, support, analytics)
+        memcache_key = '{0}?{1}sa{2}'.format(username, support, analytics)
         cached_data = memcache.get(memcache_key)
 
         if cached_data:
@@ -143,8 +143,8 @@ class BadgeHandler(Handler):
 class CacheHandler(Handler):
     def get(self):
         stats = memcache.get_stats()
-        self.write("<b>Cache Hits:%s</b><br>" % stats['hits'])
-        self.write("<b>Cache Misses:%s</b><br><br>" % stats['misses'])
+        self.write("<b>Cache Hits:{0[hits]}</b><br>".format(stats))
+        self.write("<b>Cache Misses:{0[misses]}</b><br><br>".format(stats))
 
     def post(self):
         if self.request.get('flush', '0') == '1':
