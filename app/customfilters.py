@@ -26,7 +26,6 @@ def smarttruncate(value, length=80, suffix='...', pattern=r'\w+'):
         last_span = (0, value_length)
         for m in re.finditer(pattern, value):
             span = m.span()
-            print span
             if span[1] > length:
                 break
             else:
