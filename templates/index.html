@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>GitHub Badge</title>
-    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <link rel="shortcut icon" href="https://github.com/favicon.ico" />
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="https://github.com/favicon.ico"/>
     <link rel="stylesheet" href="/css/screen.css" media="screen">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nunito">
     <script>
-        var _gaq = [['_setAccount', 'UA-24860434-1'], ['_trackPageview']];
-        (function(d, t) {
+        var _gaq = [
+            ['_setAccount', 'UA-24860434-1'],
+            ['_trackPageview']
+        ];
+        (function (d, t) {
             var g = d.createElement(t),
                     s = d.getElementsByTagName(t)[0];
             g.async = g.src = '//www.google-analytics.com/ga.js';
@@ -19,7 +23,8 @@
 </head>
 <body>
 <div id="fork-me">
-    <a href="https://github.com/berkerpeksag/github-badge" title="Fork me on GitHub">
+    <a href="https://github.com/berkerpeksag/github-badge"
+       title="Fork me on GitHub">
         <img alt="Fork me on GitHub" src="/image/icon-fork-me.png">
     </a>
 </div>
@@ -29,39 +34,51 @@
             &nbsp;
         </div>
         <h1>Get your <span>GitHub</span> badge now!</h1>
+
         <div id="preview">
             <h3>Preview</h3>
-            <iframe id="previewFrame" src="/badge/mojombo" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>
+            <iframe id="previewFrame" src="/badge/mojombo"
+                    style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>
         </div>
     </div>
     <div id="form">
         <div id="form-container">
-            <input type="text" autocomplete="off" id="username" name="username" placeholder="Your GitHub username">
-            <input type="checkbox" id="support" name="s"><label for="support">Support GitHub Badge</label>
-            <input type="checkbox" id="analytics" name="a"><label for="analytics">Disable Google Analytics on badge</label>
+            <input type="text" autocomplete="off" id="username" name="username"
+                   placeholder="Your GitHub username">
+            <input type="checkbox" id="support" name="s"><label for="support">Support
+            GitHub Badge</label>
+            <input type="checkbox" id="analytics" name="a"><label
+                for="analytics">Disable Google Analytics on badge</label>
         </div>
     </div>
     <input id="code">
+
     <div id="about">
         <h2>About</h2>
+
         <p>
-            GitHub badge is a simple embeddable badge showing your GitHub stats like the number of public repositories,
-            number of followers, favorite languages etc. It runs on Google App Engine with a memcached backup at here.
+            GitHub badge is a simple embeddable badge showing your GitHub stats
+            like the number of public repositories,
+            number of followers, favorite languages etc. It runs on Google App
+            Engine with a memcached backup at here.
             If you like this and use it too much, we may exceed our quota.
         </p>
     </div>
     <div id="footer">
         <p>
-            Brought to you by <a href="https://github.com/berkerpeksag" title="Berker Peksağ">Berker Peksağ</a>
-            (@<a href="http://twitter.com/berkerpeksag" title="berkerpeksag">berkerpeksag</a>) and <a href="https://github.com/BYK" title="Burak Yiğit Kaya">Burak Yiğit Kaya</a>
+            Brought to you by <a href="https://github.com/berkerpeksag"
+                                 title="Berker Peksağ">Berker Peksağ</a>
+            (@<a href="http://twitter.com/berkerpeksag" title="berkerpeksag">berkerpeksag</a>)
+            and <a href="https://github.com/BYK" title="Burak Yiğit Kaya">Burak
+            Yiğit Kaya</a>
             (@<a href="http://twitter.com/madbyk" rel="external" title="madbyk">madbyk</a>)
         </p>
     </div>
 </div>
 <script src="/js/spin.min.js"></script>
 <script>
-    (function() {
-        var gId = function(id) { return document.getElementById(id); },
+    (function () {
+        var gId = function (id) { return document.getElementById(id); },
                 usernameInput = gId('username'),
                 supportCheck = gId('support'),
                 analyticsCheck = gId('analytics'),
@@ -85,7 +102,7 @@
             if (analyticsCheck.checked) options.push('a=0');
             if (options.length) url += '?' + options.join('&');
 
-            previewFrame.onload = function(){spinner && spinner.stop()};
+            previewFrame.onload = function () {spinner && spinner.stop()};
             previewFrame.setAttribute('src', url);
             if (spinner)
                 spinner.stop();
@@ -94,7 +111,7 @@
             codeArea.style.display = 'block';
             lastUser = usernameInput.value;
         };
-        var keyupHandler = function keyupHandler(){
+        var keyupHandler = function keyupHandler() {
             if (keyupHandler.timer)
                 window.clearTimeout(keyupHandler.timer);
             if (usernameInput.value.length && usernameInput.value != lastUser)
@@ -103,7 +120,10 @@
         usernameInput.onkeyup = keyupHandler;
         supportCheck.onchange = updateEverything;
         analyticsCheck.onchange = updateEverything;
-        codeArea.onclick = function(){codeArea.focus();codeArea.select()};
+        codeArea.onclick = function () {
+            codeArea.focus();
+            codeArea.select()
+        };
     })();
 </script>
 </body>
