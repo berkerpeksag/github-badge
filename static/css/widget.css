@@ -122,5 +122,5 @@ footer {
 #list-user-info li.last {
     border-right: 0;
     margin-right: 0;
+    padding-right: 5px; /* compensate lack of border */
 }
-
