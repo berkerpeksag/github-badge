@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import datetime
+import threading
 
 
 def daterange(start_date=None, end_date=None, range=None):
@@ -18,3 +19,9 @@ def wait_for_threads(threads):
     for t in threads:
         if t.is_alive():
             t.join()
+
+
+def parallel_foreach(func, iterable):
+    threads = [threading.Thread(target=func, args=(item,))
+               for item in iterable]
+    wait_for_threads(threads)

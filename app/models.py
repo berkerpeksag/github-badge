@@ -4,7 +4,7 @@ import datetime
 import threading
 import operator
 
-from helpers import wait_for_threads
+from helpers import parallel_foreach
 from packages.pyresto.apis import GitHub
 
 
@@ -44,18 +44,15 @@ class User(GitHub.User):
 
         all_commits = []
         is_recent = self.__make_commit_recency_checker(recent_than)
-        threads = []
 
         def collect_commits(branch):
             all_commits.extend(branch.commits.collect_while(is_recent))
 
-        for repo in self.repos:
+        def repo_collector(repo):
             if repo.pushed_at >= recent_than:
-                for branch in repo.branches:
-                    threads.append(threading.Thread(target=collect_commits,
-                                                    args=(branch,)))
+                parallel_foreach(collect_commits, repo.branches)
 
-        wait_for_threads(threads)
+        parallel_foreach(repo_collector, self.repos)
 
         own_commits = [commit for commit in all_commits
                        if
