@@ -71,16 +71,6 @@
 				loc = document.location,
 				urlTemplate = [loc.protocol, '', loc.host, 'badge/:user'].join('/'),
 				codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>',
-                spinOpts = {
-                    lines: 12, // The number of lines to draw
-                    length: 7, // The length of each line
-                    width: 4, // The line thickness
-                    radius: 10, // The radius of the inner circle
-                    color: '#000', // #rgb or #rrggbb
-                    speed: 1, // Rounds per second
-                    trail: 60, // Afterglow percentage
-                    shadow: false // Whether to render a shadow
-                },
                 previewArea = gId('preview'),
                 spinner;
 
@@ -97,7 +87,9 @@
 
 					previewFrame.onload = function(){spinner && spinner.stop()};
 					previewFrame.setAttribute('src', url);
-					spinner = new Spinner(spinOpts).spin(previewArea)
+                    if (spinner)
+                        spinner.stop();
+					spinner = new Spinner().spin(previewArea)
 					codeArea.value = codeTemplate.replace(':url', url);
 					codeArea.style.display = 'block';
 					lastUser = usernameInput.value;
