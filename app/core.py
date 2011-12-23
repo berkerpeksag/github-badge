@@ -109,6 +109,7 @@ class BadgeHandler(Handler):
                     commits_by_date[key] = 0
 
             commit_data = [commits_by_date[d] for d in sorted(commits_by_date)]
+            max_commits = max(commit_data)
             logging.debug('Commit data %s', str(commit_data))
             commit_sparkline = 'data:image/png;base64,' + \
                                 base64.b64encode(
@@ -127,6 +128,7 @@ class BadgeHandler(Handler):
                       'project_followers': github_user.project_followers - \
                                            github_user.public_repos,
                       'commit_sparkline': commit_sparkline,
+                      'max_commits': max_commits,
                       'last_project': last_project,
                       'support': support,
                       'analytics': analytics,
