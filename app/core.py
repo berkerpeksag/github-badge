@@ -130,8 +130,7 @@ class BadgeHandler(Handler):
                       'last_project': last_project,
                       'support': support,
                       'analytics': analytics,
-                      'days': RECENT_DAYS,
-                      'render_date': today
+                      'days': RECENT_DAYS
                       }
 
             output = self.render('badge', values)
