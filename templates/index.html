@@ -85,6 +85,10 @@
                         (<a href="https://github.com/berkerpeksag/github-badge/issues/24">#24</a>)
                     </li>
                 </ul>
+                <p id="lets-try">
+                    What are you waiting for?
+                    <a id="spin-new" href="#container">Give it a spin!</a>
+                </p>
                 Do you have an idea of a missing feature or found a bug?
                 Please <a href="https://github.com/berkerpeksag/github-badge/issues">report</a>!
             </p>
@@ -125,6 +129,7 @@
                 urlTemplate = [loc.protocol, '', loc.host, 'badge/:user'].join('/'),
                 codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>',
                 previewArea = gId('preview'),
+                spinNewLink = gId('spin-new'),
                 spinner;
 
         var updateEverything = function updateEverything() {
@@ -159,6 +164,10 @@
         codeArea.onclick = function () {
             codeArea.focus();
             codeArea.select()
+        };
+        spinNewLink.onclick = function () {
+            window.setTimeout(function () {usernameInput.focus();}, 10);
+            //a delay is necessary
         };
     })();
 </script>

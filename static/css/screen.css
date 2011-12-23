@@ -137,6 +137,17 @@ padding: 20px 20px;
 #site-info p {
 	line-height: 19px;
 }
+#whats-new:target {
+    background-color: #ffffc1
+}
+#lets-try {
+    display: none;
+    margin: 10px auto;
+    font-weight: bold;
+}
+#whats-new:target #lets-try {
+    display: block;
+}
 #footer {
 	border-top: 1px solid #ccc;
 	padding: 8px 20px 50px 20px;
