@@ -100,6 +100,12 @@ class BadgeHandler(Handler):
             else:
                 last_project = ''
             logging.info(commits_by_repo)
+            if last_project:
+                last_project_url = [repo.html_url for repo in github_user.repos
+                                    if repo.name == last_project][0]
+            else:
+                last_project_url = None
+
             commits_by_date = reduce(self.reduce_commits_by_date,
                                      own_commits, dict())
             range = daterange(recent_than, today)
@@ -130,6 +136,7 @@ class BadgeHandler(Handler):
                       'commit_sparkline': commit_sparkline,
                       'max_commits': max_commits,
                       'last_project': last_project,
+                      'last_project_url': last_project_url,
                       'support': support,
                       'analytics': analytics,
                       'days': RECENT_DAYS
