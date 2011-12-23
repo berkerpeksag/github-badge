@@ -7,7 +7,6 @@ from urllib import quote
 
 __all__ = ('Error', 'Model', 'Many', 'Foreign')
 
-logging.getLogger().setLevel(logging.DEBUG)
 
 class Error(Exception):
     pass
@@ -20,7 +19,7 @@ class ModelBase(type):
         new_class = type.__new__(cls, name, bases, attrs)
 
         if not hasattr(new_class, '_path'):
-            new_class._path = '/%s/%%(id)s' % quote(name.lower())
+            new_class._path = '/{}/{{id}}'.format(quote(name.lower()))
 
         if new_class._secure:
             conn_class = httplib.HTTPSConnection
@@ -157,9 +156,8 @@ class Many(Relation):
             path_params = instance._get_id_dict()
             if hasattr(instance, '_get_params'):
                 path_params.update(instance._get_params)
-            path = self.__path % path_params
+            path = self.__path.format(**path_params)
 
-            logging.debug('Call many path: %s' % path)
             data, next_url = model._rest_call(method='GET',
                                               url=path,
                                               fetch_all=(not self.__lazy))
@@ -195,7 +193,6 @@ class Foreign(Relation):
         if instance not in self.__cache:
             keys = instance._get_id_dict()
             keys.update(self.__key_extractor(instance))
-            logging.debug('Keys dict for foreign acccess: %s', str(keys))
             pk = keys.pop(self.__model._pk)
             self.__cache[instance] = self.__model.get(pk, **keys)
 
@@ -221,15 +218,19 @@ class Model(object):
                 self.__dict__['__' + item] = self.__dict__.pop(item)
 
         try:
-            self._current_path = self._path and (self._path % self.__dict__)
+            self._current_path = self._path and (self._path.format(**self.__dict__))
         except KeyError:
             self._current_path = None
+
+    @property
+    def _id(self):
+        return getattr(self, self._pk)
 
     def _get_id_dict(self):
         ids = {}
         owner = self
         while owner:
-            ids[owner.__class__.__name__.lower()] = getattr(owner, owner._pk)
+            ids[owner.__class__.__name__.lower()] = owner
             owner = getattr(owner, '_owner', None)
         return ids
 
@@ -291,7 +292,7 @@ class Model(object):
     @classmethod
     def get(cls, id, **kwargs):
         kwargs[cls._pk] = id
-        path = cls._path % kwargs
+        path = cls._path.format(**kwargs)
         data = cls._rest_call(method='GET', url=path)[0]
 
         if not data:

@@ -20,25 +20,22 @@ class GitHubModel(Model):
 
 
 class Comment(GitHubModel):
-    _path = '/repos/%(user)s/%(repo)s/comments/%(id)s'
+    _path = '/repos/{user}/{repo}/comments/{id}'
     _pk = 'id'
 
 
 class Commit(GitHubModel):
-    _path = '/repos/%(user)s/%(repo)s/commits/%(sha)s'
+    _path = '/repos/{user}/{repo}/commits/{sha}'
     _pk = 'sha'
-    comments = Many(Comment, '/repos/%(user)s/%(repo)s/commits/%(commit)s'
-                             '/comments?per_page=100')
+    comments = Many(Comment, '{commit.url}/comments?per_page=100')
 
 
 class Branch(GitHubModel):
     _path = None
     _pk = 'name'
     commit = Foreign(Commit)
-    commits = Many(
-        Commit,
-        '/repos/%(user)s/%(repo)s/commits?per_page=100&sha=%(branch)s',
-        lazy=True)
+    commits = Many(Commit, '{repo.url}/commits?per_page=100&sha={branch._id}',
+                   lazy=True)
 
 
 class Tag(GitHubModel):
@@ -48,22 +45,20 @@ class Tag(GitHubModel):
 
 
 class Repo(GitHubModel):
-    _path = '/repos/%(user)s/%(name)s'
+    _path = '/repos/{user}/{name}'
     _pk = 'name'
-    commits = Many(Commit, '/repos/%(user)s/%(repo)s/commits?per_page=100',
-                   lazy=True)
-    comments = Many(Comment, '/repos/%(user)s/%(repo)s/comments?per_page=100')
-    tags = Many(Tag, '/repos/%(user)s/%(repo)s/tags?per_page=100')
-    branches = Many(Branch, '/repos/%(user)s/%(repo)s/branches?per_page=100')
+    commits = Many(Commit, '{repo.url}/commits?per_page=100', lazy=True)
+    comments = Many(Comment, '{repo.url}/comments?per_page=100')
+    tags = Many(Tag, '{repo.url}/tags?per_page=100')
+    branches = Many(Branch, '{repo.url}/branches?per_page=100')
 
 
 class User(GitHubModel):
-    _path = '/users/%(login)s'
+    _path = '/users/{login}'
     _pk = 'login'
-    repos = Many(Repo, '/users/%(user)s/repos?type=all&per_page=100')
+    repos = Many(Repo, '{user.url}/repos?type=all&per_page=100')
 
 
 #Late bindings due to circular references
-Repo.contributors = Many(User, '/repos/%(user)s/%(repo)s'
-                               '/contributors?per_page=100')
-User.follower_list = Many(User, '/users/%(user)s/followers?per_page=100')
+Repo.contributors = Many(User, '{repo.url}/contributors?per_page=100')
+User.follower_list = Many(User, '{user.url}/followers?per_page=100')
