@@ -4,10 +4,8 @@ import base64
 import datetime
 import jinja2
 import logging
-import operator
 import os
 import packages.sparklines as sparklines
-import sys
 import webapp2
 
 import customfilters
