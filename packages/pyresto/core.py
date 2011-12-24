@@ -212,7 +212,7 @@ class Model(object):
 
         cls = self.__class__
         overlaps = set(cls.__dict__) & set(kwargs)
-        #logging.debug('Found overlaps: %s', str(overlaps))
+
         for item in overlaps:
             if issubclass(getattr(cls, item), Model):
                 self.__dict__['__' + item] = self.__dict__.pop(item)
