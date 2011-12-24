@@ -19,10 +19,10 @@ from packages.slimmer import slimmer
 
 sys.setrecursionlimit(10000)  # SDK fix
 
-
 # Constants
 MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
 RECENT_DAYS = 10
+
 
 # Request Handlers
 class Handler(webapp2.RequestHandler):
