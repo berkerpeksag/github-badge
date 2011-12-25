@@ -56,10 +56,8 @@ class BadgeHandler(Handler):
 
     @staticmethod
     def reduce_commits_by_repo(aggr, commit):
-        repo = commit._owner
-        while not isinstance(repo, GitHub.Repo):
-            repo = repo._owner
-        repo = repo.name
+        parents = commit._get_id_dict()
+        repo = parents['repo'].name
         aggr[repo] = aggr.setdefault(repo, 0) + 1
         return aggr
 
