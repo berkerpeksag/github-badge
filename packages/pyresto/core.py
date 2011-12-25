@@ -232,7 +232,7 @@ class Model(object):
         owner = self
         while owner:
             ids[owner.__class__.__name__.lower()] = owner
-            owner = getattr(owner, '__pyresto_owner', None)
+            owner = getattr(owner, '_pyresto_owner', None)
         return ids
 
     @classmethod
