@@ -38,17 +38,25 @@
         <div id="preview">
             <h3>Preview</h3>
             <iframe id="previewFrame" src="/badge/mojombo"
-                    style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>
+                    style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
         </div>
     </div>
     <div id="form">
         <div id="form-container">
-            <input type="text" autocomplete="off" id="username" name="username"
+            <div class="top">
+                <input type="text" autocomplete="off" id="username" name="username"
                    placeholder="Your GitHub username">
-            <input type="checkbox" id="support" name="s"><label for="support">Support
-            GitHub Badge</label>
-            <input type="checkbox" id="analytics" name="a"><label
-                for="analytics">Disable Google Analytics on badge</label>
+            </div>
+            <div>
+                <label for="support">
+                    <input type="checkbox" id="support" name="s">Support GitHub Badge
+                </label>
+            </div>
+            <div>
+                <label for="analytics">
+                    <input type="checkbox" id="analytics" name="a">Disable Google Analytics on badge
+                </label>
+            </div>
         </div>
     </div>
     <input id="code">
