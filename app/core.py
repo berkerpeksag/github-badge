@@ -11,7 +11,6 @@ import webapp2
 import customfilters
 from .models import User
 from helpers import daterange
-from packages.pyresto.apis import GitHub
 from google.appengine.api import memcache
 from packages.slimmer import slimmer
 
