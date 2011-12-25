@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>GitHub Badge</title>
-    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
     <link rel="shortcut icon" href="/image/favicon.png">
     <link rel="stylesheet" href="/css/screen.css" media="screen">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nunito">
@@ -68,39 +66,42 @@
             <p>
                 With the brand new 2<sup>nd</sup> version of GitHub Badge, now you have a
                 totally renewed UI. We also have the following list of new features:
-                <ul>
-                    <li>A sparkline showing the latest commit activity on your repos
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/8">#8</a>)
-                    </li>
-                    <li>A tagline showing the project you mave worked on most in the last 10 days
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/20">#20</a>)
-                    </li>
-                    <li>Separated repo count for forked repos</li>
-                    <li>Shortened follower counts for compactness
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/27">#27</a>)
-                    </li>
-                    <li>Ability to turn off Google Analytics code on your badge
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/15">#15</a>)
-                    </li>
-                    <li>Ability to promote GitHub badge, on your badge
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/17">#17</a>)
-                    </li>
-                    <li>A brand new multi-threaded Python 2.7 backend on Google App Engine
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/21">#21</a>,
-                        <a href="https://github.com/berkerpeksag/github-badge/issues/29">#29</a>)
-                    </li>
-                    <li>At most one day old statistics on your badge
-                        (<a href="https://github.com/berkerpeksag/github-badge/issues/24">#24</a>)
-                    </li>
-                </ul>
-                <p id="lets-try">
-                    What are you waiting for?
-                    <a id="spin-new" href="#container">Give it a spin!</a>
-                </p>
+            </p>           
+            <ul>
+                <li>A sparkline showing the latest commit activity on your repos
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/8">#8</a>)
+                </li>
+                <li>A tagline showing the project you mave worked on most in the last 10 days
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/20">#20</a>)
+                </li>
+                <li>Separated repo count for forked repos</li>
+                <li>Shortened follower counts for compactness
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/27">#27</a>)
+                </li>
+                <li>Ability to turn off Google Analytics code on your badge
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/15">#15</a>)
+                </li>
+                <li>Ability to promote GitHub badge, on your badge
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/17">#17</a>)
+                </li>
+                <li>A brand new multi-threaded Python 2.7 backend on Google App Engine
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/21">#21</a>,
+                    <a href="https://github.com/berkerpeksag/github-badge/issues/29">#29</a>)
+                </li>
+                <li>At most one day old statistics on your badge
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/24">#24</a>)
+                </li>
+            </ul>
+            <p id="lets-try">
+                What are you waiting for?
+                <a id="spin-new" href="#container">Give it a spin!</a>
+            </p>
+            <p>
                 Do you have an idea of a missing feature or found a bug?
                 Please <a href="https://github.com/berkerpeksag/github-badge/issues">report</a>!
             </p>
         </div>
+
         <div id="about">
             <h2>About</h2>
 
@@ -112,6 +113,7 @@
             </p>
         </div>
     </section>
+
     <div id="footer">
         <p>
             Brought to you by <a href="https://github.com/berkerpeksag"
@@ -135,7 +137,7 @@
                 lastUser = 'mojombo',
                 loc = document.location,
                 urlTemplate = [loc.protocol, '', loc.host, 'badge/:user'].join('/'),
-                codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>',
+                codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>',
                 previewArea = gId('preview'),
                 spinNewLink = gId('spin-new'),
                 spinner;
@@ -155,7 +157,7 @@
             previewFrame.setAttribute('src', url);
             if (spinner)
                 spinner.stop();
-            spinner = new Spinner().spin(previewArea)
+            spinner = new Spinner().spin(previewArea);
             codeArea.value = codeTemplate.replace(':url', url);
             codeArea.style.display = 'block';
             lastUser = usernameInput.value;
@@ -174,10 +176,11 @@
             codeArea.select()
         };
         spinNewLink.onclick = function () {
-            window.setTimeout(function () {usernameInput.focus();}, 10);
-            //a delay is necessary
+            // A delay is necessary
+            window.setTimeout(function () { usernameInput.focus(); }, 10);
         };
     })();
 </script>
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </body>
 </html>
