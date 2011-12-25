@@ -51,13 +51,12 @@ class User(GitHub.User):
         is_recent = self.__make_commit_recency_checker(recent_than)
 
         def collect_commits(branch):
-            new_commits = [commit for commit
-                           in branch.commits.iter_upto(
-                            is_recent, MAX_COMMITS_PER_BRANCH) if
-                           (commit.author and commit.author['login'] or
-                            commit.committer and
-                            commit.committer['login']) == self.login]
-            all_commits.extend(new_commits)
+            all_commits.extend(commit for commit
+                                in branch.commits.iter_upto(
+                                is_recent, MAX_COMMITS_PER_BRANCH) if
+                                (commit.author and commit.author['login'] or
+                                 commit.committer and
+                                 commit.committer['login']) == self.login)
 
         def repo_collector(repo):
             if repo.pushed_at >= recent_than:
