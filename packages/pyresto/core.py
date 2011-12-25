@@ -94,6 +94,14 @@ class LazyList(object):
             else:
                 break
 
+    def iter_upto(self, checker, limit=10):
+        for item in self:
+            if limit < 1:
+                break
+            elif checker(item):
+                limit -= 1
+                yield item
+
     def collect_while(self, checker):
         return [item for item in self.iter_while(checker)]
 
