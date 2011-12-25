@@ -54,8 +54,9 @@ class User(GitHub.User):
             new_commits = [commit for commit
                            in branch.commits.iter_upto(
                             is_recent, MAX_COMMITS_PER_BRANCH) if
-                           (commit.author or
-                            commit.committer)['login'] == self.login]
+                           (commit.author and commit.author['login'] or
+                            commit.committer and
+                            commit.committer['login']) == self.login]
             all_commits.extend(new_commits)
 
         def repo_collector(repo):
