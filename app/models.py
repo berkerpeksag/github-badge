@@ -7,6 +7,10 @@ from helpers import parallel_foreach
 from packages.pyresto.apis import GitHub
 
 
+# CONSTANTS
+MAX_COMMITS_PER_BRANCH = 200
+
+
 class User(GitHub.User):
     # Class name should be "user" to preserve compatibility
     # with the path variable defined on the main model
@@ -47,7 +51,12 @@ class User(GitHub.User):
         is_recent = self.__make_commit_recency_checker(recent_than)
 
         def collect_commits(branch):
-            all_commits.extend(branch.commits.collect_while(is_recent))
+            new_commits = [commit for commit
+                           in branch.commits.iter_upto(
+                            is_recent, MAX_COMMITS_PER_BRANCH) if
+                           (commit.author or
+                            commit.committer)['login'] == self.login]
+            all_commits.extend(new_commits)
 
         def repo_collector(repo):
             if repo.pushed_at >= recent_than:
@@ -55,10 +64,4 @@ class User(GitHub.User):
 
         parallel_foreach(repo_collector, self.repos)
 
-        own_commits = [commit for commit in all_commits
-                       if
-                       commit.author and commit.author['login'] == self.login
-                       or commit.committer and
-                       commit.committer['login'] == self.login]
-
-        return own_commits
+        return all_commits
