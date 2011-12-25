@@ -29,7 +29,9 @@ class User(GitHub.User):
     @property
     def project_followers(self):
         return reduce(operator.add,
-                      (repo.watchers for repo in self.repos), 0)
+                      (repo.watchers for repo in self.repos
+                       if repo.owner.login == self.login),
+                      0)
 
     @staticmethod
     def __make_commit_recency_checker(recent_than):
