@@ -126,7 +126,7 @@ class Many(Relation):
                 # set auto fetching true for man fields
                 # which usually contain a summary
                 instance._auto_fetch = True
-                instance._owner = owner
+                instance._pyresto_owner = owner
                 return instance
             elif isinstance(data, self.__model):
                 return data
@@ -177,12 +177,13 @@ class Many(Relation):
 
 
 class Foreign(Relation):
-    def __init__(self, model, key_extractor=None):
+    def __init__(self, model, key_property=None, key_extractor=None):
         self.__model = model
-        model_name = model.__name__.lower()
+        if not key_property:
+            key_property = model.__name__.lower()
         model_pk = model._pk
         self.__key_extractor = key_extractor if key_extractor else\
-        lambda x: {model_pk: getattr(x, '__' + model_name)[model_pk]}
+        lambda x: {model_pk: getattr(x, '__' + key_property)[model_pk]}
 
         self.__cache = {}
 
@@ -231,7 +232,7 @@ class Model(object):
         owner = self
         while owner:
             ids[owner.__class__.__name__.lower()] = owner
-            owner = getattr(owner, '_owner', None)
+            owner = getattr(owner, '__pyresto_owner', None)
         return ids
 
     @classmethod
