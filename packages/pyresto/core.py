@@ -60,32 +60,16 @@ class WrappedList(list):
 
 
 class LazyList(object):
-    __length = None
-
-    def __init__(self, data, wrapper, fetcher):
-        self.__data = data
-        self.__length = len(data)
+    def __init__(self, wrapper, fetcher):
         self.__wrapper = wrapper
         self.__fetcher = fetcher
 
     def __iter__(self):
-        cursor = 0
-        while cursor < self.__length or self.__fetcher:
-            if cursor >= self.__length:
-                new_data, new_fetcher = self.__fetcher()
-                self.__fetcher = new_fetcher
-                if not new_data:
-                    break
-                self.__data.extend(new_data)
-                self.__length = len(self.__data)
-
-            item = self.__data[cursor]
-            if isinstance(item, dict):  # not wrapped
-                item = self.__wrapper(item)
-                self.__data[cursor] = item
-
-            cursor += 1
-            yield item
+        fetcher = self.__fetcher
+        while fetcher:
+            data, fetcher = fetcher()
+            for item in data:
+                yield self.__wrapper(item)
 
 
 class Relation(object):
@@ -138,19 +122,13 @@ class Many(Relation):
                 path_params.update(instance._get_params)
             path = self.__path.format(**path_params)
 
-            data, next_url = model._rest_call(method='GET',
-                                              url=path,
-                                              fetch_all=(not self.__lazy))
-            if not data:
-                data = []
-
             if self.__lazy:
-                self.__cache[instance] = LazyList(data,
-                                                  self._with_owner(instance),
-                                                  self.__make_fetcher(next_url)
-                )
+                self.__cache[instance] = LazyList(self._with_owner(instance),
+                                                  self.__make_fetcher(path))
             else:
-                self.__cache[instance] = WrappedList(data,
+                data, next_url = model._rest_call(method='GET',
+                                                  url=path)
+                self.__cache[instance] = WrappedList(data or [],
                                                      self._with_owner(instance)
                 )
         return self.__cache[instance]
