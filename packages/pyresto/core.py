@@ -87,34 +87,6 @@ class LazyList(object):
             cursor += 1
             yield item
 
-    def iter_while(self, checker):
-        for item in self:
-            if checker(item):
-                yield item
-            else:
-                break
-
-    def iter_upto(self, checker, limit=10):
-        for item in self:
-            if limit < 1:
-                break
-            elif checker(item):
-                limit -= 1
-                yield item
-
-    def collect_while(self, checker):
-        return [item for item in self.iter_while(checker)]
-
-    def collect_upto(self, checker, limit=10):
-        results = []
-        for item in self:
-            if limit < 1:
-                break
-            elif checker(item):
-                results.append(item)
-                limit -= 1
-        return results
-
 
 class Relation(object):
     pass

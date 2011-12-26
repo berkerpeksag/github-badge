@@ -1,6 +1,8 @@
 # coding: utf-8
 
+from collections import deque
 import datetime
+from itertools import takewhile, count
 import operator
 
 from helpers import parallel_foreach
@@ -38,8 +40,12 @@ class User(GitHub.User):
                       0)
 
     @staticmethod
-    def __make_commit_recency_checker(recent_than):
-        return lambda c: c.commit['committer']['date'] >= recent_than
+    def __make_commit_recency_checker(recent_than, lim=MAX_COMMITS_PER_BRANCH):
+        counter = count(lim, -1)
+        def commit_checker(c):
+            return counter.next() > 0 and\
+                   c.commit['committer']['date'] >= recent_than
+        return commit_checker
 
     def get_latest_commits(self, recent_than=None):
         if not recent_than:
@@ -47,20 +53,20 @@ class User(GitHub.User):
                           datetime.timedelta(days=14)
         recent_than = recent_than.isoformat()[:10]
 
-        all_commits = []
+        all_commits = deque()
         is_recent = self.__make_commit_recency_checker(recent_than)
 
         def collect_commits(branch):
             all_commits.extend(commit for commit
-                                in branch.commits.iter_upto(
-                                is_recent, MAX_COMMITS_PER_BRANCH) if
+                                in takewhile(is_recent, branch.commits) if
                                 (commit.author and commit.author['login'] or
                                  commit.committer and
                                  commit.committer['login']) == self.login)
 
         def repo_collector(repo):
-            if repo.pushed_at >= recent_than:
-                parallel_foreach(collect_commits, repo.branches)
+            if repo.pushed_at < recent_than:
+                return
+            parallel_foreach(collect_commits, repo.branches)
 
         parallel_foreach(repo_collector, self.repos)
 
