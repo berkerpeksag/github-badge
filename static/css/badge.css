@@ -52,8 +52,11 @@ abbr {
 footer {
     background-color: #efefef;
     border-top: 1px solid #ddd;
-    padding: 1px 2px;
+    color: #999;
+    font-size: 9px;
+    padding: 2px 4px;
     text-align: right;
+    text-shadow: 1px 1px 0 #fff;
 }
 #user-login {
     background: #fff url(/image/icon-mini-octocat.png) 7px 5px no-repeat;
@@ -117,7 +120,7 @@ footer {
     display: block;
     font-size: 13px;
 }
-#list-user-info li span, footer {
+#list-user-info li span {
     color: #999;
     font-size: 10px;
     text-shadow: 1px 1px 0 #fff;
