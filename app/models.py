@@ -41,7 +41,7 @@ class User(GitHub.User):
 
     @staticmethod
     def __make_commit_recency_checker(recent_than, lim=MAX_COMMITS_PER_BRANCH):
-        counter = count(lim, -1) if not lim else count(1, 0)
+        counter = count(lim, -1) if lim else count(1, 0)
         # if lim is None or 0, then return always 1
         def commit_checker(c):
             return counter.next() > 0 and\
