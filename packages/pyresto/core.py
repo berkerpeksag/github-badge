@@ -25,7 +25,7 @@ class ModelBase(type):
             conn_class = httplib.HTTPSConnection
         else:
             conn_class = httplib.HTTPConnection
-        new_class._connection = conn_class(new_class._host)
+        new_class._get_connection = staticmethod(lambda: conn_class(new_class._host))
 
         return new_class
 
@@ -245,7 +245,7 @@ class Model(object):
 
     @classmethod
     def _rest_call(cls, fetch_all=True, **kwargs):
-        conn = cls._connection
+        conn = cls._get_connection()
         response = None
         try:
             conn.request(**kwargs)
