@@ -1,9 +1,11 @@
 # Github Badge
 
-GitHub badge is a simple embeddable badge showing your GitHub stats like the number of public repositories, number of followers, favorite languages etc.
-It runs on Google App Engine with a memcached backup at http://githubbadge.appspot.com. If you like this and use it too much, we may exceed our quota =D
+GitHub badge is a simple embeddable badge showing your [GitHub](http://github.com/) stats like the number of public repositories, number of followers, favorite languages etc.
+It runs on [Google App Engine](http://code.google.com/appengine/) with a memcached backup at http://githubbadge.appspot.com/. If you like this and use it too much, we may exceed our quota :-)
 
-##License
+**Stage URL:** http://2.githubbadge.appspot.com/
+
+## License
 All files that are part of this project are covered by the following license, except where explicitly noted.
 
      The contents of this file are subject to the Mozilla Public License

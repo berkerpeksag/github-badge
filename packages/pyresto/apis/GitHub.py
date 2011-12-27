@@ -20,12 +20,12 @@ class GitHubModel(Model):
 
 
 class Comment(GitHubModel):
-    _path = '/repos/{user}/{repo}/comments/{id}'
+    _path = '{repo.url}/comments/{id}'
     _pk = 'id'
 
 
 class Commit(GitHubModel):
-    _path = '/repos/{user}/{repo}/commits/{sha}'
+    _path = '{repo.url}/commits/{sha}'
     _pk = 'sha'
     comments = Many(Comment, '{commit.url}/comments?per_page=100')
 
@@ -45,7 +45,7 @@ class Tag(GitHubModel):
 
 
 class Repo(GitHubModel):
-    _path = '/repos/{user}/{name}'
+    _path = '{user.url}/{name}'
     _pk = 'name'
     commits = Many(Commit, '{repo.url}/commits?per_page=100', lazy=True)
     comments = Many(Comment, '{repo.url}/comments?per_page=100')
@@ -61,4 +61,5 @@ class User(GitHubModel):
 
 #Late bindings due to circular references
 Repo.contributors = Many(User, '{repo.url}/contributors?per_page=100')
+Repo.owner = Foreign(User, 'owner')
 User.follower_list = Many(User, '{user.url}/followers?per_page=100')
