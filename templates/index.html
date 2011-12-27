@@ -1,86 +1,186 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>GitHub Badge</title>
-		<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-		<link rel="stylesheet" href="/css/screen.css" media="screen">
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nunito">
-		<script>
-			var _gaq = [['_setAccount', 'UA-24860434-1'], ['_trackPageview']];
-			(function(d, t) {
-				var g = d.createElement(t),
-				    s = d.getElementsByTagName(t)[0];
-				g.async = g.src = '//www.google-analytics.com/ga.js';
-				s.parentNode.insertBefore(g, s);
-			}(document, 'script'));
-		</script>
-	</head>
-	<body>
-		<div id="fork-me">
-			<a href="https://github.com/berkerpeksag/github-badge" title="Fork me on GitHub">
-			<img alt="Fork me on GitHub" src="/image/icon-fork-me.png">
-			</a>
-		</div>
-		<div id="container">
-			<div id="octocat">
-				<div id="octocat-logo">
-					&nbsp;
-				</div>
-				<h1>Get your <span>GitHub</span> badge now!</h1>
-				<div id="preview">
-					<h3>Preview</h3>
-					<iframe id="previewFrame" src="/badge/mojombo" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>
-				</div>
-			</div>
-			<div id="form">
-				<div id="form-container">
-					<input autocomplete="off" id="username" name="username" placeholder="Your GitHub username">
-				</div>
-			</div>
-	    <input id="code">
-			<div id="about">
-				<h2>About</h2>
-				<p>
-					GitHub badge is a simple embeddable badge showing your GitHub stats like the number of public repositories,
-					number of followers, favorite languages etc. It runs on Google App Engine with a memcached backup at here.
-					If you like this and use it too much, we may exceed our quota.
-				</p>
-			</div>
-			<div id="footer">
-				<p>
-					Brought to you by <a href="https://github.com/berkerpeksag" title="Berker Peksağ">Berker Peksağ</a>
-					(@<a href="http://twitter.com/berkerpeksag" title="berkerpeksag">berkerpeksag</a>) and <a href="https://github.com/BYK" title="Burak Yiğit Kaya">Burak Yiğit Kaya</a>
-					(@<a href="http://twitter.com/madbyk" rel="external" title="madbyk">madbyk</a>)
-				</p>
-			</div>
-		</div>
-		<script>
-			(function() {
-				var gId = function(id) { return document.getElementById(id); },
-				usernameInput = gId('username'),
-				previewFrame = gId('previewFrame'),
-				codeArea = gId('code'),
-				lastUser = 'mojombo',
-				urlTemplate = 'http://githubbadge.appspot.com/badge/:user',
-				codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden"></iframe>';
+<head>
+    <meta charset="utf-8">
+    <title>GitHub Badge</title>
+    <link rel="shortcut icon" href="/image/favicon.png">
+    <link rel="stylesheet" href="/css/screen.css" media="screen">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nunito">
+    <script>
+        var _gaq = [
+            ['_setAccount', 'UA-24860434-1'],
+            ['_trackPageview']
+        ];
+        (function (d, t) {
+            var g = d.createElement(t),
+                    s = d.getElementsByTagName(t)[0];
+            g.async = g.src = '//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s);
+        }(document, 'script'));
+    </script>
+</head>
+<body>
+<div id="fork-me">
+    <a href="https://github.com/berkerpeksag/github-badge"
+       title="Fork me on GitHub">
+        <img alt="Fork me on GitHub" src="/image/icon-fork-me.png">
+    </a>
+</div>
+<div id="container">
+    <div id="octocat">
+        <div id="octocat-logo">
+            &nbsp;
+        </div>
+        <h1>Get your <span>GitHub</span> badge now!</h1>
 
-				var updateEverything = function updateEverything() {
-					var url = urlTemplate.replace(':user', encodeURI(usernameInput.value));
-					previewFrame.setAttribute('src', url);
-					codeArea.value = codeTemplate.replace(':url', url);
-					codeArea.style.display = 'block';
-					lastUser = usernameInput.value;
-				};
-				var keyupHandler = function keyupHandler(){
-					if (keyupHandler.timer)
-						window.clearTimeout(keyupHandler.timer);
-					if (usernameInput.value.length && usernameInput.value != lastUser)
-						keyupHandler.timer = window.setTimeout(updateEverything, 1000);
-				};
-				usernameInput.onkeyup = keyupHandler;
-				codeArea.onclick = function(){codeArea.focus();codeArea.select()};
-			})();
-		</script>
-	</body>
+        <div id="preview">
+            <h3>Preview</h3>
+            <iframe id="previewFrame" src="/badge/mojombo"
+                    style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
+        </div>
+    </div>
+    <div id="form">
+        <div id="form-container">
+            <div class="top">
+                <input type="text" autocomplete="off" id="username" name="username"
+                   placeholder="Your GitHub username">
+            </div>
+            <div>
+                <label for="support">
+                    <input type="checkbox" id="support" name="s">Support GitHub Badge
+                </label>
+            </div>
+            <div>
+                <label for="analytics">
+                    <input type="checkbox" id="analytics" name="a">Disable Google Analytics on badge
+                </label>
+            </div>
+        </div>
+    </div>
+    <input id="code">
+
+    <section id="site-info">
+        <div id="whats-new">
+            <h2>What's new?</h2>
+
+            <p>
+                With the brand new 2<sup>nd</sup> version of GitHub Badge, now you have a
+                totally renewed UI. We also have the following list of new features:
+            </p>           
+            <ul>
+                <li>A sparkline showing the latest commit activity on your repos
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/8">#8</a>)
+                </li>
+                <li>A tagline showing the project you mave worked on most in the last 10 days
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/20">#20</a>)
+                </li>
+                <li>Separated repo count for forked repos</li>
+                <li>Shortened follower counts for compactness
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/27">#27</a>)
+                </li>
+                <li>Ability to turn off Google Analytics code on your badge
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/15">#15</a>)
+                </li>
+                <li>Ability to promote GitHub badge, on your badge
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/17">#17</a>)
+                </li>
+                <li>A brand new multi-threaded Python 2.7 backend on Google App Engine
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/21">#21</a>,
+                    <a href="https://github.com/berkerpeksag/github-badge/issues/29">#29</a>)
+                </li>
+                <li>At most one day old statistics on your badge
+                    (<a href="https://github.com/berkerpeksag/github-badge/issues/24">#24</a>)
+                </li>
+            </ul>
+            <p id="lets-try">
+                What are you waiting for?
+                <a id="spin-new" href="#container">Give it a spin!</a>
+            </p>
+            <p>
+                Do you have an idea of a missing feature or found a bug?
+                Please <a href="https://github.com/berkerpeksag/github-badge/issues">report</a>!
+            </p>
+        </div>
+
+        <div id="about">
+            <h2>About</h2>
+
+            <p>
+                GitHub badge is a simple embeddable badge showing your GitHub stats
+                like the number of public repositories,
+                number of followers, favorite languages etc. It runs on Google App
+                Engine with a day-long memcached backup.
+            </p>
+        </div>
+    </section>
+
+    <div id="footer">
+        <p>
+            Brought to you by <a href="https://github.com/berkerpeksag"
+                                 title="Berker Peksağ">Berker Peksağ</a>
+            (@<a href="http://twitter.com/berkerpeksag" title="berkerpeksag">berkerpeksag</a>)
+            and <a href="https://github.com/BYK" title="Burak Yiğit Kaya">Burak
+            Yiğit Kaya</a>
+            (@<a href="http://twitter.com/madbyk" title="madbyk">madbyk</a>)
+        </p>
+    </div>
+</div>
+<script src="/js/spin.min.js"></script>
+<script>
+    (function () {
+        var gId = function (id) { return document.getElementById(id); },
+                usernameInput = gId('username'),
+                supportCheck = gId('support'),
+                analyticsCheck = gId('analytics'),
+                previewFrame = gId('previewFrame'),
+                codeArea = gId('code'),
+                lastUser = 'mojombo',
+                loc = document.location,
+                urlTemplate = [loc.protocol, '', loc.host, 'badge/:user'].join('/'),
+                codeTemplate = '<iframe src=":url" style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>',
+                previewArea = gId('preview'),
+                spinNewLink = gId('spin-new'),
+                spinner;
+
+        var updateEverything = function updateEverything() {
+            var username = usernameInput.value;
+            if (!username) return;
+
+            var url = urlTemplate.replace(':user', encodeURI(username)),
+                    options = [];
+
+            if (supportCheck.checked) options.push('s=1');
+            if (analyticsCheck.checked) options.push('a=0');
+            if (options.length) url += '?' + options.join('&');
+
+            previewFrame.onload = function () {spinner && spinner.stop()};
+            previewFrame.setAttribute('src', url);
+            if (spinner)
+                spinner.stop();
+            spinner = new Spinner().spin(previewArea);
+            codeArea.value = codeTemplate.replace(':url', url);
+            codeArea.style.display = 'block';
+            lastUser = usernameInput.value;
+        };
+        var keyupHandler = function keyupHandler() {
+            if (keyupHandler.timer)
+                window.clearTimeout(keyupHandler.timer);
+            if (usernameInput.value.length && usernameInput.value != lastUser)
+                keyupHandler.timer = window.setTimeout(updateEverything, 500);
+        };
+        usernameInput.onkeyup = keyupHandler;
+        supportCheck.onchange = updateEverything;
+        analyticsCheck.onchange = updateEverything;
+        codeArea.onclick = function () {
+            codeArea.focus();
+            codeArea.select()
+        };
+        spinNewLink.onclick = function () {
+            // A delay is necessary
+            window.setTimeout(function () { usernameInput.focus(); }, 10);
+        };
+    })();
+</script>
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</body>
 </html>
