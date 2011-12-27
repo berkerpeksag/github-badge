@@ -67,6 +67,72 @@ class BadgeHandler(Handler):
     def get_option(self, name, defval):
         return False if self.request.get(name, defval) == '0' else True
 
+    def calculate_user_values(self, username):
+        try:
+            github_user = User.get(username)
+        except pyresto.Error:
+            self.response.set_status(404) # not 100% sure but good enough
+            self.render('errors/404')
+            return
+        except Exception as err:
+            self.response.set_status(500)
+            logging.error(err)
+            return
+
+        languages = User.sort_languages(github_user.language_stats)
+        fork_count = sum((1 for repo in github_user.repos if repo.fork))
+
+        today = datetime.datetime.today()
+        recent_than = today - datetime.timedelta(days=RECENT_DAYS)
+        own_commits = github_user.get_latest_commits(recent_than)
+
+        commits_by_repo = reduce(self.reduce_commits_by_repo,
+                                 own_commits, dict())
+        if commits_by_repo:
+            last_project = max(commits_by_repo, key=commits_by_repo.get)
+        else:
+            last_project = ''
+        logging.info(commits_by_repo)
+        if last_project:
+            last_project_url = [repo.html_url for repo in github_user.repos
+                                if repo.name == last_project][0]
+        else:
+            last_project_url = None
+
+        commits_by_date = reduce(self.reduce_commits_by_date,
+                                 own_commits, dict())
+        range = daterange(recent_than, today)
+        for d in range:
+            key = unicode(d.date())
+            if key not in commits_by_date:
+                commits_by_date[key] = 0
+
+        commit_data = [commits_by_date[d] for d in sorted(commits_by_date)]
+        max_commits = max(commit_data)
+        logging.debug('Commit data %s', str(commit_data))
+        commit_sparkline = 'data:image/png;base64,' +\
+                           base64.b64encode(
+                               sparklines.impulse(commit_data,
+                                                  below_color='SlateGray',
+                                                  width=3,
+                                                  dmin=0,
+                                                  dmax=max(commit_data)
+                               ),
+                           )
+
+        return {'user': github_user.__dict__,
+                'own_repos': github_user.public_repos - fork_count,
+                'fork_repos': fork_count,
+                'languages': languages,
+                'project_followers': github_user.project_followers -\
+                                     github_user.public_repos,
+                'commit_sparkline': commit_sparkline,
+                'max_commits': max_commits,
+                'last_project': last_project,
+                'last_project_url': last_project_url,
+                'days': RECENT_DAYS
+        }
+
     def get(self, username):
         support = self.get_option('s', '0')
         analytics = self.get_option('a', '1')
@@ -78,72 +144,18 @@ class BadgeHandler(Handler):
         if cached_data:
             return self.write(cached_data)
         else:
-            try:
-                github_user = User.get(username)
-            except pyresto.Error:
-                self.response.set_status(404) # not 100% sure but good enough
-                self.render('errors/404')
-                return
-            except Exception as err:
-                self.response.set_status(500)
-                logging.error(err)
+            memcache_data_key = '!data!{}'.format(username)
+            values = json.loads(memcache.get(memcache_data_key) or '{}')
+            if not values:
+                # Caution, the method below may alter state.
+                values = self.calculate_user_values(username)
+
+            if not values:  # still don't have the values, something went wrong
                 return
 
-            languages = User.sort_languages(github_user.language_stats)
-            fork_count = sum((1 for repo in github_user.repos if repo.fork))
-
-            today = datetime.datetime.today()
-            recent_than = today - datetime.timedelta(days=RECENT_DAYS)
-            own_commits = github_user.get_latest_commits(recent_than)
-
-            commits_by_repo = reduce(self.reduce_commits_by_repo,
-                                        own_commits, dict())
-            if commits_by_repo:
-                last_project = max(commits_by_repo, key=commits_by_repo.get)
-            else:
-                last_project = ''
-            logging.info(commits_by_repo)
-            if last_project:
-                last_project_url = [repo.html_url for repo in github_user.repos
-                                    if repo.name == last_project][0]
-            else:
-                last_project_url = None
-
-            commits_by_date = reduce(self.reduce_commits_by_date,
-                                     own_commits, dict())
-            range = daterange(recent_than, today)
-            for d in range:
-                key = unicode(d.date())
-                if key not in commits_by_date:
-                    commits_by_date[key] = 0
-
-            commit_data = [commits_by_date[d] for d in sorted(commits_by_date)]
-            max_commits = max(commit_data)
-            logging.debug('Commit data %s', str(commit_data))
-            commit_sparkline = 'data:image/png;base64,' + \
-                                base64.b64encode(
-                                    sparklines.impulse(commit_data,
-                                                       below_color='SlateGray',
-                                                       width=3,
-                                                       dmin=0,
-                                                       dmax=max(commit_data)
-                                    ),
-                                )
-
-            values = {'user': github_user.__dict__,
-                      'own_repos': github_user.public_repos - fork_count,
-                      'fork_repos': fork_count,
-                      'languages': languages,
-                      'project_followers': github_user.project_followers - \
-                                           github_user.public_repos,
-                      'commit_sparkline': commit_sparkline,
-                      'max_commits': max_commits,
-                      'last_project': last_project,
-                      'last_project_url': last_project_url,
-                      'support': support,
-                      'analytics': analytics,
-                      'days': RECENT_DAYS
-                      }
+            if not memcache.set(memcache_data_key,
+                                json.dumps(values), MEMCACHE_EXPIRATION):
+                logging.error('Memcache set failed for user data %s', username)
 
             if jsonp:
                 values = {'jsonp': jsonp, 'data': json.dumps(values)}
@@ -152,6 +164,7 @@ class BadgeHandler(Handler):
                                                  charset='utf-8')
                 output = self.render('jsonp', values, '.js', False)
             else:
+                values.update({'support': support, 'analytics': analytics})
                 output = self.render('badge', values)
 
             if not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
