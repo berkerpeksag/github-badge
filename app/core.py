@@ -136,7 +136,12 @@ class BadgeHandler(Handler):
     def get(self, username):
         support = self.get_option('s', '0')
         analytics = self.get_option('a', '1')
-        jsonp = self.request.get('jsonp', '')
+        jsonp = self.request.get('callback', '')
+        if jsonp:  # jsonp header should be there always
+            self.response.headers.add_header('content-type',
+                                             'application/javascript',
+                                              charset='utf-8')
+
         memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
                                                  analytics, jsonp)
         cached_data = memcache.get(memcache_key)
@@ -158,11 +163,8 @@ class BadgeHandler(Handler):
                 logging.error('Memcache set failed for user data %s', username)
 
             if jsonp:
-                values = {'jsonp': jsonp, 'data': json.dumps(values)}
-                self.response.headers.add_header('content-type',
-                                                 'application/javascript',
-                                                 charset='utf-8')
-                output = self.render('jsonp', values, '.js', False)
+                output = '{0}({1})'.format(jsonp, json.dumps(values))
+                self.write(output)
             else:
                 values.update({'support': support, 'analytics': analytics})
                 output = self.render('badge', values)
