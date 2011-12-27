@@ -3,6 +3,7 @@
 import base64
 import datetime
 import jinja2
+import json
 import logging
 import os
 import packages.sparklines as sparklines
@@ -68,7 +69,9 @@ class BadgeHandler(Handler):
     def get(self, username):
         support = self.get_option('s', '0')
         analytics = self.get_option('a', '1')
-        memcache_key = '{0}?{1}sa{2}'.format(username, support, analytics)
+        jsonp = self.request.get('jsonp', '')
+        memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
+                                                 analytics, jsonp)
         cached_data = memcache.get(memcache_key)
 
         if cached_data:
@@ -122,7 +125,7 @@ class BadgeHandler(Handler):
                                     ),
                                 )
 
-            values = {'user': github_user,
+            values = {'user': github_user.__dict__,
                       'own_repos': github_user.public_repos - fork_count,
                       'fork_repos': fork_count,
                       'languages': languages,
@@ -137,7 +140,14 @@ class BadgeHandler(Handler):
                       'days': RECENT_DAYS
                       }
 
-            output = self.render('badge', values)
+            if jsonp:
+                values = {'jsonp': jsonp, 'data': json.dumps(values)}
+                self.response.headers.add_header('content-type',
+                                                 'application/javascript',
+                                                 charset='utf-8')
+                output = self.render('jsonp', values, '.js', False)
+            else:
+                output = self.render('badge', values)
 
             if not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
                 logging.error('Memcache set failed for key %s', memcache_key)
