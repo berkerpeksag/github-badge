@@ -79,7 +79,7 @@ class Relation(object):
 class Many(Relation):
     def __init__(self, model, path=None, lazy=False):
         self.__model = model
-        self.__path = path or model._path
+        self.__path = unicode(path or model._path)
         self.__lazy = lazy
         self.__cache = {}
 
