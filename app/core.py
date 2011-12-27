@@ -7,6 +7,7 @@ import json
 import logging
 import os
 import packages.sparklines as sparklines
+import packages.pyresto.core as pyresto
 import webapp2
 
 import customfilters
@@ -79,6 +80,10 @@ class BadgeHandler(Handler):
         else:
             try:
                 github_user = User.get(username)
+            except pyresto.Error:
+                self.response.set_status(404) # not 100% sure but good enough
+                self.render('errors/404')
+                return
             except Exception as err:
                 self.response.set_status(500)
                 logging.error(err)
