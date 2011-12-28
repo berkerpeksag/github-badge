@@ -23,6 +23,19 @@ RECENT_DAYS = 10
 
 # Request Handlers
 class Handler(webapp2.RequestHandler):
+    __CORS = True
+    def __init__(self, *args, **kwargs):
+        super(Handler, self).__init__(*args, **kwargs)
+
+        if self.__CORS and 'origin' in self.request.headers:
+            origin = self.request.headers['origin']
+            if isinstance(self.__CORS, bool):  # open for all
+                self.response.headers.add_header('Access-Control-Allow-Origin',
+                                                 '*')
+            elif origin in self.__CORS:
+                self.response.headers.add_header('Access-Control-Allow-Origin',
+                                                 origin)
+
     @webapp2.cached_property
     def template_provider(self):
         jinja_env = jinja2.Environment(
@@ -141,9 +154,6 @@ class BadgeHandler(Handler):
             self.response.headers.add_header('content-type',
                                              'application/javascript',
                                               charset='utf-8')
-
-        if 'origin' in self.request.headers:  # allow CORS requests always
-            self.response.headers.add_header('Access-Control-Allow-Origin', '*')
 
         memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
                                                  analytics, jsonp)
