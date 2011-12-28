@@ -86,7 +86,7 @@ class BadgeHandler(Handler):
         memcache_data_key = '!data!{}'.format(username)
         values = json.loads(memcache.get(memcache_data_key) or '{}')
         if values:
-           return values
+            return values
 
         try:
             github_user = User.get(username)
@@ -168,7 +168,7 @@ class BadgeHandler(Handler):
                 'application/javascript; charset = utf-8'
 
         self.response.headers['cache-control'] = \
-            'public, max-age={}'.format(MEMCACHE_EXPIRATION/2)
+            'public, max-age={}'.format(MEMCACHE_EXPIRATION / 2)
 
         if self.request.headers['accept'] == 'application/json':
             self.response.headers['content-type'] =\
