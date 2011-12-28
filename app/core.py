@@ -28,6 +28,7 @@ class Handler(webapp2.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(Handler, self).__init__(*args, **kwargs)
 
+        self.response.headers.add_header('Vary', 'Accept')
         if self.__CORS and 'origin' in self.request.headers:
             origin = self.request.headers['origin']
             if isinstance(self.__CORS, bool):  # open for all
@@ -168,6 +169,12 @@ class BadgeHandler(Handler):
 
         self.response.headers['cache-control'] = \
             'public, max-age={}'.format(MEMCACHE_EXPIRATION/2)
+
+        if self.request.headers['accept'] == 'application/json':
+            self.response.headers['content-type'] =\
+                'application/json; charset = utf-8'
+            self.write(json.dumps(self.calculate_user_values(username)))
+            return  # simply return JSON if client wants JSON
 
         memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
                                                  analytics, jsonp)
