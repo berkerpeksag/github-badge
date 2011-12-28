@@ -82,6 +82,11 @@ class BadgeHandler(Handler):
         return False if self.request.get(name, defval) == '0' else True
 
     def calculate_user_values(self, username):
+        memcache_data_key = '!data!{}'.format(username)
+        values = json.loads(memcache.get(memcache_data_key) or '{}')
+        if values:
+           return values
+
         try:
             github_user = User.get(username)
         except pyresto.Error:
@@ -134,18 +139,24 @@ class BadgeHandler(Handler):
                                ),
                            )
 
-        return {'user': github_user.__dict__,
-                'own_repos': github_user.public_repos - fork_count,
-                'fork_repos': fork_count,
-                'languages': languages,
-                'project_followers': github_user.project_followers -\
-                                     github_user.public_repos,
-                'commit_sparkline': commit_sparkline,
-                'max_commits': max_commits,
-                'last_project': last_project,
-                'last_project_url': last_project_url,
-                'days': RECENT_DAYS
+        values = {'user': github_user.__dict__,
+                  'own_repos': github_user.public_repos - fork_count,
+                  'fork_repos': fork_count,
+                  'languages': languages,
+                  'project_followers': github_user.project_followers -\
+                                       github_user.public_repos,
+                  'commit_sparkline': commit_sparkline,
+                  'max_commits': max_commits,
+                  'last_project': last_project,
+                  'last_project_url': last_project_url,
+                  'days': RECENT_DAYS
         }
+
+        if not memcache.set(memcache_data_key, json.dumps(values),
+                            MEMCACHE_EXPIRATION):
+            logging.error('Memcache set failed for user data %s', username)
+
+        return values
 
     def get(self, username):
         support = self.get_option('s', '0')
@@ -165,18 +176,9 @@ class BadgeHandler(Handler):
         if cached_data:
             return self.write(cached_data)
         else:
-            memcache_data_key = '!data!{}'.format(username)
-            values = json.loads(memcache.get(memcache_data_key) or '{}')
-            if not values:
-                # Caution, the method below may alter state.
-                values = self.calculate_user_values(username)
-
-            if not values:  # still don't have the values, something went wrong
+            values = self.calculate_user_values(username)
+            if not values:  # don't have the values, something went wrong
                 return
-
-            if not memcache.set(memcache_data_key,
-                                json.dumps(values), MEMCACHE_EXPIRATION):
-                logging.error('Memcache set failed for user data %s', username)
 
             if jsonp:
                 output = '{0}({1})'.format(jsonp, json.dumps(values))
