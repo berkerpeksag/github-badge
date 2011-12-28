@@ -142,7 +142,7 @@ class BadgeHandler(Handler):
                                              'application/javascript',
                                               charset='utf-8')
 
-        if self.request.headers['origin']:  # allow CORS requests always
+        if 'origin' in self.request.headers:  # allow CORS requests always
             self.response.headers.add_header('Access-Control-Allow-Origin', '*')
 
         memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
