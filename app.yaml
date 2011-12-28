@@ -1,7 +1,12 @@
 application: githubbadge
-version: 1
-runtime: python
+version: 2
+runtime: python27
 api_version: 1
+threadsafe: true
+
+libraries:
+- name: jinja2
+  version: "2.6"
 
 skip_files:
 - ^(.*/)?app\.yaml
@@ -16,37 +21,22 @@ skip_files:
 - ^(.*/)?samples/.*
 
 handlers:
-- url: /admin/.*
-  script: $PYTHON_LIB/google/appengine/ext/admin
-  login: admin
-
 - url: /
-  script: app.py
+  script: main.application
 
 - url: /badge/(.*)
-  script: app.py
+  script: main.application
 
 - url: /stats
-  script: app.py
-
-- url: /favicon\.ico
-  static_files: static/favicon.ico
-  upload: static/favicon.ico
+  script: main.application
+  login: admin
 
 - url: /css
   static_dir: static/css
 
+- url: /js
+  static_dir: static/js
+
 - url: /image/(.*\.(gif|png|jpg))
   static_files: static/image/\1
   upload: static/image/(.*\.(gif|png|jpg))
-
-admin_console:
-  pages:
-  - name: My Console
-    url: /admin/interactive
-  - name: My Memcache
-    url: /admin/memcache
-  - name: My XMPP
-    url: /admin/xmpp
-  - name: My Inbound Mail
-    url: /admin/inboundmail

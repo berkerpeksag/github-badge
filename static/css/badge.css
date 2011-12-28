@@ -1,0 +1,132 @@
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/* v1.0 | 20080212 */
+body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, ol, ul, li, fieldset, form, label, legend, caption {
+    background: transparent;
+    border: 0;
+    font-size: 100%;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+}
+:focus {
+    outline: 0;
+}
+ins {
+    text-decoration: none;
+}
+del {
+    text-decoration: line-through;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.clear:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+a {
+    color: #4183c4;
+}
+body {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font: normal 12px arial, sans-serif;
+    margin: 0 auto;
+    width: 200px;
+    w\idth: 198px;
+}
+abbr {
+    border-bottom: 1px dotted #ccc;
+}
+footer {
+    background-color: #efefef;
+    border-top: 1px solid #ddd;
+    color: #999;
+    font-size: 9px;
+    padding: 2px 4px;
+    text-align: right;
+    text-shadow: 1px 1px 0 #fff;
+}
+#user-login {
+    background: #fff url(/image/icon-mini-octocat.png) 7px 5px no-repeat;
+    padding: 5px 7px 5px 44px;
+}
+#user-login h1 a {
+    font-size: 13px;
+    text-decoration: none;
+}
+#user-login h1 a:hover {
+    text-decoration: underline;
+}
+#user-login p {
+    color: #666;
+    font: italic normal 10px arial, sans-serif;
+}
+#user-login p a, footer a {
+    color: #333;
+    text-decoration: none;
+}
+#user-content {
+    background-color: #fafafa;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fafafa', endColorstr='#efefef');
+    background: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#efefef));
+    background: -moz-linear-gradient(top, #fafafa, #efefef);
+    border-top: 1px solid #eee;
+    padding: 5px 0 5px 7px;
+}
+#user-avatar {
+    float: left;
+    width: 35px;
+}
+#user-avatar .avatar {
+    border: 1px solid #ddd;
+    padding: 1px;
+    width: 31px;
+    w\idth: 28px;
+}
+#user-avatar #sparkline {
+    padding-left: 1px;
+}
+#user-info {
+    margin: 0 5px 0 39px;
+}
+#user-info p {
+    font-size: 11px;
+    padding-bottom: 3px;
+}
+#list-user-info {
+    margin: 5px auto;
+    text-align: center;
+}
+#list-user-info li {
+    border-right: 1px solid #ccc;
+    display: inline-block;
+    _display: inline; /* IE fix */
+    padding: 0 4px;
+    text-align: center;
+}
+#list-user-info li strong {
+    display: block;
+    font-size: 13px;
+}
+#list-user-info li span {
+    color: #999;
+    font-size: 10px;
+    text-shadow: 1px 1px 0 #fff;
+}
+#list-user-info li.last {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 5px; /* compensate lack of border */
+}
