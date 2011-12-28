@@ -24,6 +24,7 @@ RECENT_DAYS = 10
 # Request Handlers
 class Handler(webapp2.RequestHandler):
     __CORS = True
+
     def __init__(self, *args, **kwargs):
         super(Handler, self).__init__(*args, **kwargs)
 
@@ -151,9 +152,11 @@ class BadgeHandler(Handler):
         analytics = self.get_option('a', '1')
         jsonp = self.request.get('callback', '')
         if jsonp:  # jsonp header should be there always
-            self.response.headers.add_header('content-type',
-                                             'application/javascript',
-                                              charset='utf-8')
+            self.response.headers['content-type'] = \
+                'application/javascript; charset = utf-8'
+
+        self.response.headers['cache-control'] = \
+            'public, max-age={}'.format(MEMCACHE_EXPIRATION/2)
 
         memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
                                                  analytics, jsonp)
