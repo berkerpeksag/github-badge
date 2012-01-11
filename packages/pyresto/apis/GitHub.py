@@ -6,7 +6,7 @@ from ..core import *
 
 class GitHubModel(Model):
     _host = 'api.github.com'
-    _link_parser = re.compile(r'\<([^\>]+)\>;\srel="(\w+)"', re.I or re.U)
+    _link_parser = re.compile(r'\<([^\>]+)\>;\srel="(\w+)"', re.I | re.U)
 
     @classmethod
     def _continuator(cls, response):
