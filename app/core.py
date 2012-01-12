@@ -170,7 +170,8 @@ class BadgeHandler(Handler):
         self.response.headers['cache-control'] = \
             'public, max-age={}'.format(MEMCACHE_EXPIRATION / 2)
 
-        if self.request.headers['accept'] == 'application/json':
+        if 'accept' in self.request.headers and\
+           self.request.headers['accept'] == 'application/json':
             self.response.headers['content-type'] =\
                 'application/json; charset = utf-8'
             self.write(json.dumps(self.calculate_user_values(username)))
