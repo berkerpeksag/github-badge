@@ -96,11 +96,12 @@ h1 span {
     margin-bottom: 10px;
 }
 #form {
-    background-image: -moz-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
-    background-image: -webkit-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
-    background-image: -o-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
-    background-image: -ms-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
-    background-image: linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background: rgb(243, 202, 177);
+    background: -moz-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background: -webkit-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background: -o-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background: -ms-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
+    background: linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
     border-radius: 0 0 10px 10px;
     display: block;
     overflow: hidden;

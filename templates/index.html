@@ -6,6 +6,9 @@
     <link rel="shortcut icon" href="/image/favicon.png">
     <link rel="stylesheet" href="/css/screen.css" media="screen">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nunito">
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <script>
         var _gaq = [
             ['_setAccount', 'UA-24860434-1'],
@@ -36,7 +39,8 @@
         <div id="preview">
             <h3>Preview</h3>
             <iframe id="previewFrame" src="/badge/mojombo"
-                    style="border: 0; height: 142px; width: 200px; overflow: hidden;"></iframe>
+                    style="border: 0; height: 142px; width: 200px; overflow: hidden;"
+                    frameBorder=0></iframe>
         </div>
     </div>
     <div id="form">
@@ -144,7 +148,7 @@
                 lastUser = 'mojombo',
                 loc = document.location,
                 urlTemplate = [loc.protocol, '', loc.host, 'badge/:user'].join('/'),
-                codeTemplate = '<iframe src=":url" style="border: 0; height: 142px; width: 200px; overflow: hidden;"></iframe>',
+                codeTemplate = '<iframe src=":url" style="border: 0; height: 142px; width: 200px; overflow: hidden;" frameBorder=0></iframe>',
                 previewArea = gId('preview'),
                 spinNewLink = gId('spin-new'),
                 spinner;
@@ -160,11 +164,13 @@
             if (analyticsCheck.checked) options.push('a=0');
             if (options.length) url += '?' + options.join('&');
 
+            if (!spinner)
+                spinner = new Spinner();
+            spinner.spin(previewArea);
+
             previewFrame.onload = function () {spinner && spinner.stop()};
             previewFrame.setAttribute('src', url);
-            if (spinner)
-                spinner.stop();
-            spinner = new Spinner().spin(previewArea);
+            
             codeArea.value = codeTemplate.replace(':url', url);
             codeArea.style.display = 'block';
             lastUser = usernameInput.value;
@@ -188,7 +194,5 @@
         };
     })();
 </script>
-<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
 </body>
 </html>
