@@ -100,7 +100,7 @@ class BadgeHandler(Handler):
             return
 
         languages = User.sort_languages(github_user.language_stats)
-        fork_count = sum((1 for repo in github_user.repos if repo.fork))
+        fork_count = sum(1 for repo in github_user.repos if repo.fork)
 
         today = datetime.datetime.today()
         recent_than = today - datetime.timedelta(days=RECENT_DAYS)
@@ -141,7 +141,7 @@ class BadgeHandler(Handler):
                            )
 
         values = {'user': github_user.__dict__,
-                  'own_repos': github_user.public_repos - fork_count,
+                  'own_repos': len(github_user.repos) - fork_count,
                   'fork_repos': fork_count,
                   'languages': languages,
                   'project_followers': github_user.project_followers -\
