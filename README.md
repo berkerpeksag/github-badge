@@ -4,7 +4,7 @@ GitHub badge is a simple embeddable badge showing your [GitHub](http://github.co
 It runs on [Google App Engine](http://code.google.com/appengine/) with a memcached backup at http://githubbadge.appspot.com/. If you like this and use it too much, we may exceed our quota :-)
 
 ## Credits
-Developed using
+Developed using  
 [![](http://www.jetbrains.com/img/logos/pycharm_logo142x29.gif)](http://www.jetbrains.com/pycharm/)
 
 ## License
