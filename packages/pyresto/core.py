@@ -39,12 +39,12 @@ class WrappedList(list):
 
     def __getitem__(self, key):
         item = super(self.__class__, self).__getitem__(key)
-        should_wrap = isinstance(item, dict) or isinstance(key, slice)\
-        and any(isinstance(it, dict) for it in item)
+        should_wrap = (isinstance(item, dict) or isinstance(key, slice) and
+                                                 any(isinstance(it, dict) for it in item))
 
         if should_wrap:
-            item = map(self.__wrapper, item) if isinstance(key, slice)\
-            else self.__wrapper(item)
+            item = (map(self.__wrapper, item)
+                    if isinstance(key, slice) else self.__wrapper(item))
             self[key] = item
 
         return item
@@ -96,6 +96,7 @@ class Many(Relation):
                 return instance
             elif isinstance(data, self.__model):
                 return data
+
         return mapper
 
     def __make_fetcher(self, url):
@@ -108,6 +109,7 @@ class Many(Relation):
 
             new_fetcher = self.__make_fetcher(new_url) if new_url else None
             return data, new_fetcher
+
         return fetcher
 
     def __get__(self, instance, owner):
@@ -128,11 +130,9 @@ class Many(Relation):
                 self.__cache[instance] = LazyList(self._with_owner(instance),
                                                   self.__make_fetcher(path))
             else:
-                data, next_url = model._rest_call(method='GET',
-                                                  url=path)
-                self.__cache[instance] = WrappedList(data or [],
-                                                     self._with_owner(instance)
-                )
+                data, next_url = model._rest_call(method='GET', url=path)
+                self.__cache[instance] =\
+                WrappedList(data or [], self._with_owner(instance))
         return self.__cache[instance]
 
 
@@ -142,8 +142,8 @@ class Foreign(Relation):
         if not key_property:
             key_property = model.__name__.lower()
         model_pk = model._pk
-        self.__key_extractor = key_extractor if key_extractor else\
-        lambda x: {model_pk: getattr(x, '__' + key_property)[model_pk]}
+        self.__key_extractor = (key_extractor if key_extractor else
+                                lambda x: {model_pk: getattr(x, '__' + key_property)[model_pk]})
 
         self.__cache = {}
 
@@ -179,7 +179,8 @@ class Model(object):
                 self.__dict__['__' + item] = self.__dict__.pop(item)
 
         try:
-            self._current_path = self._path and (self._path.format(**self.__dict__))
+            self._current_path = self._path and (
+                self._path.format(**self.__dict__))
         except KeyError:
             self._current_path = None
 

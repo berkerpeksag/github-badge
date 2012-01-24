@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import re
-from ..core import *
+from ..core import Foreign, Many, Model
 
 
 class GitHubModel(Model):
@@ -59,7 +59,7 @@ class User(GitHubModel):
     repos = Many(Repo, '{user.url}/repos?type=all&per_page=100')
 
 
-#Late bindings due to circular references
+# Late bindings due to circular references
 Repo.contributors = Many(User, '{repo.url}/contributors?per_page=100')
 Repo.owner = Foreign(User, 'owner')
 User.follower_list = Many(User, '{user.url}/followers?per_page=100')
