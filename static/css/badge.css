@@ -99,15 +99,14 @@ footer {
     padding-left: 1px;
 }
 #user-info {
-    margin: 0 5px 0 39px;
+    margin: 0 0 0 39px;
 }
 #user-info p {
     font-size: 11px;
     padding-bottom: 3px;
 }
 #list-user-info {
-    margin: 5px auto;
-    text-align: center;
+    margin: 5px 0;
 }
 #list-user-info li {
     border-right: 1px solid #ccc;
@@ -125,8 +124,12 @@ footer {
     font-size: 10px;
     text-shadow: 1px 1px 0 #fff;
 }
+#list-user-info li.narrow {
+    padding: 0;
+    width: 32px;
+}
 #list-user-info li.last {
     border-right: 0;
     margin-right: 0;
-    padding-right: 5px; /* compensate lack of border */
+    padding-right: 0;
 }

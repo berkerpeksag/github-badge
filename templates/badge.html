@@ -41,11 +41,11 @@
                 <div id="user-info">
                     <p>{{ languages[:3]|join(', ') }}{% if languages|count > 3 %}<span title="{{ languages[3:]|join(', ') }}">&hellip;</span>{% endif %}</p>
                     <ul class="clear" id="list-user-info">
-                        <li>
+                        <li class="narrow">
                             <strong>{{ own_repos }}</strong>
                             <span>repos</span>
                         </li>
-                        <li>
+                        <li class="narrow">
                             <strong>{{ fork_repos }}</strong>
                             <span>forks</span>
                         </li>
