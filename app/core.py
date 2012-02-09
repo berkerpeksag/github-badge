@@ -202,11 +202,18 @@ class BadgeHandler(Handler):
 class CacheHandler(Handler):
     def get(self):
         stats = memcache.get_stats()
-        self.write("<b>Cache Hits:{0[hits]}</b><br>".format(stats))
-        self.write("<b>Cache Misses:{0[misses]}</b><br><br>".format(stats))
+        template = """
+        <p><strong>Cache Hits:</strong> {0[hits]}</p>
+        <p><strong>Cache Misses:</strong> {0[misses]}</p>
+        <form action="/stats" method="post">
+        <input type="hidden" name="flush" value="1">
+        <p><button name="flush" type="submit">Flush</button></p>
+        </form>
+        """
+        self.write(template.format(stats))
 
     def post(self):
-        if self.request.get('flush', '0') == '1':
-            self.write(unicode(memcache.flush_all()))
+        if self.request.get('flush', '0') == '1' and memcache.flush_all():
+            self.write('Done.')
         else:
             self.write('Nothing to do.')
