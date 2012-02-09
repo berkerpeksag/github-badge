@@ -99,7 +99,7 @@ footer {
     padding-left: 1px;
 }
 #user-info {
-    margin: 0 0 0 39px;
+    margin-left: 39px;
 }
 #user-info p {
     font-size: 11px;
