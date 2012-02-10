@@ -1,6 +1,5 @@
 # coding: utf-8
 
-import base64
 import datetime
 import jinja2
 import json
@@ -8,12 +7,14 @@ import logging
 import os
 import packages.sparklines as sparklines
 import packages.pyresto.core as pyresto
+import urllib2
 import webapp2
 
 import customfilters
 from .models import User
-from helpers import daterange
+from helpers import data_uri, daterange
 from google.appengine.api import memcache
+from google.appengine.api.images import Image
 from packages.slimmer import slimmer
 
 # Constants
@@ -130,15 +131,18 @@ class BadgeHandler(Handler):
         commit_data = [commits_by_date[d] for d in sorted(commits_by_date)]
         max_commits = max(commit_data)
         logging.debug('Commit data %s', str(commit_data))
-        commit_sparkline = 'data:image/png;base64,' +\
-                           base64.b64encode(
-                               sparklines.impulse(commit_data,
-                                                  below_color='SlateGray',
-                                                  width=3,
-                                                  dmin=0,
-                                                  dmax=max(commit_data)
-                               ),
-                           )
+        commit_sparkline = data_uri(sparklines.impulse(commit_data,
+                                                       below_color='SlateGray',
+                                                       width=3,
+                                                       dmin=0,
+                                                       dmax=max(commit_data)))
+
+        try:  # try to embed the scaled-down user avatar
+            avatar = Image(urllib2.urlopen(github_user.avatar_url).read())
+            avatar.resize(28, 28)
+            github_user.avatar_url = data_uri(avatar.execute_transforms())
+        except:
+            pass
 
         values = {'user': github_user.__dict__,
                   'own_repos': len(github_user.repos) - fork_count,

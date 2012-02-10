@@ -1,7 +1,12 @@
 # coding: utf-8
 
+import base64
 import datetime
 import threading
+
+
+def data_uri(data):
+    return 'data:image/png;base64,' + base64.b64encode(data)
 
 
 def daterange(start_date=None, end_date=None, range=None):
