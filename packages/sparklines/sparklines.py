@@ -29,18 +29,17 @@ def discrete(results, width=2, height=14, upper=50, below_color='gray',
 
     if dmax < dmin:
         dmax = dmin
+
+    scale = float(dmax - dmin + 1) / (height - gap)
     zero = im.height - 1
     if dmin < 0 and dmax > 0:
-        zero = im.height - (0 - dmin) / \
-               (float(dmax - dmin + 1) / (height - gap))
-    for (r, i) in zip(results, range(0, len(results) * width, width)):
+        zero = im.height - (0 - dmin) / scale
+    for (r, i) in zip(results, xrange(0, len(results) * width, width)):
         color = (r >= upper) and above_color or below_color
         if r < 0:
-            y_coord = im.height - (r - dmin) / \
-                      (float(dmax - dmin + 1) / (height - gap))
+            y_coord = im.height - (r - dmin) / scale
         else:
-            y_coord = im.height - (r - dmin) / \
-                      (float(dmax - dmin + 1) / (height - gap))
+            y_coord = im.height - (r - dmin) / scale
         im.color = rgb.colors[color] if isinstance(color,
                                                    (str, unicode)) else color
         if longlines:
