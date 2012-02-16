@@ -19,7 +19,7 @@ from packages.slimmer import slimmer
 
 # Constants
 MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
-RECENT_DAYS = 10
+RECENT_DAYS = 7
 
 
 # Request Handlers
@@ -139,7 +139,7 @@ class BadgeHandler(Handler):
 
         try:  # try to embed the scaled-down user avatar
             avatar = Image(urllib2.urlopen(github_user.avatar_url).read())
-            avatar.resize(28, 28)
+            avatar.resize(24, 24)
             github_user.avatar_url = data_uri(avatar.execute_transforms())
         except:
             pass
