@@ -218,6 +218,6 @@ class CacheHandler(Handler):
 
     def post(self):
         if self.request.get('flush', '0') == '1' and memcache.flush_all():
-            self.write('Done.')
+            self.write('<a href="/stats">Back to stats</a>')
         else:
             self.write('Nothing to do.')
