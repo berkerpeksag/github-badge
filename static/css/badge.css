@@ -60,7 +60,7 @@ abbr {
     text-decoration: none;
 }
 #user-login {
-    padding: 5px 7px 3px 7px;
+    padding: 4px 7px 2px 7px;
 }
 #user-avatar {
     float: left;
@@ -116,7 +116,7 @@ abbr {
     font-size: 11px;
 }
 #list-user-info {
-    margin: 7px 0 5px 0;
+    margin: 7px 0 3px 0;
 }
 #list-user-info li {
     border-right: 1px solid #ccc;
