@@ -141,7 +141,7 @@ class BadgeHandler(Handler):
             avatar = Image(urllib2.urlopen(github_user.avatar_url).read())
             avatar.resize(24, 24)
             github_user.avatar_url = data_uri(avatar.execute_transforms())
-        except ValueError, urllib2.URLError:
+        except (AttributeError, ValueError, urllib2.URLError):
             pass
 
         values = {'user': github_user.__dict__,
