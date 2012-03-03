@@ -60,6 +60,7 @@ abbr {
     text-decoration: none;
 }
 #user-login {
+    background-color: #fff;
     padding: 4px 7px 2px 7px;
 }
 #user-avatar {
