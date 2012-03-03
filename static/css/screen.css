@@ -137,6 +137,19 @@ h1 span {
 #site-info p {
     line-height: 19px;
 }
+#api-samples {
+    overflow: hidden;
+    height: 0;
+    margin: 3px 20px;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    transition: .5s;
+}
+#hackers:checked + label + #api-samples {
+    height: 1.2em;
+}
 #whats-new:target {
     background-color: #ffffc1;
     border-radius: 10px;
