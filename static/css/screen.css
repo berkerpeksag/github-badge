@@ -124,6 +124,10 @@ h1 span {
 #form-right-column {
     margin-left: 300px;
 }
+#tweet {
+    float: right;
+    width: 81px;
+}
 #api-samples {
     font-size: 12px;
     padding-top: 2px;
