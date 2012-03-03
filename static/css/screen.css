@@ -147,7 +147,7 @@ h1 span {
     -ms-transition: .5s;
     transition: .5s;
 }
-#hackers:checked + label + #api-samples {
+#hackers:checked ~ #api-samples {
     height: 1.2em;
 }
 #whats-new:target {
