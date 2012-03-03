@@ -117,6 +117,19 @@ h1 span {
     padding: 10px;
     width: 700px;
 }
+#form-left-column {
+    float: left;
+}
+#form-right-column {
+    margin-left: 300px;
+}
+#api-samples {
+    font-size: 12px;
+    padding-top: 2px;
+}
+#api-samples a {
+    color: #ac5c51;
+}
 #code {
     border-top: 0;
     display: none;
@@ -136,7 +149,7 @@ h1 span {
 }
 #site-info p {
     line-height: 19px;
-    margin: 0.5em 0;
+    margin: 15px 0;
 }
 #api-samples {
     overflow: hidden;

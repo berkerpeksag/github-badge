@@ -45,26 +45,27 @@
     </div>
     <div id="form">
         <div id="form-container">
-            <div class="top">
+            <div class="clear top">
                 <input type="text" autocomplete="off" id="username"
                        name="username"
                        placeholder="Your GitHub username">
             </div>
-            <div>
-                <input type="checkbox" id="support" name="s">
-                <label for="support">Support GitHub Badge</label>
+            <div id="form-left-column">
+                <div>
+                    <input type="checkbox" id="support" name="s">
+                    <label for="support">Support GitHub Badge</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="analytics" name="a">
+                    <label for="analytics">Disable Google Analytics on badge</label>
+                </div>
             </div>
-            <div>
-                <input type="checkbox" id="analytics" name="a">
-                <label for="analytics">Disable Google Analytics on badge</label>
-            </div>
-            <div>
+            <div id="form-right-column">
                 <input type="checkbox" id="hackers">
                 <label for="hackers">All your JSON-API belong to us!</label>
                 <div id="api-samples">
-                    See examples
-                    <a href="http://jsfiddle.net/yvzSL/">for JSONP</a> or
-                    <a href="http://jsfiddle.net/Bc67u/">for CORS</a>
+                    See examples for <a href="http://jsfiddle.net/yvzSL/">JSONP</a> or
+                    for <a href="http://jsfiddle.net/Bc67u/">CORS</a>.
                 </div>
             </div>
         </div>
