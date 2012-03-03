@@ -147,6 +147,7 @@
                 usernameInput = gId('username'),
                 supportCheck = gId('support'),
                 analyticsCheck = gId('analytics'),
+                hackersCheck = gId('hackers'),
                 previewFrame = gId('previewFrame'),
                 codeArea = gId('code'),
                 lastUser = 'mojombo',
@@ -164,9 +165,11 @@
             var url = urlTemplate.replace(':user', encodeURI(username)),
                     options = [];
 
-            if (supportCheck.checked) options.push('s=1');
-            if (analyticsCheck.checked) options.push('a=0');
-            if (options.length) url += '?' + options.join('&');
+            if (!hackersCheck.checked) {
+                if (supportCheck.checked) options.push('s=1');
+                if (analyticsCheck.checked) options.push('a=0');
+                if (options.length) url += '?' + options.join('&');
+            }
 
             if (!spinner)
                 spinner = new Spinner();
@@ -175,7 +178,8 @@
             previewFrame.onload = function () {spinner && spinner.stop()};
             previewFrame.setAttribute('src', url);
             
-            codeArea.value = codeTemplate.replace(':url', url);
+            codeArea.value = hackersCheck.checked ?
+                                url : codeTemplate.replace(':url', url);
             codeArea.style.display = 'block';
             lastUser = usernameInput.value;
         };
@@ -186,8 +190,8 @@
                 keyupHandler.timer = window.setTimeout(updateEverything, 500);
         };
         usernameInput.onkeyup = keyupHandler;
-        supportCheck.onchange = updateEverything;
-        analyticsCheck.onchange = updateEverything;
+        supportCheck.onchange = analyticsCheck.onchange = hackersCheck.onchange = updateEverything;
+
         codeArea.onclick = function () {
             codeArea.focus();
             codeArea.select()
