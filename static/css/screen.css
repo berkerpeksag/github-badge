@@ -136,6 +136,7 @@ h1 span {
 }
 #site-info p {
     line-height: 19px;
+    margin: 0.5em 0;
 }
 #api-samples {
     overflow: hidden;
@@ -149,19 +150,6 @@ h1 span {
 }
 #hackers:checked ~ #api-samples {
     height: 1.2em;
-}
-#whats-new:target {
-    background-color: #ffffc1;
-    border-radius: 10px;
-    padding: 20px;
-}
-#lets-try {
-    display: none;
-    margin: 10px auto;
-    font-weight: bold;
-}
-#whats-new:target #lets-try {
-    display: block;
 }
 #footer {
     border-top: 1px solid #ccc;
