@@ -18,6 +18,9 @@ class GitHubModel(Model):
         for link in link_val.split(','))))
         return links.setdefault('next', None)
 
+    def __eq__(self, other):
+        return  isinstance(other, self.__class__) and self.url == other.url
+
 
 class Comment(GitHubModel):
     _path = '{repo.url}/comments/{id}'

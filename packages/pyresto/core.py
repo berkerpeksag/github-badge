@@ -60,6 +60,9 @@ class WrappedList(list):
         iterator = super(self.__class__, self).__iter__()
         return (self.__wrapper(item) for item in iterator)
 
+    def __contains__(self, item):
+        return item in iter(self)
+
 
 class LazyList(object):
     def __init__(self, wrapper, fetcher):
@@ -102,8 +105,8 @@ class Many(Relation):
     def __make_fetcher(self, url):
         def fetcher():
             data, new_url = self.__model._rest_call(method='GET',
-                                                    url=url,
-                                                    fetch_all=False)
+                url=url,
+                fetch_all=False)
             if not data:
                 data = []
 
@@ -128,7 +131,7 @@ class Many(Relation):
 
             if self.__lazy:
                 self.__cache[instance] = LazyList(self._with_owner(instance),
-                                                  self.__make_fetcher(path))
+                    self.__make_fetcher(path))
             else:
                 data, next_url = model._rest_call(method='GET', url=path)
                 self.__cache[instance] =\
