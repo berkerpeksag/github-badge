@@ -39,6 +39,10 @@ class User(GitHub.User):
                        if repo.owner.login == self.login),
                       0)
 
+    @property
+    def self_watched(self):
+        return [repo for repo in self.watched if repo in self.repos]
+
     @staticmethod
     def __make_commit_recency_checker(recent_than, lim=MAX_COMMITS_PER_BRANCH):
         counter = count(lim, -1) if lim else count(1, 0)

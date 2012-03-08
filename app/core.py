@@ -149,7 +149,7 @@ class BadgeHandler(Handler):
                   'fork_repos': fork_count,
                   'languages': languages,
                   'project_followers': github_user.project_followers -\
-                                       github_user.public_repos,
+                                       len(github_user.self_watched),
                   'commit_sparkline': commit_sparkline,
                   'max_commits': max_commits,
                   'last_project': last_project,
