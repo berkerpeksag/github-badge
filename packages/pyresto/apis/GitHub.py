@@ -35,7 +35,7 @@ class Branch(GitHubModel):
     _pk = 'name'
     commit = Foreign(Commit)
     commits = Many(Commit, '{repo.url}/commits?per_page=100&sha={branch._id}',
-                   lazy=True)
+        lazy=True)
 
 
 class Tag(GitHubModel):
@@ -62,4 +62,6 @@ class User(GitHubModel):
 # Late bindings due to circular references
 Repo.contributors = Many(User, '{repo.url}/contributors?per_page=100')
 Repo.owner = Foreign(User, 'owner')
+Repo.watcher_list = Many(User, '{repo.url}/watchers?per_page=100')
 User.follower_list = Many(User, '{user.url}/followers?per_page=100')
+User.watched = Many(Repo, '{user.url}/watched?per_page=100')
