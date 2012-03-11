@@ -255,8 +255,8 @@ class Model(object):
         return getattr(self, name)
 
     @classmethod
-    def get(cls, id, **kwargs):
-        kwargs[cls._pk] = id
+    def get(cls, model_id, **kwargs):
+        kwargs[cls._pk] = model_id
         path = cls._path.format(**kwargs)
         data = cls._rest_call(method='GET', url=path)[0]
 
