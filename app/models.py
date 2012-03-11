@@ -34,10 +34,7 @@ class User(GitHub.User):
 
     @property
     def project_followers(self):
-        return reduce(operator.add,
-                      (repo.watchers for repo in self.repos
-                       if repo.owner.login == self.login),
-                      0)
+        return sum(repo.watchers for repo in self.repos)
 
     @property
     def self_watched(self):
