@@ -8,6 +8,7 @@ It runs on [Google App Engine](http://code.google.com/appengine/) with a memcach
 [Burak Yiğit Kaya](https://github.com/BYK) ([@madbyk](http://twitter.com/madbyk))
 
 ## Contributors
+[Emre Sevinc](https://github.com/emres) ([@EmreSevinc](https://twitter.com/emresevinc)),
 [Bruno Lara Tavares](https://github.com/bltavares) ([@bltavares](http://twitter.com/bltavares)),
 [Mathias Bynens](https://github.com/mathiasbynens) ([@mathias](http://twitter.com/mathias))
 
