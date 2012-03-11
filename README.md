@@ -3,6 +3,14 @@
 GitHub badge is a simple embeddable badge showing your [GitHub](http://github.com/) stats like the number of public repositories, number of followers, favorite languages etc.
 It runs on [Google App Engine](http://code.google.com/appengine/) with a memcached backup at http://githubbadge.appspot.com/. If you like this and use it too much, we may exceed our quota :-)
 
+## Authors
+[Berker Peksag](https://github.com/berkerpeksag)[@berkerpeksag](http://twitter.com/berkerpeksag),
+[Burak Yiğit Kaya](https://github.com/BYK)[@madbyk](http://twitter.com/madbyk)
+
+## Contributors
+[Bruno Lara Tavares](https://github.com/bltavares)[@bltavares](http://twitter.com/bltavares),
+[Mathias Bynens](https://github.com/mathiasbynens)[@mathias](http://twitter.com/mathias)
+
 ## Credits
 Developed using  
 [![](http://www.jetbrains.com/img/logos/pycharm_logo142x29.gif)](http://www.jetbrains.com/pycharm/)
