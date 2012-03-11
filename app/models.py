@@ -3,7 +3,6 @@
 from collections import deque
 import datetime
 from itertools import takewhile, count
-import operator
 
 from helpers import parallel_foreach
 from packages.pyresto.apis import GitHub
