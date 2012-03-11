@@ -4,12 +4,12 @@ GitHub badge is a simple embeddable badge showing your [GitHub](http://github.co
 It runs on [Google App Engine](http://code.google.com/appengine/) with a memcached backup at http://githubbadge.appspot.com/. If you like this and use it too much, we may exceed our quota :-)
 
 ## Authors
-[Berker Peksag](https://github.com/berkerpeksag)[@berkerpeksag](http://twitter.com/berkerpeksag),
-[Burak Yiğit Kaya](https://github.com/BYK)[@madbyk](http://twitter.com/madbyk)
+[Berker Peksag](https://github.com/berkerpeksag) [@berkerpeksag](http://twitter.com/berkerpeksag),
+[Burak Yiğit Kaya](https://github.com/BYK) [@madbyk](http://twitter.com/madbyk)
 
 ## Contributors
-[Bruno Lara Tavares](https://github.com/bltavares)[@bltavares](http://twitter.com/bltavares),
-[Mathias Bynens](https://github.com/mathiasbynens)[@mathias](http://twitter.com/mathias)
+[Bruno Lara Tavares](https://github.com/bltavares) [@bltavares](http://twitter.com/bltavares),
+[Mathias Bynens](https://github.com/mathiasbynens) [@mathias](http://twitter.com/mathias)
 
 ## Credits
 Developed using  
