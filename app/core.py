@@ -144,7 +144,9 @@ class BadgeHandler(Handler):
         except (AttributeError, ValueError, urllib2.URLError):
             pass
 
-        values = {'user': github_user.__dict__,
+        user_info = dict((k, v) for k, v in github_user.__dict__.iteritems() if k[0] != '_')
+
+        values = {'user': user_info,
                   'own_repos': len(github_user.repos) - fork_count,
                   'fork_repos': fork_count,
                   'languages': languages,
