@@ -9,10 +9,10 @@ def data_uri(data):
     return 'data:image/png;base64,' + base64.b64encode(data)
 
 
-def daterange(start_date=None, end_date=None, range=None):
-    if range:
-        start_date = min(range)
-        end_date = max(range)
+def daterange(start_date=None, end_date=None, date_range=None):
+    if date_range:
+        start_date = min(date_range)
+        end_date = max(date_range)
     for n in xrange((end_date - start_date).days):
         yield start_date + datetime.timedelta(n)
 
