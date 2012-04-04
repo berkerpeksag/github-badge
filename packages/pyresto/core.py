@@ -232,6 +232,7 @@ class Model(object):
             return data, None
         else:
             conn.close()
+            logging.error("URL returned HTTP %d: %s", response.status, kwargs)
             raise Error("Server response not OK. Response code: %d" %
                         response.status)
 
