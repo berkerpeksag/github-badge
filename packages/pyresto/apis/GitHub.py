@@ -38,7 +38,7 @@ class Branch(GitHubModel):
     _pk = 'name'
     commit = Foreign(Commit)
     commits = Many(Commit, '{repo.url}/commits?per_page=100&sha={branch._id}',
-        lazy=True)
+                   lazy=True)
 
 
 class Tag(GitHubModel):

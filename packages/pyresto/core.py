@@ -40,7 +40,7 @@ class WrappedList(list):
     def __getitem__(self, key):
         item = super(self.__class__, self).__getitem__(key)
         should_wrap = (isinstance(item, dict) or isinstance(key, slice) and
-                                                 any(isinstance(it, dict) for it in item))
+                       any(isinstance(it, dict) for it in item))
 
         if should_wrap:
             item = (map(self.__wrapper, item)
@@ -105,8 +105,8 @@ class Many(Relation):
     def __make_fetcher(self, url):
         def fetcher():
             data, new_url = self.__model._rest_call(method='GET',
-                url=url,
-                fetch_all=False)
+                                                    url=url,
+                                                    fetch_all=False)
             if not data:
                 data = []
 
@@ -131,11 +131,11 @@ class Many(Relation):
 
             if self.__lazy:
                 self.__cache[instance] = LazyList(self._with_owner(instance),
-                    self.__make_fetcher(path))
+                                                  self.__make_fetcher(path))
             else:
                 data, next_url = model._rest_call(method='GET', url=path)
                 self.__cache[instance] =\
-                WrappedList(data or [], self._with_owner(instance))
+                            WrappedList(data or [], self._with_owner(instance))
         return self.__cache[instance]
 
 
@@ -146,7 +146,7 @@ class Foreign(Relation):
             key_property = model.__name__.lower()
         model_pk = model._pk
         self.__key_extractor = (key_extractor if key_extractor else
-                                lambda x: {model_pk: getattr(x, '__' + key_property)[model_pk]})
+            lambda x: {model_pk: getattr(x, '__' + key_property)[model_pk]})
 
         self.__cache = {}
 
@@ -176,14 +176,14 @@ class Model(object):
 
         cls = self.__class__
         overlaps = set(cls.__dict__) & set(kwargs)
-        #logging.debug('Found overlaps: %s', str(overlaps))
+
         for item in overlaps:
             if issubclass(getattr(cls, item), Model):
                 self.__dict__['__' + item] = self.__dict__.pop(item)
 
         try:
             self._current_path = self._path and (
-                self._path.format(**self.__dict__))
+            self._path.format(**self.__dict__))
         except KeyError:
             self._current_path = None
 
@@ -212,7 +212,7 @@ class Model(object):
             conn.close()
             if isinstance(e, httplib.BadStatusLine):
                 if not response:  # retry
-                    return cls._restcall(fetch_all, **kwargs)
+                    return cls._rest_call(fetch_all, **kwargs)
             else:
                 raise e
 
