@@ -11,6 +11,7 @@ It runs on [Google App Engine](http://code.google.com/appengine/) with a memcach
  - [Emre Sevinc](https://github.com/emres) ([@EmreSevinc](https://twitter.com/emresevinc))
  - [Bruno Lara Tavares](https://github.com/bltavares) ([@bltavares](http://twitter.com/bltavares))
  - [Mathias Bynens](https://github.com/mathiasbynens) ([@mathias](http://twitter.com/mathias))
+ - [Samet Atdag](https://github.com/samet) ([@sam3t](http://twitter.com/sam3t))
 
 ## Credits
 Developed using  
