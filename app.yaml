@@ -40,3 +40,8 @@ handlers:
 - url: /image/(.*\.(gif|png|jpg))
   static_files: static/image/\1
   upload: static/image/(.*\.(gif|png|jpg))
+
+- url: /crossdomain.xml 
+  mime_type: text/xml
+  static_files: static/xml/crossdomain.xml 
+  upload: static/xml/crossdomain.xml 
