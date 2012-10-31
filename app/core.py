@@ -18,7 +18,7 @@ from google.appengine.api.images import Image
 from packages.slimmer import slimmer
 
 # Constants
-MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
+MEMCACHE_EXPIRATION = 2 * 60 * 60 * 24  # 2 days in seconds
 RECENT_DAYS = 7
 
 
