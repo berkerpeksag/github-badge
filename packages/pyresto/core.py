@@ -204,6 +204,7 @@ class Model(object):
         conn = cls._get_connection()
         response = None
         try:
+            kwargs['headers'] = cls._headers
             conn.request(**kwargs)
             response = conn.getresponse()
         except Exception as e:
