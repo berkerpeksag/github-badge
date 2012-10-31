@@ -232,7 +232,8 @@ class Model(object):
             return data, None
         else:
             conn.close()
-            logging.error("URL returned HTTP %d: %s", response.status, kwargs)
+            msg = "URL returned HTTP %d: %s\n\nHeaders:\n%s"
+            logging.error(msg, response.status, kwargs, response.getheaders())
             raise Error("Server response not OK. Response code: %d" %
                         response.status)
 
