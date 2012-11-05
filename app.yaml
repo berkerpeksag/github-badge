@@ -27,10 +27,6 @@ handlers:
 - url: /badge/(.*)
   script: main.application
 
-- url: /stats
-  script: main.application
-  login: admin
-
 - url: /css
   static_dir: static/css
 

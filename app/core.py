@@ -202,23 +202,3 @@ class BadgeHandler(Handler):
             if not memcache.set(memcache_key, output,
                                 conf.MEMCACHE_EXPIRATION):
                 logging.error('Memcache set failed for key %s', memcache_key)
-
-
-class CacheHandler(Handler):
-    def get(self):
-        stats = memcache.get_stats()
-        template = """
-        <p><strong>Cache Hits:</strong> {0[hits]}</p>
-        <p><strong>Cache Misses:</strong> {0[misses]}</p>
-        <form action="/stats" method="post">
-        <input type="hidden" name="flush" value="1">
-        <p><button name="flush" type="submit">Flush</button></p>
-        </form>
-        """
-        self.write(template.format(stats))
-
-    def post(self):
-        if self.request.get('flush', '0') == '1' and memcache.flush_all():
-            self.write('<a href="/stats">Back to stats</a>')
-        else:
-            self.write('Nothing to do.')
