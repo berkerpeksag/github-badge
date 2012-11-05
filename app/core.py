@@ -11,15 +11,12 @@ import urllib2
 import webapp2
 
 import customfilters
+from .config import current as conf
 from .models import User
-from helpers import data_uri, daterange
+from .helpers import data_uri, daterange
 from google.appengine.api import memcache
 from google.appengine.api.images import Image
 from packages.slimmer import slimmer
-
-# Constants
-MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
-RECENT_DAYS = 7
 
 
 # Request Handlers
@@ -104,7 +101,7 @@ class BadgeHandler(Handler):
         fork_count = sum(1 for repo in github_user.repos if repo.fork)
 
         today = datetime.datetime.today()
-        recent_than = today - datetime.timedelta(days=RECENT_DAYS)
+        recent_than = today - datetime.timedelta(days=conf.RECENT_DAYS)
         own_commits = github_user.get_latest_commits(recent_than)
 
         commits_by_repo = reduce(self.reduce_commits_by_repo,
@@ -144,23 +141,24 @@ class BadgeHandler(Handler):
         except (AttributeError, ValueError, urllib2.URLError):
             pass
 
-        user_info = dict((k, v) for k, v in github_user.__dict__.iteritems() if k[0] != '_')
+        user_info = dict((k, v) for k, v in github_user.__dict__.iteritems()
+                         if k[0] != '_')
 
         values = {'user': user_info,
                   'own_repos': len(github_user.repos) - fork_count,
                   'fork_repos': fork_count,
                   'languages': languages,
-                  'project_followers': github_user.project_followers -\
-                                       len(github_user.self_watched),
+                  'project_followers': github_user.project_followers -
+                  len(github_user.self_watched),
                   'commit_sparkline': commit_sparkline,
                   'max_commits': max_commits,
                   'last_project': last_project,
                   'last_project_url': last_project_url,
-                  'days': RECENT_DAYS
-        }
+                  'days': conf.RECENT_DAYS
+                  }
 
         if not memcache.set(memcache_data_key, json.dumps(values),
-                            MEMCACHE_EXPIRATION):
+                            conf.MEMCACHE_EXPIRATION):
             logging.error('Memcache set failed for user data %s', username)
 
         return values
@@ -174,7 +172,7 @@ class BadgeHandler(Handler):
                 'application/javascript; charset = utf-8'
 
         self.response.headers['cache-control'] = \
-            'public, max-age={}'.format(MEMCACHE_EXPIRATION / 2)
+            'public, max-age={}'.format(conf.MEMCACHE_EXPIRATION / 2)
 
         if 'accept' in self.request.headers and\
            self.request.headers['accept'] == 'application/json':
@@ -201,7 +199,8 @@ class BadgeHandler(Handler):
                 values.update({'support': support, 'analytics': analytics})
                 output = self.render('badge', values)
 
-            if not memcache.set(memcache_key, output, MEMCACHE_EXPIRATION):
+            if not memcache.set(memcache_key, output,
+                                conf.MEMCACHE_EXPIRATION):
                 logging.error('Memcache set failed for key %s', memcache_key)
 
 
