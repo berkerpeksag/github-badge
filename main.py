@@ -2,13 +2,12 @@
 
 import os
 
-from app.core import webapp2, MainHandler, BadgeHandler, CacheHandler
+from app.core import webapp2, MainHandler, BadgeHandler
 
 
 application = webapp2.WSGIApplication([
         ('/', MainHandler),
         ('/badge/([-\w]+)', BadgeHandler),
-        ('/stats', CacheHandler),
     ],
     debug=os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
 )
