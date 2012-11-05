@@ -1,17 +1,12 @@
 # coding: utf-8
 
-import base64
 import re
 
 from ..core import Foreign, Many, Model
 
-AUTH_INFO = 'username:password'
-
 
 class GitHubModel(Model):
     _host = 'api.github.com'
-    _headers = {'Authorization': 'Basic {:s}'.format(
-        base64.b64encode(AUTH_INFO))}
     _link_parser = re.compile(r'\<([^\>]+)\>;\srel="(\w+)"', re.I | re.U)
 
     @classmethod
@@ -21,7 +16,7 @@ class GitHubModel(Model):
             return
 
         links = dict(((cls._link_parser.match(link.strip()).group(2, 1)
-        for link in link_val.split(','))))
+                       for link in link_val.split(','))))
         return links.setdefault('next', None)
 
     def __eq__(self, other):

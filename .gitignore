@@ -6,3 +6,5 @@ index.yaml
 .settings
 samples
 .idea/
+/app/config/googleappengine.py
+/app/config/development.py

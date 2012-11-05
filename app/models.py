@@ -1,5 +1,8 @@
 # coding: utf-8
 
+from .config import current as conf
+
+import base64
 from collections import deque
 import datetime
 from itertools import takewhile, count
@@ -8,8 +11,8 @@ from helpers import parallel_foreach
 from packages.pyresto.apis import GitHub
 
 
-# CONSTANTS
-MAX_COMMITS_PER_BRANCH = 200
+GitHub.GitHubModel._headers = {'Authorization': 'Basic {:s}'.format(
+    base64.b64encode(conf.AUTH_INFO))}
 
 
 class User(GitHub.User):
@@ -40,19 +43,20 @@ class User(GitHub.User):
         return [repo for repo in self.watched if repo in self.repos]
 
     @staticmethod
-    def __make_commit_recency_checker(recent_than, lim=MAX_COMMITS_PER_BRANCH):
+    def __make_commit_recency_checker(recent_than,
+                                      lim=conf.MAX_COMMITS_PER_BRANCH):
         counter = count(lim, -1) if lim else count(1, 0)
         # if lim is None or 0, then return always 1
 
         def commit_checker(c):
             return counter.next() > 0 and\
-                   c.commit['committer']['date'] >= recent_than
+                c.commit['committer']['date'] >= recent_than
         return commit_checker
 
     def get_latest_commits(self, recent_than=None):
         if not recent_than:
             recent_than = datetime.datetime.today() - \
-                          datetime.timedelta(days=14)
+                datetime.timedelta(days=14)
         recent_than = recent_than.isoformat()[:10]
 
         all_commits = deque()
@@ -60,10 +64,10 @@ class User(GitHub.User):
 
         def collect_commits(branch):
             all_commits.extend(commit for commit
-                                in takewhile(is_recent, branch.commits) if
-                                (commit.author and commit.author['login'] or
-                                 commit.committer and
-                                 commit.committer['login']) == self.login)
+                               in takewhile(is_recent, branch.commits) if
+                               (commit.author and commit.author['login'] or
+                                commit.committer and
+                                commit.committer['login']) == self.login)
 
         def repo_collector(repo):
             if repo.pushed_at < recent_than:
