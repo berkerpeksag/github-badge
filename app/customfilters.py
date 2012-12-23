@@ -34,5 +34,4 @@ def smarttruncate(value, length=80, suffix='...', pattern=r'\w+'):
         if  cutoff > length:
             cutoff = length - len(suffix)
         return value[:cutoff] + suffix
-    else:
-        return value
+    return value
