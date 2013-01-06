@@ -19,7 +19,6 @@ from google.appengine.api.images import Image
 from packages.slimmer import slimmer
 
 
-# Request Handlers
 class Handler(webapp2.RequestHandler):
     __CORS = True
 
