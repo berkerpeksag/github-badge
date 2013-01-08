@@ -1,12 +1,10 @@
 # Github Badge
 
-GitHub badge is a simple embeddable badge showing your [GitHub][github] stats
-like the number of public repositories, number of followers, favorite
-languages etc. It runs on [Google App Engine][gae] with a Memcached backup at
-http://githubbadge.appspot.com/.
+[GitHub Badge][ghb] is a simple embeddable badge showing your [GitHub][github] stats
+like the number of public repositories, number of followers, favorite languages etc.
 
 [github]: http://github.com
-[gae]: http://code.google.com/appengine/
+[ghb]: http://githubbadge.appspot.com/
 
 ## Authors
 
