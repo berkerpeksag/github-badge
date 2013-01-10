@@ -85,7 +85,7 @@ class BadgeHandler(Handler):
         return aggr
 
     def get_option(self, name, defval):
-        return False if self.request.get(name, defval) == '0' else True
+        return not self.request.get(name, defval) == '0'
 
     def calculate_user_values(self, username):
         memcache_data_key = '!data!{}'.format(username)
