@@ -1,22 +1,30 @@
 # coding: utf-8
 
+# Stdlib
 import datetime
-import jinja2
 import json
 import logging
 import os
-import packages.sparklines as sparklines
-import packages.pyresto.core as pyresto
 import urllib2
-import webapp2
 
-import customfilters
-from .config import current as conf
-from .models import User
-from .helpers import data_uri, daterange
+# GAE SDK
 from google.appengine.api import memcache
 from google.appengine.api.images import Image
-from packages.slimmer import slimmer
+
+# GAE related
+import jinja2
+import webapp2
+
+# Third party
+import packages.sparklines as sparklines
+import packages.slimmer.slimmer as slimmer
+import packages.pyresto.core as pyresto
+
+# GitHub Badge
+from .config import current as conf
+from .customfilters import shortnum, smarttruncate
+from .helpers import data_uri, daterange
+from .models import User
 
 
 class Handler(webapp2.RequestHandler):
@@ -41,8 +49,8 @@ class Handler(webapp2.RequestHandler):
             loader=jinja2.FileSystemLoader(os.path.join(os.getcwd(),
                                                         'templates'))
         )
-        jinja_env.filters['shortnum'] = customfilters.shortnum
-        jinja_env.filters['smarttruncate'] = customfilters.smarttruncate
+        jinja_env.filters['shortnum'] = shortnum
+        jinja_env.filters['smarttruncate'] = smarttruncate
         return jinja_env
 
     def render(self, template_name, values={}, ext='.html', slim=True):
