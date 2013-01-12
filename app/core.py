@@ -85,7 +85,7 @@ class BadgeHandler(Handler):
         return aggr
 
     def get_option(self, name, defval):
-        return not self.request.get(name, defval) == '0'
+        return self.request.get(name, defval)
 
     def calculate_user_values(self, username):
         memcache_data_key = '!data!{}'.format(username)
@@ -171,8 +171,8 @@ class BadgeHandler(Handler):
         return values
 
     def get(self, username):
-        support = self.get_option('s', '0')
-        analytics = self.get_option('a', '1')
+        support = self.get_option('s', 0)
+        analytics = self.get_option('a', 1)
         jsonp = self.request.get('callback', '')
         if jsonp:  # jsonp header should be there always
             self.response.headers['content-type'] = \
