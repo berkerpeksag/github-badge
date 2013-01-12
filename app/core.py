@@ -85,6 +85,8 @@ class BadgeHandler(Handler):
         return aggr
 
     def get_option(self, name, defval):
+        if name not in conf.SETTINGS['parameters']:
+            raise KeyError
         return self.request.get(name, defval)
 
     def calculate_user_values(self, username):
