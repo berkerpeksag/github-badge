@@ -53,7 +53,9 @@ class Handler(webapp2.RequestHandler):
         jinja_env.filters['smarttruncate'] = smarttruncate
         return jinja_env
 
-    def render(self, template_name, values={}, ext='.html', slim=True):
+    def render(self, template_name, values=None, ext='.html', slim=True):
+        if values is None:
+            values = {}
         template = self.template_provider.get_template(template_name + ext)
         output = template.render(values)
         if slim:
