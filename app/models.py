@@ -1,18 +1,18 @@
 # coding: utf-8
 
-from .config import current as conf
-
-import base64
+from base64 import b64encode
 from collections import deque
-import datetime
-from itertools import takewhile, count
+from datetime import datetime, timedelta
+from itertools import count, takewhile
 
-from helpers import parallel_foreach
+from .config import current as conf
+from .helpers import parallel_foreach
+
 from packages.pyresto.apis import GitHub
 
 
 GitHub.GitHubModel._headers = {'Authorization': 'Basic {:s}'.format(
-    base64.b64encode(conf.AUTH_INFO))}
+    b64encode(conf.AUTH_INFO))}
 
 
 class User(GitHub.User):
@@ -55,8 +55,7 @@ class User(GitHub.User):
 
     def get_latest_commits(self, recent_than=None):
         if not recent_than:
-            recent_than = datetime.datetime.today() - \
-                datetime.timedelta(days=14)
+            recent_than = datetime.today() - timedelta(days=14)
         recent_than = recent_than.isoformat()[:10]
 
         all_commits = deque()
