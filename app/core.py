@@ -81,8 +81,8 @@ class BadgeHandler(Handler):
 
     @staticmethod
     def reduce_commits_by_repo(aggr, commit):
-        parents = commit._get_id_dict()
-        repo = parents['repo'].name
+        parents = commit._footprint
+        repo = parents['repo_name']
         aggr[repo] = aggr.setdefault(repo, 0) + 1
         return aggr
 
@@ -99,7 +99,7 @@ class BadgeHandler(Handler):
 
         try:
             github_user = User.get(username)
-        except pyresto.Error:
+        except pyresto.PyrestoException:
             self.response.set_status(404)  # not 100% sure but good enough
             self.render('errors/404')
             return
@@ -118,15 +118,19 @@ class BadgeHandler(Handler):
         commits_by_repo = reduce(self.reduce_commits_by_repo,
                                  own_commits, dict())
         if commits_by_repo:
-            last_project = max(commits_by_repo, key=commits_by_repo.get)
+            last_project_id = max(commits_by_repo, key=commits_by_repo.get)
         else:
-            last_project = ''
+            last_project_id = None
         logging.info(commits_by_repo)
-        if last_project:
-            last_project_url = [repo.html_url for repo in github_user.repos
-                                if repo.name == last_project][0]
+        if last_project_id:
+            last_project = [repo for repo in github_user.repos
+                            if repo.full_name == last_project_id][0]
+
+            last_project_name = last_project.name
+            last_project_url = last_project.html_url
         else:
-            last_project_url = None
+            last_project_name = ''
+            last_project_url = ''
 
         commits_by_date = reduce(self.reduce_commits_by_date,
                                  own_commits, dict())
@@ -163,7 +167,7 @@ class BadgeHandler(Handler):
                   len(github_user.self_watched),
                   'commit_sparkline': commit_sparkline,
                   'max_commits': max_commits,
-                  'last_project': last_project,
+                  'last_project': last_project_name,
                   'last_project_url': last_project_url,
                   'days': conf.RECENT_DAYS
                   }
