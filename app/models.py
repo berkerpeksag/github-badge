@@ -1,6 +1,5 @@
 # coding: utf-8
 
-from base64 import b64encode
 from collections import deque
 from datetime import datetime, timedelta
 from itertools import count, takewhile
@@ -8,11 +7,10 @@ from itertools import count, takewhile
 from .config import current as conf
 from .helpers import parallel_foreach
 
-from packages.pyresto.apis import GitHub
+import packages.pyresto.apis.github as GitHub
 
 
-GitHub.GitHubModel._headers = {'Authorization': 'Basic {:s}'.format(
-    b64encode(conf.AUTH_INFO))}
+GitHub.auth('app', **conf.GITHUB_APP_INFO)
 
 
 class User(GitHub.User):
@@ -64,9 +62,9 @@ class User(GitHub.User):
         def collect_commits(branch):
             all_commits.extend(commit for commit
                                in takewhile(is_recent, branch.commits) if
-                               (commit.author and commit.author['login'] or
+                               (commit.author and commit.author.login or
                                 commit.committer and
-                                commit.committer['login']) == self.login)
+                                commit.committer.login) == self.login)
 
         def repo_collector(repo):
             if repo.pushed_at < recent_than:

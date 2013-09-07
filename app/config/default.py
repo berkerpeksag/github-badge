@@ -4,7 +4,11 @@ SETTINGS = {
     'parameters': ('a', 's',)
 }
 
-AUTH_INFO = 'username:password'
+GITHUB_APP_INFO = dict(
+    client_id='github_app_client_id',
+    client_secret='github_app_client_secret'
+)
+
 
 MEMCACHE_EXPIRATION = 60 * 60 * 24  # 1 day in seconds
 RECENT_DAYS = 7
