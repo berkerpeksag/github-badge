@@ -2,7 +2,6 @@
 
 from .default import *
 
-
 GITHUB_API_AUTH = {
     'type': 'app',
     'client_id': 'my_app_id',
