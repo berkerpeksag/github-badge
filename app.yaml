@@ -22,9 +22,6 @@ handlers:
 - url: /
   script: main.application
 
-- url: /badge/(.*)
-  script: main.application
-
 - url: /css
   static_dir: static/css
 
@@ -39,3 +36,10 @@ handlers:
   mime_type: text/xml
   static_files: static/xml/crossdomain.xml 
   upload: static/xml/crossdomain.xml 
+
+- url: /[-\w]+
+  script: main.application
+
+- url: /badge/[-\w]+
+  script: main.application
+
