@@ -72,6 +72,12 @@ class MainHandler(Handler):
         self.render('index')
 
 
+class OldBadgeHandler(webapp2.RedirectHandler):
+    def get(self, username):
+        return self.redirect("/" + username + "?" + self.request.query_string,
+                             permanent=True)
+
+
 class BadgeHandler(Handler):
     @staticmethod
     def reduce_commits_by_date(aggr, commit):
