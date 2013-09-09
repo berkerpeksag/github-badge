@@ -1,13 +1,17 @@
 # coding: utf-8
 
-import os
+import webapp2
 
-from app.core import webapp2, MainHandler, BadgeHandler
+from app.config import current as conf
+from app.core import MainHandler, BadgeHandler
 
 
-application = webapp2.WSGIApplication([
+application = webapp2.WSGIApplication(
+    [
         ('/', MainHandler),
-        ('/badge/([-\w]+)', BadgeHandler),
+        ('/badge/([-\w]+)', BadgeHandler)
     ],
-    debug=os.environ.get('SERVER_SOFTWARE', None).startswith('Devel')
+    debug=conf.DEBUG,
+    config={name: getattr(conf, name) for name in dir(conf)
+            if not name.startswith('_')}
 )

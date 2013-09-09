@@ -10,7 +10,7 @@ from .helpers import parallel_foreach
 import packages.pyresto.apis.github as GitHub
 
 
-GitHub.auth('app', **conf.GITHUB_APP_INFO)
+GitHub.auth(**conf.GITHUB_API_AUTH)
 
 
 class User(GitHub.User):
