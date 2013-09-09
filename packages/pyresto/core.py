@@ -18,7 +18,7 @@ except ImportError:
 import re
 import urlparse
 
-import requests
+import packages.requests as requests
 
 from abc import ABCMeta, abstractproperty, abstractmethod
 from urllib import quote

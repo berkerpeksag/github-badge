@@ -2,7 +2,7 @@
 
 from operator import itemgetter  # built-in
 
-from requests.auth import AuthBase  # third party
+from packages.requests.auth import AuthBase  # third party
 
 from pyresto.core import Foreign, Many, Model, AuthList, enable_auth
 

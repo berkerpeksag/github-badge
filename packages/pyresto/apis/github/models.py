@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from requests.auth import AuthBase, HTTPBasicAuth  # third party
+from packages.requests.auth import AuthBase, HTTPBasicAuth  # third party
 
 from ...core import Foreign, Many, Model, AuthList, enable_auth
 
