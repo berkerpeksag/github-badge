@@ -87,7 +87,7 @@ class BadgeHandler(Handler):
         return aggr
 
     def get_option(self, name, defval):
-        if name not in conf.SETTINGS['parameters']:
+        if name not in self.app.config['PARAMETERS']:
             raise KeyError
         return self.request.get(name, defval)
 
@@ -112,7 +112,8 @@ class BadgeHandler(Handler):
         fork_count = sum(1 for repo in github_user.repos if repo.fork)
 
         today = datetime.datetime.today()
-        recent_than = today - datetime.timedelta(days=conf.RECENT_DAYS)
+        recent_than = today - datetime.timedelta(
+            days=self.app.config['RECENT_DAYS'])
         own_commits = github_user.get_latest_commits(recent_than)
 
         commits_by_repo = reduce(self.reduce_commits_by_repo,
@@ -173,7 +174,7 @@ class BadgeHandler(Handler):
                   }
 
         if not memcache.set(memcache_data_key, json.dumps(values),
-                            conf.MEMCACHE_EXPIRATION):
+                            self.app.config['MEMCACHE_EXPIRATION']):
             logging.error('Memcache set failed for user data %s', username)
 
         return values
@@ -187,7 +188,7 @@ class BadgeHandler(Handler):
                 'application/javascript; charset = utf-8'
 
         self.response.headers['cache-control'] = \
-            'public, max-age={}'.format(conf.MEMCACHE_EXPIRATION / 2)
+            'public, max-age={}'.format(self.app.config['MEMCACHE_EXPIRATION'] / 2)
 
         if 'accept' in self.request.headers and\
            self.request.headers['accept'] == 'application/json':
@@ -215,5 +216,5 @@ class BadgeHandler(Handler):
                 output = self.render('badge', values)
 
             if not memcache.set(memcache_key, output,
-                                conf.MEMCACHE_EXPIRATION):
+                                self.app.config['MEMCACHE_EXPIRATION']):
                 logging.error('Memcache set failed for key %s', memcache_key)
