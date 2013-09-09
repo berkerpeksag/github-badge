@@ -112,8 +112,9 @@ class BadgeHandler(Handler):
         fork_count = sum(1 for repo in github_user.repos if repo.fork)
 
         today = datetime.datetime.today()
-        recent_than = today - datetime.timedelta(
-            days=self.app.config['RECENT_DAYS'])
+        days_to_go_back = self.app.config['RECENT_DAYS']
+
+        recent_than = today - datetime.timedelta(days=days_to_go_back)
         own_commits = github_user.get_latest_commits(recent_than)
 
         commits_by_repo = reduce(self.reduce_commits_by_repo,
