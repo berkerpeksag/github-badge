@@ -17,6 +17,7 @@ like the number of public repositories, number of followers, favorite languages 
 * [Mathias Bynens](https://github.com/mathiasbynens)
 * [Emre Sevinc](https://github.com/emres)
 * [Samet Atdag](https://github.com/samet)
+* [Christian Ketterer](https://github.com/cketti)
 
 ## License
 

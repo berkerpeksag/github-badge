@@ -95,7 +95,11 @@ class BadgeHandler(Handler):
     def get_option(self, name, defval):
         if name not in self.app.config['PARAMETERS']:
             raise KeyError
-        return self.request.get(name, defval)
+        try:
+            val = int(self.request.get(name, defval))
+            return val if val in {0, 1} else defval
+        except ValueError:
+            return defval
 
     def calculate_user_values(self, username):
         memcache_data_key = '!data!{}'.format(username)
