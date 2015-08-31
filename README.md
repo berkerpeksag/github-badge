@@ -6,6 +6,9 @@ like the number of public repositories, number of followers, favorite languages 
 [github]: http://github.com
 [ghb]: http://githubbadge.appspot.com/
 
+## Please note
+ We do rely on heavy caching, so give it about 24 to 48 hours to pick up any changes.
+
 ## Authors
 
 * [Berker Peksag](https://github.com/berkerpeksag)
