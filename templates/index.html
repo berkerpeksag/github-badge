@@ -113,8 +113,8 @@
                 codeArea = gId('code'),
                 lastUser = 'gvanrossum',
                 loc = document.location,
-                urlTemplate = [loc.protocol, '', loc.host, ':user'].join('/'),
-                codeTemplate = '<iframe src=":url" style="border: 0; height: 142px; width: 200px; overflow: hidden;" frameBorder="0"></iframe>',
+                urlTemplate = [loc.protocol, '', loc.host, '{user}'].join('/'),
+                codeTemplate = '<iframe src="{url}" style="border: 0; height: {height}px; width: 200px; overflow: hidden;" frameBorder="0"></iframe>',
                 previewArea = gId('preview'),
                 spinNewLink = gId('spin-new'),
                 spinner;
@@ -123,7 +123,7 @@
             var username = usernameInput.value;
             if (!username) return;
 
-            var url = urlTemplate.replace(':user', encodeURI(username)),
+            var url = urlTemplate.replace('{user}', encodeURI(username)),
                     options = [];
 
             if (supportCheck.checked) options.push('s=1');
@@ -137,7 +137,8 @@
             previewFrame.onload = function () {spinner && spinner.stop()};
             previewFrame.setAttribute('src', url);
             
-            codeArea.value = codeTemplate.replace(':url', url);
+            codeArea.value = codeTemplate.replace('{url}', url)
+                                         .replace('{height}', supportCheck.checked ? '128' : '111');
             codeArea.style.display = 'block';
             lastUser = usernameInput.value;
         };
