@@ -185,23 +185,14 @@ class BadgeHandler(Handler):
     def get(self, username):
         support = self.get_option('s', 0)
         analytics = self.get_option('a', 1)
-        jsonp = self.request.get('callback', '')
-        if jsonp:  # jsonp header should be there always
-            self.response.headers['content-type'] = \
-                'application/javascript; charset = utf-8'
 
         self.response.headers['cache-control'] = \
             'public, max-age={}'.format(self.app.config['MEMCACHE_EXPIRATION'] / 2)
 
-        if 'accept' in self.request.headers and\
-           self.request.headers['accept'] == 'application/json':
-            self.response.headers['content-type'] =\
-                'application/json; charset = utf-8'
-            self.write(json.dumps(self.calculate_user_values(username)))
-            return  # simply return JSON if client wants JSON
-
         memcache_key = '{0}?{1}sa{2}j{3}'.format(username, support,
-                                                 analytics, jsonp)
+                                                 analytics,
+                                                 # Pass '' for JSONP to keep current key format.
+                                                 '')
         cached_data = memcache.get(memcache_key)
 
         if cached_data:
@@ -218,12 +209,8 @@ class BadgeHandler(Handler):
                 logging.error('We cannot get calculated values for user %r.', username)
                 return
 
-            if jsonp:
-                output = '{0}({1})'.format(jsonp, json.dumps(values))
-                self.write(output)
-            else:
-                values.update({'support': support, 'analytics': analytics})
-                output = self.render('badge', values)
+            values.update({'support': support, 'analytics': analytics})
+            output = self.render('badge', values)
 
             if not memcache.set(memcache_key, output,
                                 self.app.config['MEMCACHE_EXPIRATION']):

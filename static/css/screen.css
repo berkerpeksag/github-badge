@@ -166,9 +166,6 @@ h1 span {
     -ms-transition: .5s;
     transition: .5s;
 }
-#hackers:checked ~ #api-samples {
-    height: 1.2em;
-}
 #footer {
     border-top: 1px solid #ccc;
     padding: 8px 20px 50px 20px;
