@@ -8,6 +8,7 @@ import os
 
 # GAE SDK
 from google.appengine.api import memcache
+from google.appengine.runtime import DeadlineExceededError
 
 # GAE related
 import jinja2
@@ -206,8 +207,15 @@ class BadgeHandler(Handler):
         if cached_data:
             return self.write(cached_data)
         else:
-            values = self.calculate_user_values(username)
+            try:
+                values = self.calculate_user_values(username)
+            except DeadlineExceededError:
+                logging.error('We cannot calculate values for user %r in time.', username)
+                self.render('errors/deadline')
+                return
+
             if not values:  # don't have the values, something went wrong
+                logging.error('We cannot get calculated values for user %r.', username)
                 return
 
             if jsonp:
