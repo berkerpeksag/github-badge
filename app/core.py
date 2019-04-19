@@ -5,11 +5,9 @@ import datetime
 import json
 import logging
 import os
-import urllib2
 
 # GAE SDK
 from google.appengine.api import memcache
-from google.appengine.api.images import Image
 
 # GAE related
 import jinja2
@@ -160,13 +158,6 @@ class BadgeHandler(Handler):
                                                        width=3,
                                                        dmin=0,
                                                        dmax=max(commit_data)))
-
-        try:  # try to embed the scaled-down user avatar
-            avatar = Image(urllib2.urlopen(github_user.avatar_url).read())
-            avatar.resize(24, 24)
-            github_user.avatar_url = data_uri(avatar.execute_transforms())
-        except (AttributeError, ValueError, urllib2.URLError):
-            pass
 
         user_info = dict((k, v) for k, v in github_user.__dict__.iteritems()
                          if k[0] != '_')
