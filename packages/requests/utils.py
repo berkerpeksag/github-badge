@@ -16,7 +16,6 @@ import platform
 import re
 import sys
 import zlib
-from netrc import netrc, NetrcParseError
 
 from . import __version__
 from .compat import parse_http_list as _parse_list_header
@@ -75,6 +74,8 @@ def get_netrc_auth(url):
     """Returns the Requests tuple auth for a given url from netrc."""
 
     try:
+        from netrc import netrc, NetrcParseError
+
         locations = (os.path.expanduser('~/{0}'.format(f)) for f in NETRC_FILES)
         netrc_path = None
 
