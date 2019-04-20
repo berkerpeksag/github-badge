@@ -7,7 +7,8 @@ like the number of public repositories, number of followers, favorite languages 
 [ghb]: http://githubbadge.appspot.com/
 
 ## Please note
- We do rely on heavy caching, so give it about 24 to 48 hours to pick up any changes.
+
+We do rely on heavy caching, so give it about 24 to 48 hours to pick up any changes.
 
 ## Authors
 
@@ -21,6 +22,41 @@ like the number of public repositories, number of followers, favorite languages 
 * [Emre Sevinc](https://github.com/emres)
 * [Samet Atdag](https://github.com/samet)
 * [Christian Ketterer](https://github.com/cketti)
+
+## Installation
+
+### Local development
+
+1. Follow the instructions at the [Google Cloud SDK for Python](https://cloud.google.com/appengine/docs/standard/python/download)
+   page to install it.
+
+2. Create a *development* configuration to use your GitHub credentials for testing:
+
+   ```sh
+   $ cp app/config/development.sample.py app/config/development.py
+   ```
+
+3. Start the development server:
+
+   ```sh
+   $ dev_appserver.py -A githubbadge app.yaml
+   ```
+
+### Production
+
+1. You need to create a *googleappengine.py* configuration and update the
+   ``GITHUB_API_AUTH`` setting with your [OAuth application](https://github.com/settings/developers)
+   created on GitHub:
+
+   ```sh
+   $ cp app/config/googleappengine.sample.py app/config/googleappengine.py
+   ```
+
+2. Then run the following command to start deployment:
+
+   ```sh
+   $ gcloud app deploy --version 2 app.yaml
+   ```
 
 ## License
 
