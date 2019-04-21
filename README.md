@@ -44,9 +44,9 @@ We do rely on heavy caching, so give it about 24 to 48 hours to pick up any chan
 
 ### Production
 
-1. You need to create a *googleappengine.py* configuration and update the
-   ``GITHUB_API_AUTH`` setting with your [OAuth application](https://github.com/settings/developers)
-   created on GitHub:
+1. Create a *googleappengine* configuration and use the credentials from the
+   [OAuth application](https://github.com/settings/developers) you've created on
+   GitHub:
 
    ```sh
    $ cp app/config/googleappengine.sample.py app/config/googleappengine.py
