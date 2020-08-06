@@ -7,6 +7,6 @@ DEBUG = True
 GITHUB_API_AUTH = {
     'type': 'basic',
     'username': 'GITHUB_USER_NAME',
-    'password': 'GITHUB_PASSWORD'
+    'password': 'GITHUB_PASSWORD',
 }
 
